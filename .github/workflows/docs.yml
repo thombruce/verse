@@ -38,7 +38,7 @@ jobs:
         with:
           node-version: "20.2"
           cache: yarn
-        working-directory: ./docs
+          cache-dependency-path: 'docs/yarn.lock'
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Restore cache
