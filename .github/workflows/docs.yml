@@ -51,10 +51,12 @@ jobs:
             ${{ runner.os }}-nuxt-build-
       - name: Install dependencies
         run: yarn install
+        working-directory: ./docs
       - name: Static HTML export with Nuxt
-        run: yarn lerna run generate
+        run: yarn generate
         env:
           NUXT_APP_BASE_URL: ${{ vars.NUXT_APP_BASE_URL }}
+        working-directory: ./docs
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
