@@ -2,7 +2,10 @@
 title: I'm Making a Game
 layout: article
 date: 2023-09-24T22:46:14Z
+image: /uploads/making-a-game.png
 ---
+
+![Code for a game](/uploads/making-a-game.png)
 
 So, I'm making a game... and yeah, it's definitely way more than I can chew!
 
