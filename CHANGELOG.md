@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.1] - 2023-09-25
+
 ### Added
 
 - Bevy game engine and initial config
@@ -15,4 +17,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CHANGELOG.md matching Keep a Changelog formatting
 - README with link to license doc and changelog
 
-[unreleased]: https://github.com/thombruce/verse/tree/main
+[unreleased]: https://github.com/thombruce/verse/compare/v0.0.1...HEAD
+[0.0.1]: https://github.com/thombruce/verse/releases/tag/v0.0.1
