@@ -2,6 +2,22 @@
 
 [CHANGELOG](CHANGELOG.md)
 
+## Installation
+
+```sh
+git clone https://github.com/thombruce/verse.git
+cd verse
+cargo run
+```
+
+## Credits
+
+Built on [Rust](https://www.rust-lang.org/) with [Bevy](https://bevyengine.org/).
+
+Assets kindly borrowed from [Kenney](https://www.kenney.nl/assets):
+
+- [Space Shooter Redux](https://www.kenney.nl/assets/space-shooter-redux)
+
 ## License
 
 [LICENSE](COPYING)
