@@ -1,5 +1,7 @@
 # Verse
 
+[CHANGELOG](CHANGELOG.md)
+
 ## License
 
 [LICENSE](COPYING)
