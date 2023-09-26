@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "@thombruce/tnt-content": "^0.12.1",
+    "@thombruce/tnt-content": "^0.12.2",
     "nuxt": "^3.7.3"
   }
 }
