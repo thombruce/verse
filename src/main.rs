@@ -1,14 +1,14 @@
 use bevy::prelude::*;
 
-// TODO: Better time handling
-const TIME: f32 = 120.0;
+const TIME: f32 = 1.0 / 60.0;
 
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
+        .insert_resource(FixedTime::new_from_secs(TIME))
         .insert_resource(ClearColor(Color::rgb(0., 0., 0.)))
         .add_systems(Startup, setup)
-        .add_systems(Update, player_flight_system)
+        .add_systems(FixedUpdate, player_flight_system)
         .run();
 }
 
@@ -56,12 +56,12 @@ fn player_flight_system(keys: Res<Input<KeyCode>>, mut query: Query<(&Player, &m
     }
 
     // update the ship rotation around the Z axis (perpendicular to the 2D plane of the screen)
-    transform.rotate_z(rotation_factor * ship.rotation / TIME);
+    transform.rotate_z(rotation_factor * ship.rotation * TIME);
 
     // get the ship's forward vector by applying the current rotation to the ships initial facing vector
     let movement_direction = transform.rotation * Vec3::Y;
     // get the distance the ship will move based on direction, the ship's movement speed and delta time
-    let movement_distance = movement_factor * ship.speed / TIME;
+    let movement_distance = movement_factor * ship.speed * TIME;
     // create the change in translation using the new movement direction and distance
     let translation_delta = movement_direction * movement_distance;
 
