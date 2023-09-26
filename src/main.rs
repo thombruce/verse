@@ -3,6 +3,7 @@ use bevy::prelude::*;
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
+        .insert_resource(ClearColor(Color::rgb(0., 0., 0.)))
         .add_systems(Startup, (setup, spawn_player))
         .run();
 }
