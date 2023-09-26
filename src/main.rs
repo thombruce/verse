@@ -12,6 +12,7 @@ fn setup(mut commands: Commands) {
     commands.spawn(Camera2dBundle::default());
 }
 
+/// Spawns player sprite
 fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn(SpriteBundle {
         texture: asset_server.load("space/ships/playerShip2_blue.png"),
