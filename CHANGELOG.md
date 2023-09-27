@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Spawn camera and spaceship player sprite
+- Basic player controls
+- Rapier physics engine for ship controls
 - Game assets from kenney.nl
 - Git LFS config for image storage
 - Installation and Credits sections in README
