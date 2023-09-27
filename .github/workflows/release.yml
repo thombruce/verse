@@ -1,0 +1,55 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+env:
+  binary: verse
+  add_binaries_to_github_release: true
+
+jobs:
+  # Build for Windows
+  release-windows:
+    runs-on: windows-latest
+
+    steps:
+      - uses: olegtarasov/get-tag@v2.1.2
+        id: get_version
+      - uses: actions/checkout@v3
+        with:
+          lfs: 'true'
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - name: Build
+        run: |
+          cargo build --release --target x86_64-pc-windows-msvc
+
+      - name: Prepare package
+        run: |
+          mkdir windows
+          cp target/x86_64-pc-windows-msvc/release/${{ env.binary }}.exe windows/
+          cp -r assets windows/
+
+      - name: Package as a zip
+        run: |
+          Compress-Archive -Path windows/* -DestinationPath ${{ env.binary }}.zip
+
+      - name: Upload binaries to artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          path: ${{ env.binary }}.zip
+          name: windows
+
+      - name: Upload binaries to release
+        if: ${{ env.add_binaries_to_github_release == 'true' }}
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ env.binary }}.zip
+          asset_name: ${{ env.binary }}-windows-${{ steps.get_version.outputs.tag }}.zip
+          tag: ${{ github.ref }}
+          overwrite: true
