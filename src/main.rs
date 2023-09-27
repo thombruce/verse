@@ -5,8 +5,6 @@ mod ship;
 use ship::ship_flight_system;
 use ship::Ship;
 
-pub const TIME: f32 = 1.0 / 60.0;
-
 fn main() {
     let mut app = App::new();
 
@@ -16,11 +14,10 @@ fn main() {
     #[cfg(debug_assertions)]
     app.add_plugins(RapierDebugRenderPlugin::default());
 
-    app.insert_resource(FixedTime::new_from_secs(TIME));
     app.insert_resource(ClearColor(Color::rgb(0., 0., 0.)));
 
     app.add_systems(Startup, setup);
-    app.add_systems(FixedUpdate, ship_flight_system);
+    app.add_systems(Update, ship_flight_system);
 
     app.run();
 }
