@@ -7,6 +7,9 @@ use bevy_tiling_background::{
 mod ship;
 use ship::{ship_flight_system, Ship};
 
+mod camera;
+use camera::follow_player;
+
 fn main() {
     let mut app = App::new();
 
@@ -62,17 +65,4 @@ fn setup(
         Velocity::linear(Vec2::ZERO),
         ExternalImpulse::default(),
     ));
-}
-
-fn follow_player(
-    mut camera: Query<&mut Transform, (With<Camera>, Without<Ship>)>,
-    player: Query<&Transform, (With<Ship>, Without<Camera>)>,
-) {
-    let mut camera_transform = camera.single_mut();
-    let player_transform = player.single();
-
-    let pos = player_transform.translation;
-
-    camera_transform.translation.x = pos.x;
-    camera_transform.translation.y = pos.y;
 }
