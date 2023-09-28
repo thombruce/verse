@@ -68,8 +68,10 @@ fn setup(
             ..default()
         },
         RigidBody::Dynamic,
-        Collider::ball(50.0),                 // 50.0 meters
-        ColliderMassProperties::Density(0.5), // (Pi * 50.0^2) * 0.5 = 3926.99 kilograms
+        Collider::ball(50.0), // 50.0 meters
+        // Setting the mass to 3926.99 is the same as setting density to 0.5
+        // Pi * r^2 / density = (Pi * 50.0^2) * 0.5 = 3926.99 kilograms
+        ColliderMassProperties::Mass(3926.99), // 3926.99 kilograms
         Velocity::linear(Vec2::ZERO),
         ExternalImpulse::default(),
     ));

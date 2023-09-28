@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Set ship mass directly rather than deriving from density
 - Move camera's follow player system to new camera module
 
 ## [0.0.4] - 2023-09-28
