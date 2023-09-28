@@ -10,6 +10,9 @@ use ship::{ship_flight_system, Ship};
 mod camera;
 use camera::follow_player;
 
+mod hud;
+use hud::HudPlugin;
+
 fn main() {
     let mut app = App::new();
 
@@ -23,6 +26,7 @@ fn main() {
         }),
         RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(1.0),
         TilingBackgroundPlugin::<BackgroundMaterial>::default(),
+        HudPlugin,
     ));
 
     #[cfg(debug_assertions)]
