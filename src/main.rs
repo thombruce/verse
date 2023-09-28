@@ -1,13 +1,11 @@
-use bevy::prelude::*;
-use bevy::render::view::NoFrustumCulling;
+use bevy::{prelude::*, render::view::NoFrustumCulling};
 use bevy_rapier2d::prelude::*;
 use bevy_tiling_background::{
     BackgroundImageBundle, BackgroundMaterial, SetImageRepeatingExt, TilingBackgroundPlugin,
 };
 
 mod ship;
-use ship::ship_flight_system;
-use ship::Ship;
+use ship::{ship_flight_system, Ship};
 
 fn main() {
     let mut app = App::new();
