@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Follow player for camera component
+- Endless repeatable background
+
 ## [0.0.3] - 2023-09-27
 
 ### Added

@@ -904,6 +904,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "bevy_tiling_background"
+version = "0.10.0"
+source = "git+https://github.com/rparrett/bevy_tiling_background.git?branch=tex-typo#87c3046a21d128c9963c04a7cd646113e24af4f8"
+dependencies = [
+ "bevy",
+]
+
+[[package]]
 name = "bevy_time"
 version = "0.11.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3368,6 +3376,7 @@ version = "0.0.3"
 dependencies = [
  "bevy",
  "bevy_rapier2d",
+ "bevy_tiling_background",
 ]
 
 [[package]]
