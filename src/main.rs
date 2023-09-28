@@ -13,7 +13,14 @@ use camera::follow_player;
 fn main() {
     let mut app = App::new();
 
-    app.add_plugins(DefaultPlugins);
+    app.add_plugins(DefaultPlugins.set(WindowPlugin {
+        primary_window: Some(Window {
+            title: String::from("Verse"),
+            ..default()
+        }),
+        ..default()
+    }));
+
     app.add_plugins(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(1.0));
     app.add_plugins(TilingBackgroundPlugin::<BackgroundMaterial>::default());
 

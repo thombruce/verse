@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Window title set to "Verse"
+
 ### Changed
 
 - Move camera's follow player system to new camera module
