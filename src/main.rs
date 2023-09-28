@@ -72,6 +72,13 @@ fn setup(
         // Setting the mass to 3926.99 is the same as setting density to 0.5
         // Pi * r^2 / density = (Pi * 50.0^2) * 0.5 = 3926.99 kilograms
         ColliderMassProperties::Mass(3926.99), // 3926.99 kilograms
+        // In the future, we might attempt to configure the center of mass as well
+        // but this will require access to its position for the camera to follow:
+        // ColliderMassProperties::MassProperties(MassProperties {
+        //     local_center_of_mass: Vec2::new(0.0, -25.0),
+        //     mass: 3926.99,
+        //     ..default()
+        // }),
         Velocity::linear(Vec2::ZERO),
         ExternalImpulse::default(),
     ));
