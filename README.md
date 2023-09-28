@@ -1,5 +1,8 @@
 # Verse
 
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/thombruce/verse/release.yml)
+![GitHub release (with filter)](https://img.shields.io/github/v/release/thombruce/verse)
+
 [CHANGELOG](CHANGELOG.md)
 
 ## Installation
