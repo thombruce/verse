@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - HUD location indicator as static "In Space" text
 - Window title set to "Verse"
 - kenvector_future font from Kenney's Assets
+- Linux and MacOS builds to Release workflow
 
 ### Changed
 
