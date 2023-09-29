@@ -9,7 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- HUD speedometer
+- HUD location indicator as static "In Space" text
 - Window title set to "Verse"
+- kenvector_future font from Kenney's Assets
 
 ### Changed
 
