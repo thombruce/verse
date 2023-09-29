@@ -28,6 +28,6 @@ Assets kindly borrowed from [Kenney](https://www.kenney.nl/assets):
 
 ## License
 
-[LICENSE](COPYING)
+[LICENSE](LICENSE)
 
-_Verse is licensed under the GNU General Public License (GPLv3) modified by the Commons Clause License Condition v1.0 ("Commons Clause")._
+_Verse is licensed under the MIT license modified by the Commons Clause License Condition v1.0 ("Commons Clause")._

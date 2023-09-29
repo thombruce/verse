@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Replaced Commons Clause incompatible license with MIT
+
 ## [0.0.5] - 2023-09-29
 
 ### Added
