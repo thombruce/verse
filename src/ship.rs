@@ -20,7 +20,7 @@ pub fn ship_flight_system(
     // Dampening
     let elapsed = time.delta_seconds();
     velocity.angvel *= 0.1f32.powf(elapsed);
-    velocity.linvel *= 0.6f32.powf(elapsed);
+    velocity.linvel *= 0.8f32.powf(elapsed);
 
     // Controls
     let mut rotation_factor = 0.0;
