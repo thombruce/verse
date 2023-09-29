@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="400px" src="docs/public/uploads/verse-galaxy.png" />
+</p>
+
 # Verse
 
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/thombruce/verse/release.yml)
