@@ -21,6 +21,8 @@ cargo run
 
 Built on [Rust](https://www.rust-lang.org/) with [Bevy](https://bevyengine.org/).
 
+[Edge of the Galaxy](https://www.fontspace.com/edge-of-the-galaxy-font-f45748) title font by Quinn Davis Type.
+
 Assets kindly borrowed from [Kenney](https://www.kenney.nl/assets):
 
 - [Space Shooter Redux](https://www.kenney.nl/assets/space-shooter-redux)
