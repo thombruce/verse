@@ -4,10 +4,9 @@
 
 # Verse
 
-![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/thombruce/verse/release.yml)
-![GitHub release (with filter)](https://img.shields.io/github/v/release/thombruce/verse)
-
-[CHANGELOG](CHANGELOG.md)
+[![Build](https://img.shields.io/github/actions/workflow/status/thombruce/verse/release.yml)](https://github.com/thombruce/verse/actions)
+[![Release](https://img.shields.io/github/v/release/thombruce/verse)](https://github.com/thombruce/verse/releases/latest)
+[![Changelog](https://img.shields.io/github/v/release/thombruce/verse?label=changelog&color=E05735)](CHANGELOG.md)
 
 ## Installation
 
