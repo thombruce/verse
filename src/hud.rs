@@ -1,6 +1,8 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::Velocity;
 
+use super::state::AppState;
+
 use super::Ship;
 
 /// UI Speed component
@@ -11,7 +13,7 @@ pub struct HudPlugin;
 impl Plugin for HudPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, setup);
-        app.add_systems(Update, hud_speedometer);
+        app.add_systems(Update, hud_speedometer.run_if(in_state(AppState::Active)));
     }
 }
 

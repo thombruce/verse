@@ -14,8 +14,13 @@ use camera::follow_player;
 mod hud;
 use hud::HudPlugin;
 
+mod state;
+use state::{AppState, PauseAction, StatePlugin};
+
 fn main() {
     let mut app = App::new();
+
+    app.add_state::<AppState>();
 
     app.add_plugins((
         DefaultPlugins.set(WindowPlugin {
@@ -26,10 +31,12 @@ fn main() {
             ..default()
         }),
         RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(1.0),
+        InputManagerPlugin::<PauseAction>::default(),
         InputManagerPlugin::<ShipAction>::default(),
         TilingBackgroundPlugin::<BackgroundMaterial>::default(),
         HudPlugin,
         ShipPlugin,
+        StatePlugin,
     ));
 
     #[cfg(debug_assertions)]
@@ -38,7 +45,7 @@ fn main() {
     // app.insert_resource(ClearColor(Color::rgb(0., 0., 0.)));
 
     app.add_systems(Startup, setup);
-    app.add_systems(Update, follow_player);
+    app.add_systems(Update, follow_player.run_if(in_state(AppState::Active)));
 
     app.run();
 }
