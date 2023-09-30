@@ -34,12 +34,13 @@ impl Plugin for StatePlugin {
 }
 
 fn setup(mut commands: Commands) {
-    let input_map = InputMap::<PauseAction>::new([
+    let mut input_map = InputMap::<PauseAction>::new([
         (KeyCode::Escape, PauseAction::Pause),
         (KeyCode::P, PauseAction::Pause),
     ]);
+    input_map.insert(GamepadButtonType::Start, PauseAction::Pause);
 
-    commands.insert_resource(input_map);
+    commands.insert_resource(input_map.build());
     commands.insert_resource(ActionState::<PauseAction>::default());
 }
 

@@ -33,6 +33,27 @@ impl Plugin for ShipPlugin {
 
 /// The setup function
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+    let mut input_map = InputMap::new([
+        // Cursor keys
+        (KeyCode::Up, ShipAction::Forward),
+        (KeyCode::Left, ShipAction::RotateLeft),
+        (KeyCode::Right, ShipAction::RotateRight),
+        // WASD
+        (KeyCode::W, ShipAction::Forward),
+        (KeyCode::A, ShipAction::RotateLeft),
+        (KeyCode::D, ShipAction::RotateRight),
+    ]);
+    // Gamepad
+    input_map.insert(GamepadButtonType::RightTrigger2, ShipAction::Forward);
+    input_map.insert(
+        SingleAxis::positive_only(GamepadAxisType::LeftStickX, 0.4),
+        ShipAction::RotateRight,
+    );
+    input_map.insert(
+        SingleAxis::negative_only(GamepadAxisType::LeftStickX, -0.4),
+        ShipAction::RotateLeft,
+    );
+
     // Spawns player ship
     commands.spawn((
         Ship {
@@ -59,14 +80,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         ExternalImpulse::default(),
         InputManagerBundle::<ShipAction> {
             action_state: ActionState::default(),
-            input_map: InputMap::new([
-                (KeyCode::Up, ShipAction::Forward),
-                (KeyCode::W, ShipAction::Forward),
-                (KeyCode::Left, ShipAction::RotateLeft),
-                (KeyCode::A, ShipAction::RotateLeft),
-                (KeyCode::Right, ShipAction::RotateRight),
-                (KeyCode::D, ShipAction::RotateRight),
-            ]),
+            input_map: input_map.build(),
         },
     ));
 }
