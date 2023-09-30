@@ -8,6 +8,8 @@ use leafwing_input_manager::{
 #[derive(States, Debug, Copy, Clone, Hash, Eq, PartialEq, Default)]
 pub enum AppState {
     #[default]
+    StartMenu,
+    GameCreate,
     Active,
     Paused,
 }
@@ -23,10 +25,18 @@ pub struct PauseState {}
 #[derive(Component)]
 pub struct DrawBlinkTimer(pub Timer);
 
+// TODO: A lot of the logic in this file is pause/unpause-state specific.
+//       For example, a lot of the setup concerns those input mappings,
+//       but these are irrelevant at StartUp.
+
 pub struct StatePlugin;
 impl Plugin for StatePlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, setup)
+            // TODO: The pause_system does not need to be running in the StartMenu state.
+            //       It should only run in Active and Paused states; eventually others
+            // TODO: menu_blink system is not state-specific, it should be considered more
+            //       of a UI utility; the best place for it right now is probably menu.rs.
             .add_systems(Update, (pause_system, menu_blink_system))
             .add_systems(OnEnter(AppState::Paused), pause_screen)
             .add_systems(OnExit(AppState::Paused), despawn);
@@ -60,6 +70,7 @@ fn pause_system(
                 next_state.set(AppState::Active);
                 rapier_configuration.physics_pipeline_active = true;
             }
+            _ => {}
         }
     }
 }

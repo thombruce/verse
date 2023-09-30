@@ -12,7 +12,7 @@ pub struct UISpeed {}
 pub struct HudPlugin;
 impl Plugin for HudPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, setup);
+        app.add_systems(OnEnter(AppState::GameCreate), setup);
         app.add_systems(Update, hud_speedometer.run_if(in_state(AppState::Active)));
     }
 }
