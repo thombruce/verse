@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Move ship spawning and system registration from main to plugin
+- Move camera spawning and follow_player system from main to plugin
 
 ## [0.0.6] - 2023-09-29
 

@@ -9,7 +9,7 @@ mod ship;
 use ship::{Ship, ShipAction, ShipPlugin};
 
 mod camera;
-use camera::follow_player;
+use camera::CameraPlugin;
 
 mod hud;
 use hud::HudPlugin;
@@ -34,6 +34,7 @@ fn main() {
         InputManagerPlugin::<PauseAction>::default(),
         InputManagerPlugin::<ShipAction>::default(),
         TilingBackgroundPlugin::<BackgroundMaterial>::default(),
+        CameraPlugin,
         HudPlugin,
         ShipPlugin,
         StatePlugin,
@@ -45,7 +46,6 @@ fn main() {
     // app.insert_resource(ClearColor(Color::rgb(0., 0., 0.)));
 
     app.add_systems(Startup, setup);
-    app.add_systems(Update, follow_player.run_if(in_state(AppState::Active)));
 
     app.run();
 }
@@ -62,9 +62,6 @@ fn setup(
     let image = asset_server.load("space/backgrounds/custom.png");
     // Queue a command to set the image to be repeating once the image is loaded.
     commands.set_image_repeating(image.clone());
-
-    // Spawns game camera
-    commands.spawn(Camera2dBundle::default());
 
     commands.spawn((
         BackgroundImageBundle::from_image(image, materials.as_mut()).at_z_layer(-0.1),
