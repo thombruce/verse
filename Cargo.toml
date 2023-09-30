@@ -9,6 +9,7 @@ edition = "2021"
 bevy = "0.11.2"
 bevy_rapier2d = "0.22.0"
 bevy_tiling_background = { git = "https://github.com/rparrett/bevy_tiling_background.git", branch = "tex-typo" }
+leafwing-input-manager = "0.10.0"
 
 # Enable a small amount of optimization in debug mode
 [profile.dev]

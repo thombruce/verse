@@ -3,9 +3,10 @@ use bevy_rapier2d::prelude::*;
 use bevy_tiling_background::{
     BackgroundImageBundle, BackgroundMaterial, SetImageRepeatingExt, TilingBackgroundPlugin,
 };
+use leafwing_input_manager::prelude::*;
 
 mod ship;
-use ship::{ship_flight_system, Ship};
+use ship::{Ship, ShipAction, ShipPlugin};
 
 mod camera;
 use camera::follow_player;
@@ -25,8 +26,10 @@ fn main() {
             ..default()
         }),
         RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(1.0),
+        InputManagerPlugin::<ShipAction>::default(),
         TilingBackgroundPlugin::<BackgroundMaterial>::default(),
         HudPlugin,
+        ShipPlugin,
     ));
 
     #[cfg(debug_assertions)]
@@ -35,7 +38,7 @@ fn main() {
     // app.insert_resource(ClearColor(Color::rgb(0., 0., 0.)));
 
     app.add_systems(Startup, setup);
-    app.add_systems(Update, (ship_flight_system, follow_player));
+    app.add_systems(Update, follow_player);
 
     app.run();
 }
@@ -59,31 +62,5 @@ fn setup(
     commands.spawn((
         BackgroundImageBundle::from_image(image, materials.as_mut()).at_z_layer(-0.1),
         NoFrustumCulling,
-    ));
-
-    // Spawns player ship
-    commands.spawn((
-        Ship {
-            thrust: 10000.0,                  // Ship thrust (TODO: What unit is this?)
-            rotation: f32::to_radians(360.0), // Ship manoeuvrability (rad)
-        },
-        SpriteBundle {
-            texture: asset_server.load("space/ships/playerShip2_blue.png"),
-            ..default()
-        },
-        RigidBody::Dynamic,
-        Collider::ball(50.0), // 50.0 meters
-        // Setting the mass to 3926.99 is the same as setting density to 0.5
-        // Pi * r^2 / density = (Pi * 50.0^2) * 0.5 = 3926.99 kilograms
-        ColliderMassProperties::Mass(3926.99), // 3926.99 kilograms
-        // In the future, we might attempt to configure the center of mass as well
-        // but this will require access to its position for the camera to follow:
-        // ColliderMassProperties::MassProperties(MassProperties {
-        //     local_center_of_mass: Vec2::new(0.0, -25.0),
-        //     mass: 3926.99,
-        //     ..default()
-        // }),
-        Velocity::linear(Vec2::ZERO),
-        ExternalImpulse::default(),
     ));
 }
