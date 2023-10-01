@@ -5,29 +5,25 @@ use bevy_tiling_background::{
 };
 use leafwing_input_manager::prelude::*;
 
-mod ship;
-use ship::{Ship, ShipAction, ShipPlugin};
-
 mod camera;
-use camera::CameraPlugin;
-
-mod hud;
-use hud::HudPlugin;
-
-mod state;
-use state::{AppState, ForState, StatePlugin};
-
-mod menu;
-use menu::{MenuAction, MenuPlugin};
-
-mod effects;
-use effects::EffectsPlugin;
-
-mod pause;
-use pause::{PauseAction, PausePlugin};
-
 mod credits;
-use credits::CreditsPlugin;
+mod effects;
+mod hud;
+mod menu;
+mod pause;
+mod ship;
+mod state;
+
+use crate::{
+    camera::CameraPlugin,
+    credits::CreditsPlugin,
+    effects::EffectsPlugin,
+    hud::HudPlugin,
+    menu::{MenuAction, MenuPlugin},
+    pause::{PauseAction, PausePlugin},
+    ship::{ShipAction, ShipPlugin},
+    state::{AppState, ForState, StatePlugin},
+};
 
 fn main() {
     let mut app = App::new();

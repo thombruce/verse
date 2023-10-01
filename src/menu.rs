@@ -4,9 +4,10 @@ use leafwing_input_manager::{
     Actionlike,
 };
 
-use crate::state::{is_in_menu_state, AppState, ForState};
-
-use crate::effects::DrawBlinkTimer;
+use crate::{
+    effects::DrawBlinkTimer,
+    state::{is_in_menu_state, AppState, ForState},
+};
 
 #[derive(Actionlike, PartialEq, Eq, Clone, Copy, Hash, Debug, Reflect)]
 pub enum MenuAction {

@@ -1,8 +1,6 @@
 use bevy::prelude::*;
 
-use crate::state::AppState;
-
-use crate::Ship;
+use crate::{ship::Ship, state::AppState};
 
 pub struct CameraPlugin;
 impl Plugin for CameraPlugin {
