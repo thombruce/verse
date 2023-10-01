@@ -32,11 +32,7 @@ impl Plugin for ShipPlugin {
 }
 
 /// The setup function
-fn setup(
-    mut commands: Commands,
-    asset_server: Res<AssetServer>,
-    mut next_state: ResMut<NextState<AppState>>,
-) {
+fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     let mut input_map = InputMap::new([
         // Cursor keys
         (KeyCode::Up, ShipAction::Forward),
@@ -87,10 +83,6 @@ fn setup(
             input_map: input_map.build(),
         },
     ));
-
-    // TODO: The ship isn't the only thing that will need setup.
-    //       Probably better to handle this elsewhere.
-    next_state.set(AppState::Active);
 }
 
 pub fn ship_flight_system(

@@ -27,7 +27,11 @@ impl Plugin for PausePlugin {
     }
 }
 
-fn game_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn game_setup(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    mut next_state: ResMut<NextState<AppState>>,
+) {
     commands.spawn(AudioBundle {
         source: asset_server.load("sound/Kirk Osamayo - Space Dust.ogg"),
         settings: PlaybackSettings {
@@ -36,4 +40,6 @@ fn game_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             ..default()
         },
     });
+
+    next_state.set(AppState::Active);
 }
