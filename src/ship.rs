@@ -23,7 +23,7 @@ pub struct Ship {
 pub struct ShipPlugin;
 impl Plugin for ShipPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, setup);
+        app.add_systems(OnEnter(AppState::GameCreate), setup);
         app.add_systems(
             Update,
             ship_flight_system.run_if(in_state(AppState::Active)),

@@ -15,7 +15,19 @@ mod hud;
 use hud::HudPlugin;
 
 mod state;
-use state::{AppState, PauseAction, StatePlugin};
+use state::{AppState, StatePlugin};
+
+mod menu;
+use menu::{MenuAction, MenuPlugin};
+
+mod effects;
+use effects::EffectsPlugin;
+
+mod pause;
+use pause::{PauseAction, PausePlugin};
+
+mod credits;
+use credits::CreditsPlugin;
 
 fn main() {
     let mut app = App::new();
@@ -32,12 +44,17 @@ fn main() {
         }),
         RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(1.0),
         InputManagerPlugin::<PauseAction>::default(),
+        InputManagerPlugin::<MenuAction>::default(),
         InputManagerPlugin::<ShipAction>::default(),
         TilingBackgroundPlugin::<BackgroundMaterial>::default(),
         CameraPlugin,
+        StatePlugin,
         HudPlugin,
         ShipPlugin,
-        StatePlugin,
+        MenuPlugin,
+        CreditsPlugin,
+        EffectsPlugin,
+        PausePlugin,
     ));
 
     #[cfg(debug_assertions)]

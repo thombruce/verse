@@ -9,7 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Start menu
+- Start menu music: Lightspeed by Beat Mekanik (Free Music Archive, CC BY)
+- Ambient music: Space Dust by Kirk Osamayo (Free Music Archive, CC BY)
+- In-game credits accessible from the start menu
 - Download links and controls in README
+
+### Changed
+
+- Pause system moved to new pause module
+- Menu and pause state blinking moved to new effects module
 
 ## [0.0.7] - 2023-09-29
 
