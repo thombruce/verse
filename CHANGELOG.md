@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.9] - 2023-10-02
+
 ### Added
 
 - Generalised state change handling with ForState component
@@ -100,7 +102,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CHANGELOG.md matching Keep a Changelog formatting
 - README with link to license doc and changelog
 
-[unreleased]: https://github.com/thombruce/verse/compare/v0.0.8...HEAD
+[unreleased]: https://github.com/thombruce/verse/compare/v0.0.9...HEAD
+[0.0.9]: https://github.com/thombruce/verse/compare/v0.0.8...v0.0.9
 [0.0.8]: https://github.com/thombruce/verse/compare/v0.0.7...v0.0.8
 [0.0.7]: https://github.com/thombruce/verse/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/thombruce/verse/compare/v0.0.5...v0.0.6
