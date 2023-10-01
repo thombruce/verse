@@ -8,4 +8,4 @@ From the [Free Music Archive](https://freemusicarchive.org/), [CC BY](https://cr
 
 From the [Free Music Archive](https://freemusicarchive.org/), [CC BY](https://creativecommons.org/licenses/by/4.0/)
 
-_Fade out added to end of track for looping in game._
+_Fade in/out added to beginning and end of track for looping in game._

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Fade in added to beginning of Space Dust by Kirk Osamayo for smoother transition
+
 ## [0.0.8] - 2023-10-01
 
 ### Added
@@ -22,7 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pause system moved to new pause module
 - Menu and pause state blinking moved to new effects module
 
-## [0.0.7] - 2023-09-29
+## [0.0.7] - 2023-09-30
 
 ### Added
 
