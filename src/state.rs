@@ -5,6 +5,8 @@ use leafwing_input_manager::{
     Actionlike,
 };
 
+use crate::effects::DrawBlinkTimer;
+
 #[derive(States, Debug, Copy, Clone, Hash, Eq, PartialEq, Default)]
 pub enum AppState {
     #[default]
@@ -22,9 +24,6 @@ pub enum PauseAction {
 #[derive(Component, Debug)]
 pub struct PauseState {}
 
-#[derive(Component)]
-pub struct DrawBlinkTimer(pub Timer);
-
 // TODO: A lot of the logic in this file is pause/unpause-state specific.
 //       For example, a lot of the setup concerns those input mappings,
 //       but these are irrelevant at StartUp.
@@ -35,9 +34,7 @@ impl Plugin for StatePlugin {
         app.add_systems(Startup, setup)
             // TODO: The pause_system does not need to be running in the StartMenu state.
             //       It should only run in Active and Paused states; eventually others
-            // TODO: menu_blink system is not state-specific, it should be considered more
-            //       of a UI utility; the best place for it right now is probably menu.rs.
-            .add_systems(Update, (pause_system, menu_blink_system))
+            .add_systems(Update, pause_system)
             .add_systems(OnEnter(AppState::Paused), pause_screen)
             .add_systems(OnExit(AppState::Paused), despawn);
     }
@@ -109,24 +106,6 @@ fn pause_screen(mut commands: Commands, asset_server: Res<AssetServer>) {
                 DrawBlinkTimer(Timer::from_seconds(0.65, TimerMode::Repeating)),
             ));
         });
-}
-
-fn menu_blink_system(
-    mut commands: Commands,
-    time: Res<Time>,
-    mut query: Query<(Entity, &mut DrawBlinkTimer, &ComputedVisibility)>,
-) {
-    for (entity, mut timer, visibility) in query.iter_mut() {
-        timer.0.tick(time.delta());
-        if timer.0.finished() {
-            let new_visibility = if visibility.is_visible() {
-                Visibility::Hidden
-            } else {
-                Visibility::Visible
-            };
-            commands.entity(entity).insert(new_visibility);
-        }
-    }
 }
 
 fn despawn(mut commands: Commands, query: Query<Entity, With<PauseState>>) {

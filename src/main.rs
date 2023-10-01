@@ -20,6 +20,9 @@ use state::{AppState, PauseAction, StatePlugin};
 mod menu;
 use menu::{MenuAction, MenuPlugin};
 
+mod effects;
+use effects::EffectsPlugin;
+
 fn main() {
     let mut app = App::new();
 
@@ -43,6 +46,7 @@ fn main() {
         ShipPlugin,
         StatePlugin,
         MenuPlugin,
+        EffectsPlugin,
     ));
 
     #[cfg(debug_assertions)]

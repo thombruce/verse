@@ -4,7 +4,9 @@ use leafwing_input_manager::{
     Actionlike,
 };
 
-use crate::state::{AppState, DrawBlinkTimer};
+use crate::state::AppState;
+
+use crate::effects::DrawBlinkTimer;
 
 #[derive(Component, Debug)]
 pub struct StartMenuScreen {}

@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ambient music: Space Dust by Kirk Osamayo (Free Music Archive, CC BY)
 - Download links and controls in README
 
+### Changed
+
+- Menu and pause state blinking moved to new effects module
+
 ## [0.0.7] - 2023-09-29
 
 ### Added
