@@ -1,4 +1,7 @@
-use bevy::prelude::*;
+use bevy::{
+    audio::{PlaybackMode, Volume},
+    prelude::*,
+};
 
 #[derive(States, Debug, Copy, Clone, Hash, Eq, PartialEq, Default)]
 pub enum AppState {
@@ -15,4 +18,22 @@ impl AppState {
 
 pub fn is_in_game_state(state: Res<State<AppState>>) -> bool {
     AppState::IN_GAME_STATE.contains(state.get())
+}
+
+pub struct PausePlugin;
+impl Plugin for PausePlugin {
+    fn build(&self, app: &mut App) {
+        app.add_systems(OnEnter(AppState::GameCreate), game_setup);
+    }
+}
+
+fn game_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+    commands.spawn(AudioBundle {
+        source: asset_server.load("sound/Kirk Osamayo - Space Dust.ogg"),
+        settings: PlaybackSettings {
+            mode: PlaybackMode::Loop,
+            volume: Volume::new_absolute(0.5),
+            ..default()
+        },
+    });
 }
