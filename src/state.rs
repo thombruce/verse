@@ -20,8 +20,8 @@ pub fn is_in_game_state(state: Res<State<AppState>>) -> bool {
     AppState::IN_GAME_STATE.contains(state.get())
 }
 
-pub struct PausePlugin;
-impl Plugin for PausePlugin {
+pub struct StatePlugin;
+impl Plugin for StatePlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(OnEnter(AppState::GameCreate), game_setup);
     }

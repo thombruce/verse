@@ -15,7 +15,7 @@ mod hud;
 use hud::HudPlugin;
 
 mod state;
-use state::AppState;
+use state::{AppState, StatePlugin};
 
 mod menu;
 use menu::{MenuAction, MenuPlugin};
@@ -45,6 +45,7 @@ fn main() {
         InputManagerPlugin::<ShipAction>::default(),
         TilingBackgroundPlugin::<BackgroundMaterial>::default(),
         CameraPlugin,
+        StatePlugin,
         HudPlugin,
         ShipPlugin,
         MenuPlugin,
