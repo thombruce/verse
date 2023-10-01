@@ -26,6 +26,9 @@ use effects::EffectsPlugin;
 mod pause;
 use pause::{PauseAction, PausePlugin};
 
+mod credits;
+use credits::CreditsPlugin;
+
 fn main() {
     let mut app = App::new();
 
@@ -49,6 +52,7 @@ fn main() {
         HudPlugin,
         ShipPlugin,
         MenuPlugin,
+        CreditsPlugin,
         EffectsPlugin,
         PausePlugin,
     ));

@@ -10,10 +10,16 @@ pub enum AppState {
     GameCreate,
     Active,
     Paused,
+    Credits,
 }
 impl AppState {
+    pub const IN_MENU_STATE: &[AppState; 2] = &[AppState::StartMenu, AppState::Credits];
     pub const IN_GAME_STATE: &[AppState; 3] =
         &[AppState::GameCreate, AppState::Active, AppState::Paused];
+}
+
+pub fn is_in_menu_state(state: Res<State<AppState>>) -> bool {
+    AppState::IN_MENU_STATE.contains(state.get())
 }
 
 pub fn is_in_game_state(state: Res<State<AppState>>) -> bool {
