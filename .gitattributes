@@ -11,3 +11,6 @@
 ## Font file types
 *.ttf filter=lfs diff=lfs merge=lfs -text
 *.otf filter=lfs diff=lfs merge=lfs -text
+
+## Sound file types
+*.ogg filter=lfs diff=lfs merge=lfs -text

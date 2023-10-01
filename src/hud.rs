@@ -1,3 +1,4 @@
+use bevy::audio::{PlaybackMode, Volume};
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::Velocity;
 
@@ -96,6 +97,16 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 ..default()
             },));
         });
+
+    // TODO: Move me.
+    commands.spawn(AudioBundle {
+        source: asset_server.load("sound/Kirk Osamayo - Space Dust.ogg"),
+        settings: PlaybackSettings {
+            mode: PlaybackMode::Loop,
+            volume: Volume::new_absolute(0.5),
+            ..default()
+        },
+    });
 }
 
 pub fn hud_speedometer(

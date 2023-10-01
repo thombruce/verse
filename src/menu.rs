@@ -1,4 +1,4 @@
-use bevy::prelude::*;
+use bevy::{audio::PlaybackMode, prelude::*};
 use leafwing_input_manager::{
     prelude::{ActionState, InputMap},
     Actionlike,
@@ -65,10 +65,10 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                         ..default()
                     },
                     text: Text::from_section(
-                        "START",
+                        "PRESS START",
                         TextStyle {
                             font: asset_server.load("fonts/kenvector_future.ttf"),
-                            font_size: 50.0,
+                            font_size: 35.0,
                             color: Color::rgb_u8(0x00, 0x88, 0x88),
                         },
                     ),
@@ -77,6 +77,17 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 DrawBlinkTimer(Timer::from_seconds(0.65, TimerMode::Repeating)),
             ));
         });
+
+    commands.spawn((
+        AudioBundle {
+            source: asset_server.load("sound/Beat Mekanik - Lightspeed.ogg"),
+            settings: PlaybackSettings {
+                mode: PlaybackMode::Loop,
+                ..default()
+            },
+        },
+        StartMenuScreen {},
+    ));
 }
 
 fn despawn(mut commands: Commands, query: Query<Entity, With<StartMenuScreen>>) {

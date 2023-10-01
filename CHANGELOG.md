@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Start menu
+- Start menu music: Lightspeed by Beat Mekanik (Free Music Archive, CC BY)
+- Ambient music: Space Dust by Kirk Osamayo (Free Music Archive, CC BY)
 - Download links and controls in README
 
 ## [0.0.7] - 2023-09-29
