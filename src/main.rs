@@ -15,13 +15,16 @@ mod hud;
 use hud::HudPlugin;
 
 mod state;
-use state::{AppState, PauseAction, StatePlugin};
+use state::AppState;
 
 mod menu;
 use menu::{MenuAction, MenuPlugin};
 
 mod effects;
 use effects::EffectsPlugin;
+
+mod pause;
+use pause::{PauseAction, PausePlugin};
 
 fn main() {
     let mut app = App::new();
@@ -44,9 +47,9 @@ fn main() {
         CameraPlugin,
         HudPlugin,
         ShipPlugin,
-        StatePlugin,
         MenuPlugin,
         EffectsPlugin,
+        PausePlugin,
     ));
 
     #[cfg(debug_assertions)]
