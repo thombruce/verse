@@ -7,8 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Generalised state change handling with ForState component
+
 ### Changed
 
+- Play menu music in credits state as well as start menu
 - Fade in added to beginning of Space Dust by Kirk Osamayo for smoother transition
 
 ## [0.0.8] - 2023-10-01

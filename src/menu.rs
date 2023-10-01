@@ -1,15 +1,12 @@
-use bevy::{audio::PlaybackMode, prelude::*};
+use bevy::prelude::*;
 use leafwing_input_manager::{
     prelude::{ActionState, InputMap},
     Actionlike,
 };
 
-use crate::state::{is_in_menu_state, AppState};
+use crate::state::{is_in_menu_state, AppState, ForState};
 
 use crate::effects::DrawBlinkTimer;
-
-#[derive(Component, Debug)]
-pub struct StartMenuScreen {}
 
 #[derive(Actionlike, PartialEq, Eq, Clone, Copy, Hash, Debug, Reflect)]
 pub enum MenuAction {
@@ -21,8 +18,7 @@ pub struct MenuPlugin;
 impl Plugin for MenuPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(OnEnter(AppState::StartMenu), setup)
-            .add_systems(Update, menu_input_system.run_if(is_in_menu_state))
-            .add_systems(OnExit(AppState::StartMenu), despawn);
+            .add_systems(Update, menu_input_system.run_if(is_in_menu_state));
     }
 }
 
@@ -50,7 +46,9 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 },
                 ..default()
             },
-            StartMenuScreen {},
+            ForState {
+                states: vec![AppState::StartMenu],
+            },
         ))
         .with_children(|parent| {
             parent.spawn((ImageBundle {
@@ -96,7 +94,9 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 },
                 ..default()
             },
-            StartMenuScreen {},
+            ForState {
+                states: vec![AppState::StartMenu],
+            },
         ))
         .with_children(|parent| {
             parent.spawn((TextBundle {
@@ -122,23 +122,6 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 ..default()
             },));
         });
-
-    commands.spawn((
-        AudioBundle {
-            source: asset_server.load("sound/Beat Mekanik - Lightspeed.ogg"),
-            settings: PlaybackSettings {
-                mode: PlaybackMode::Loop,
-                ..default()
-            },
-        },
-        StartMenuScreen {},
-    ));
-}
-
-fn despawn(mut commands: Commands, query: Query<Entity, With<StartMenuScreen>>) {
-    for entity in &mut query.iter() {
-        commands.entity(entity).despawn_recursive();
-    }
 }
 
 fn menu_input_system(

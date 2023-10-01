@@ -5,24 +5,22 @@ use leafwing_input_manager::{
     Actionlike,
 };
 
-use crate::effects::DrawBlinkTimer;
-use crate::state::{is_in_game_state, AppState};
+use crate::{
+    effects::DrawBlinkTimer,
+    state::{is_in_game_state, AppState, ForState},
+};
 
 #[derive(Actionlike, PartialEq, Eq, Clone, Copy, Hash, Debug, Reflect)]
 pub enum PauseAction {
     Pause,
 }
 
-#[derive(Component, Debug)]
-pub struct PauseState {}
-
 pub struct PausePlugin;
 impl Plugin for PausePlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(OnEnter(AppState::GameCreate), setup)
             .add_systems(Update, pause_system.run_if(is_in_game_state))
-            .add_systems(OnEnter(AppState::Paused), pause_screen)
-            .add_systems(OnExit(AppState::Paused), despawn);
+            .add_systems(OnEnter(AppState::Paused), pause_screen);
     }
 }
 
@@ -73,7 +71,9 @@ fn pause_screen(mut commands: Commands, asset_server: Res<AssetServer>) {
                 background_color: BackgroundColor(Color::rgba(0., 0., 0., 0.65)),
                 ..default()
             },
-            PauseState {},
+            ForState {
+                states: vec![AppState::Paused],
+            },
         ))
         .with_children(|parent| {
             parent.spawn((
@@ -92,10 +92,4 @@ fn pause_screen(mut commands: Commands, asset_server: Res<AssetServer>) {
                 DrawBlinkTimer(Timer::from_seconds(0.65, TimerMode::Repeating)),
             ));
         });
-}
-
-fn despawn(mut commands: Commands, query: Query<Entity, With<PauseState>>) {
-    for entity in &mut query.iter() {
-        commands.entity(entity).despawn_recursive();
-    }
 }

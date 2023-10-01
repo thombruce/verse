@@ -1,4 +1,4 @@
-use bevy::{prelude::*, render::view::NoFrustumCulling};
+use bevy::{audio::PlaybackMode, prelude::*, render::view::NoFrustumCulling};
 use bevy_rapier2d::prelude::*;
 use bevy_tiling_background::{
     BackgroundImageBundle, BackgroundMaterial, SetImageRepeatingExt, TilingBackgroundPlugin,
@@ -15,7 +15,7 @@ mod hud;
 use hud::HudPlugin;
 
 mod state;
-use state::{AppState, StatePlugin};
+use state::{AppState, ForState, StatePlugin};
 
 mod menu;
 use menu::{MenuAction, MenuPlugin};
@@ -83,5 +83,21 @@ fn setup(
     commands.spawn((
         BackgroundImageBundle::from_image(image, materials.as_mut()).at_z_layer(-0.1),
         NoFrustumCulling,
+    ));
+
+    // TODO: Moved here from menu to prevent reloading every time the credits are toggled.
+    //       In reality, we do want this to be respawned when the menu is re-entered,
+    //       just not if the previous state was also a menu state (e.g. Credits).
+    commands.spawn((
+        AudioBundle {
+            source: asset_server.load("sound/Beat Mekanik - Lightspeed.ogg"),
+            settings: PlaybackSettings {
+                mode: PlaybackMode::Loop,
+                ..default()
+            },
+        },
+        ForState {
+            states: AppState::IN_MENU_STATE.to_vec(),
+        },
     ));
 }

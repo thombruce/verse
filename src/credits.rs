@@ -1,15 +1,11 @@
 use bevy::prelude::*;
 
-use crate::state::AppState;
-
-#[derive(Component, Debug)]
-pub struct CreditsScreen {}
+use crate::state::{AppState, ForState};
 
 pub struct CreditsPlugin;
 impl Plugin for CreditsPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(AppState::Credits), setup)
-            .add_systems(OnExit(AppState::Credits), despawn);
+        app.add_systems(OnEnter(AppState::Credits), setup);
     }
 }
 
@@ -27,7 +23,9 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 },
                 ..default()
             },
-            CreditsScreen {},
+            ForState {
+                states: vec![AppState::Credits],
+            },
         ))
         .with_children(|parent| {
             parent.spawn((TextBundle {
@@ -184,10 +182,4 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 ..default()
             },));
         });
-}
-
-fn despawn(mut commands: Commands, query: Query<Entity, With<CreditsScreen>>) {
-    for entity in &mut query.iter() {
-        commands.entity(entity).despawn_recursive();
-    }
 }

@@ -26,10 +26,19 @@ pub fn is_in_game_state(state: Res<State<AppState>>) -> bool {
     AppState::IN_GAME_STATE.contains(state.get())
 }
 
+/// Component to tag an entity as only needed in some of the states
+#[derive(Component, Debug)]
+pub struct ForState<T> {
+    pub states: Vec<T>,
+}
+
 pub struct StatePlugin;
 impl Plugin for StatePlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(OnEnter(AppState::GameCreate), game_setup);
+        for state in AppState::variants() {
+            app.add_systems(OnEnter(state), state_enter_despawn::<AppState>);
+        }
     }
 }
 
@@ -48,4 +57,16 @@ fn game_setup(
     });
 
     next_state.set(AppState::Active);
+}
+
+fn state_enter_despawn<T: States>(
+    mut commands: Commands,
+    state: ResMut<State<T>>,
+    query: Query<(Entity, &ForState<T>)>,
+) {
+    for (entity, for_state) in &mut query.iter() {
+        if !for_state.states.contains(state.get()) {
+            commands.entity(entity).despawn_recursive();
+        }
+    }
 }
