@@ -102,31 +102,34 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             ForState {
                 states: vec![AppState::StartMenu],
             },
-            Name::new("Hint Container"),
+            Name::new("Hint"),
         ))
         .with_children(|parent| {
-            parent.spawn((TextBundle {
-                style: Style {
-                    justify_content: JustifyContent::FlexEnd,
-                    margin: UiRect {
-                        left: Val::Px(10.0),
-                        right: Val::Px(10.0),
-                        top: Val::Px(10.0),
-                        bottom: Val::Px(10.0),
-                    },
-                    ..default()
-                },
-                text: Text::from_section(
-                    "Press 'C' for Credits",
-                    TextStyle {
-                        font: asset_server.load("fonts/kenvector_future.ttf"),
-                        font_size: 25.0,
-                        color: Color::rgb_u8(0xAA, 0xAA, 0x33),
+            parent.spawn((
+                TextBundle {
+                    style: Style {
+                        justify_content: JustifyContent::FlexEnd,
+                        margin: UiRect {
+                            left: Val::Px(10.0),
+                            right: Val::Px(10.0),
+                            top: Val::Px(10.0),
+                            bottom: Val::Px(10.0),
+                        },
                         ..default()
                     },
-                ),
-                ..default()
-            },));
+                    text: Text::from_section(
+                        "Press 'C' for Credits",
+                        TextStyle {
+                            font: asset_server.load("fonts/kenvector_future.ttf"),
+                            font_size: 25.0,
+                            color: Color::rgb_u8(0xAA, 0xAA, 0x33),
+                            ..default()
+                        },
+                    ),
+                    ..default()
+                },
+                Name::new("Hint Text"),
+            ));
         });
 }
 
