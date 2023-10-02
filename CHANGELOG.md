@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Moved assets to reusable resources plugin in assets.rs
 - Moved controls to table in README
 
 ## [0.0.9] - 2023-10-02

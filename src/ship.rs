@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use leafwing_input_manager::prelude::*;
 
-use crate::state::AppState;
+use crate::{assets::SpriteAssets, state::AppState};
 
 #[derive(Actionlike, PartialEq, Eq, Clone, Copy, Hash, Debug, Reflect)]
 pub enum ShipAction {
@@ -23,6 +23,8 @@ pub struct Ship {
 pub struct ShipPlugin;
 impl Plugin for ShipPlugin {
     fn build(&self, app: &mut App) {
+        app.add_plugins(InputManagerPlugin::<ShipAction>::default());
+
         app.add_systems(OnEnter(AppState::GameCreate), setup);
         app.add_systems(
             Update,
@@ -32,7 +34,7 @@ impl Plugin for ShipPlugin {
 }
 
 /// The setup function
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
     let mut input_map = InputMap::new([
         // Cursor keys
         (KeyCode::Up, ShipAction::Forward),
@@ -61,7 +63,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             rotation: f32::to_radians(360.0), // Ship manoeuvrability (rad)
         },
         SpriteBundle {
-            texture: asset_server.load("space/ships/playerShip2_blue.png"),
+            texture: sprites.player_ship.clone(),
             ..default()
         },
         RigidBody::Dynamic,

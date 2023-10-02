@@ -5,6 +5,7 @@ use leafwing_input_manager::{
 };
 
 use crate::{
+    assets::UiAssets,
     effects::DrawBlinkTimer,
     state::{is_in_menu_state, AppState, ForState},
 };
@@ -23,7 +24,7 @@ impl Plugin for MenuPlugin {
     }
 }
 
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn setup(mut commands: Commands, ui: Res<UiAssets>) {
     let mut input_map = InputMap::<MenuAction>::new([
         (KeyCode::Return, MenuAction::Start),
         (KeyCode::C, MenuAction::Credits),
@@ -55,7 +56,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         .with_children(|parent| {
             parent.spawn((
                 ImageBundle {
-                    image: UiImage::new(asset_server.load("verse.png")),
+                    image: ui.title.clone(),
                     style: Style {
                         width: Val::Px(350.0),
                         height: Val::Px(169.4),
@@ -74,7 +75,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                     text: Text::from_section(
                         "PRESS START",
                         TextStyle {
-                            font: asset_server.load("fonts/kenvector_future.ttf"),
+                            font: ui.font.clone(),
                             font_size: 35.0,
                             color: Color::rgb_u8(0x00, 0x88, 0x88),
                         },
@@ -120,7 +121,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                     text: Text::from_section(
                         "Press 'C' for Credits",
                         TextStyle {
-                            font: asset_server.load("fonts/kenvector_future.ttf"),
+                            font: ui.font.clone(),
                             font_size: 25.0,
                             color: Color::rgb_u8(0xAA, 0xAA, 0x33),
                             ..default()

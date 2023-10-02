@@ -1,6 +1,9 @@
 use bevy::prelude::*;
 
-use crate::state::{AppState, ForState};
+use crate::{
+    assets::UiAssets,
+    state::{AppState, ForState},
+};
 
 pub struct CreditsPlugin;
 impl Plugin for CreditsPlugin {
@@ -9,7 +12,7 @@ impl Plugin for CreditsPlugin {
     }
 }
 
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn setup(mut commands: Commands, ui: Res<UiAssets>) {
     commands
         .spawn((
             NodeBundle {
@@ -33,7 +36,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 text: Text::from_section(
                     "Developed by",
                     TextStyle {
-                        font: asset_server.load("fonts/kenvector_future.ttf"),
+                        font: ui.font.clone(),
                         font_size: 24.0,
                         color: Color::rgb_u8(0x00, 0x88, 0x88),
                     },
@@ -48,7 +51,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 text: Text::from_section(
                     "Thom Bruce",
                     TextStyle {
-                        font: asset_server.load("fonts/kenvector_future.ttf"),
+                        font: ui.font.clone(),
                         font_size: 20.0,
                         color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
                     },
@@ -63,7 +66,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 text: Text::from_section(
                     "Title Font",
                     TextStyle {
-                        font: asset_server.load("fonts/kenvector_future.ttf"),
+                        font: ui.font.clone(),
                         font_size: 24.0,
                         color: Color::rgb_u8(0x00, 0x88, 0x88),
                     },
@@ -78,7 +81,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 text: Text::from_section(
                     "Edge of the Galaxy by Quinn Davis Type",
                     TextStyle {
-                        font: asset_server.load("fonts/kenvector_future.ttf"),
+                        font: ui.font.clone(),
                         font_size: 20.0,
                         color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
                     },
@@ -93,7 +96,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 text: Text::from_section(
                     "Art",
                     TextStyle {
-                        font: asset_server.load("fonts/kenvector_future.ttf"),
+                        font: ui.font.clone(),
                         font_size: 24.0,
                         color: Color::rgb_u8(0x00, 0x88, 0x88),
                     },
@@ -108,7 +111,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 text: Text::from_section(
                     "Space Shooter Redux by Kenney",
                     TextStyle {
-                        font: asset_server.load("fonts/kenvector_future.ttf"),
+                        font: ui.font.clone(),
                         font_size: 20.0,
                         color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
                     },
@@ -123,7 +126,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 text: Text::from_section(
                     "Music",
                     TextStyle {
-                        font: asset_server.load("fonts/kenvector_future.ttf"),
+                        font: ui.font.clone(),
                         font_size: 24.0,
                         color: Color::rgb_u8(0x00, 0x88, 0x88),
                     },
@@ -138,7 +141,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 text: Text::from_section(
                     "Lightspeed by Beat Mekanik",
                     TextStyle {
-                        font: asset_server.load("fonts/kenvector_future.ttf"),
+                        font: ui.font.clone(),
                         font_size: 20.0,
                         color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
                     },
@@ -149,7 +152,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 text: Text::from_section(
                     "Free Music Archive, CC BY",
                     TextStyle {
-                        font: asset_server.load("fonts/kenvector_future.ttf"),
+                        font: ui.font.clone(),
                         font_size: 14.0,
                         color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
                     },
@@ -164,7 +167,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 text: Text::from_section(
                     "Space Dust by Kirk Osamayo",
                     TextStyle {
-                        font: asset_server.load("fonts/kenvector_future.ttf"),
+                        font: ui.font.clone(),
                         font_size: 20.0,
                         color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
                     },
@@ -175,7 +178,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 text: Text::from_section(
                     "Free Music Archive, CC BY",
                     TextStyle {
-                        font: asset_server.load("fonts/kenvector_future.ttf"),
+                        font: ui.font.clone(),
                         font_size: 14.0,
                         color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
                     },

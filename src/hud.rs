@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::Velocity;
 
-use crate::{ship::Ship, state::AppState};
+use crate::{assets::UiAssets, ship::Ship, state::AppState};
 
 /// UI Speed component
 #[derive(Component)]
@@ -15,7 +15,7 @@ impl Plugin for HudPlugin {
     }
 }
 
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn setup(mut commands: Commands, ui: Res<UiAssets>) {
     commands
         .spawn((
             NodeBundle {
@@ -47,7 +47,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                     text: Text::from_section(
                         "In Space",
                         TextStyle {
-                            font: asset_server.load("fonts/kenvector_future.ttf"),
+                            font: ui.font.clone(),
                             font_size: 25.0,
                             color: Color::rgb_u8(0x00, 0xAA, 0xAA),
                             ..default()
@@ -72,7 +72,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                     text: Text::from_section(
                         "0",
                         TextStyle {
-                            font: asset_server.load("fonts/kenvector_future.ttf"),
+                            font: ui.font.clone(),
                             font_size: 25.0,
                             color: Color::rgb_u8(0xAA, 0xAA, 0x33),
                             ..default()

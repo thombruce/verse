@@ -3,6 +3,8 @@ use bevy::{
     prelude::*,
 };
 
+use crate::assets::AudioAssets;
+
 #[derive(States, Debug, Copy, Clone, Hash, Eq, PartialEq, Default)]
 pub enum AppState {
     #[default]
@@ -44,12 +46,12 @@ impl Plugin for StatePlugin {
 
 fn game_setup(
     mut commands: Commands,
-    asset_server: Res<AssetServer>,
+    audios: Res<AudioAssets>,
     mut next_state: ResMut<NextState<AppState>>,
 ) {
     commands.spawn((
         AudioBundle {
-            source: asset_server.load("sound/Kirk Osamayo - Space Dust.ogg"),
+            source: audios.ambience.clone(),
             settings: PlaybackSettings {
                 mode: PlaybackMode::Loop,
                 volume: Volume::new_absolute(0.5),

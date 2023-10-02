@@ -1,11 +1,12 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::RapierConfiguration;
 use leafwing_input_manager::{
-    prelude::{ActionState, InputMap},
+    prelude::{ActionState, InputManagerPlugin, InputMap},
     Actionlike,
 };
 
 use crate::{
+    assets::UiAssets,
     effects::DrawBlinkTimer,
     state::{is_in_game_state, AppState, ForState},
 };
@@ -18,6 +19,8 @@ pub enum PauseAction {
 pub struct PausePlugin;
 impl Plugin for PausePlugin {
     fn build(&self, app: &mut App) {
+        app.add_plugins(InputManagerPlugin::<PauseAction>::default());
+
         app.add_systems(OnEnter(AppState::GameCreate), setup)
             .add_systems(Update, pause_system.run_if(is_in_game_state))
             .add_systems(OnEnter(AppState::Paused), pause_screen);
@@ -56,7 +59,7 @@ fn pause_system(
     }
 }
 
-fn pause_screen(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn pause_screen(mut commands: Commands, ui: Res<UiAssets>) {
     commands
         .spawn((
             NodeBundle {
@@ -82,7 +85,7 @@ fn pause_screen(mut commands: Commands, asset_server: Res<AssetServer>) {
                     text: Text::from_section(
                         "Pause",
                         TextStyle {
-                            font: asset_server.load("fonts/kenvector_future.ttf"),
+                            font: ui.font.clone(),
                             font_size: 50.0,
                             color: Color::rgb_u8(0x88, 0x00, 0x00),
                         },

@@ -6,6 +6,7 @@ use bevy_tiling_background::{
 };
 use leafwing_input_manager::prelude::*;
 
+mod assets;
 mod camera;
 mod credits;
 mod effects;
@@ -16,13 +17,14 @@ mod ship;
 mod state;
 
 use crate::{
+    assets::{AssetsPlugin, AudioAssets, SpriteAssets},
     camera::CameraPlugin,
     credits::CreditsPlugin,
     effects::EffectsPlugin,
     hud::HudPlugin,
     menu::{MenuAction, MenuPlugin},
-    pause::{PauseAction, PausePlugin},
-    ship::{ShipAction, ShipPlugin},
+    pause::PausePlugin,
+    ship::ShipPlugin,
     state::{AppState, ForState, StatePlugin},
 };
 
@@ -39,10 +41,9 @@ fn main() {
             }),
             ..default()
         }),
+        AssetsPlugin,
         RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(1.0),
-        InputManagerPlugin::<PauseAction>::default(),
         InputManagerPlugin::<MenuAction>::default(),
-        InputManagerPlugin::<ShipAction>::default(),
         TilingBackgroundPlugin::<BackgroundMaterial>::default(),
         CameraPlugin,
         StatePlugin,
@@ -70,13 +71,14 @@ fn main() {
 /// The setup function
 fn setup(
     mut commands: Commands,
-    asset_server: Res<AssetServer>,
+    sprites: Res<SpriteAssets>,
+    audios: Res<AudioAssets>,
     mut rapier_configuration: ResMut<RapierConfiguration>,
     mut materials: ResMut<Assets<BackgroundMaterial>>,
 ) {
     rapier_configuration.gravity = Vec2::ZERO;
 
-    let image = asset_server.load("space/backgrounds/custom.png");
+    let image = sprites.background.clone();
     // Queue a command to set the image to be repeating once the image is loaded.
     commands.set_image_repeating(image.clone());
 
@@ -91,7 +93,7 @@ fn setup(
     //       just not if the previous state was also a menu state (e.g. Credits).
     commands.spawn((
         AudioBundle {
-            source: asset_server.load("sound/Beat Mekanik - Lightspeed.ogg"),
+            source: audios.title_music.clone(),
             settings: PlaybackSettings {
                 mode: PlaybackMode::Loop,
                 ..default()
