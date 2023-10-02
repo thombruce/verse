@@ -82,6 +82,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             action_state: ActionState::default(),
             input_map: input_map.build(),
         },
+        Name::new("Ship"),
     ));
 }
 

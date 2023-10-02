@@ -50,17 +50,21 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             ForState {
                 states: vec![AppState::StartMenu],
             },
+            Name::new("Start Menu"),
         ))
         .with_children(|parent| {
-            parent.spawn((ImageBundle {
-                image: UiImage::new(asset_server.load("verse.png")),
-                style: Style {
-                    width: Val::Px(350.0),
-                    height: Val::Px(169.4),
+            parent.spawn((
+                ImageBundle {
+                    image: UiImage::new(asset_server.load("verse.png")),
+                    style: Style {
+                        width: Val::Px(350.0),
+                        height: Val::Px(169.4),
+                        ..default()
+                    },
                     ..default()
                 },
-                ..default()
-            },));
+                Name::new("Title"),
+            ));
             parent.spawn((
                 TextBundle {
                     style: Style {
@@ -98,6 +102,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             ForState {
                 states: vec![AppState::StartMenu],
             },
+            Name::new("Hint Container"),
         ))
         .with_children(|parent| {
             parent.spawn((TextBundle {

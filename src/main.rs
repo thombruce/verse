@@ -1,4 +1,5 @@
 use bevy::{audio::PlaybackMode, prelude::*, render::view::NoFrustumCulling};
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_rapier2d::prelude::*;
 use bevy_tiling_background::{
     BackgroundImageBundle, BackgroundMaterial, SetImageRepeatingExt, TilingBackgroundPlugin,
@@ -54,7 +55,10 @@ fn main() {
     ));
 
     #[cfg(debug_assertions)]
-    app.add_plugins(RapierDebugRenderPlugin::default());
+    app.add_plugins((
+        RapierDebugRenderPlugin::default(),
+        WorldInspectorPlugin::new(),
+    ));
 
     // app.insert_resource(ClearColor(Color::rgb(0., 0., 0.)));
 
@@ -79,6 +83,7 @@ fn setup(
     commands.spawn((
         BackgroundImageBundle::from_image(image, materials.as_mut()).at_z_layer(-0.1),
         NoFrustumCulling,
+        Name::new("Background"),
     ));
 
     // TODO: Moved here from menu to prevent reloading every time the credits are toggled.
@@ -95,5 +100,6 @@ fn setup(
         ForState {
             states: AppState::IN_MENU_STATE.to_vec(),
         },
+        Name::new("Menu Music"),
     ));
 }

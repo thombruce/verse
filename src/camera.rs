@@ -12,7 +12,7 @@ impl Plugin for CameraPlugin {
 
 fn setup(mut commands: Commands) {
     // Spawns game camera
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn((Camera2dBundle::default(), Name::new("Main Camera")));
 }
 
 pub fn follow_player(

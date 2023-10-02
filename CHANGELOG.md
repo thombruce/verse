@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- WorldInspectorPlugin from bevy-inspector-egui for development/debugging
+
 ## [0.0.9] - 2023-10-02
 
 ### Added

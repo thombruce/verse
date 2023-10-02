@@ -47,14 +47,17 @@ fn game_setup(
     asset_server: Res<AssetServer>,
     mut next_state: ResMut<NextState<AppState>>,
 ) {
-    commands.spawn(AudioBundle {
-        source: asset_server.load("sound/Kirk Osamayo - Space Dust.ogg"),
-        settings: PlaybackSettings {
-            mode: PlaybackMode::Loop,
-            volume: Volume::new_absolute(0.5),
-            ..default()
+    commands.spawn((
+        AudioBundle {
+            source: asset_server.load("sound/Kirk Osamayo - Space Dust.ogg"),
+            settings: PlaybackSettings {
+                mode: PlaybackMode::Loop,
+                volume: Volume::new_absolute(0.5),
+                ..default()
+            },
         },
-    });
+        Name::new("Ambient Music"),
+    ));
 
     next_state.set(AppState::Active);
 }

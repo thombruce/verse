@@ -17,18 +17,21 @@ impl Plugin for HudPlugin {
 
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands
-        .spawn((NodeBundle {
-            style: Style {
-                position_type: PositionType::Absolute,
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                align_items: AlignItems::FlexEnd,
-                justify_content: JustifyContent::FlexEnd,
-                flex_direction: FlexDirection::Row,
+        .spawn((
+            NodeBundle {
+                style: Style {
+                    position_type: PositionType::Absolute,
+                    width: Val::Percent(100.0),
+                    height: Val::Percent(100.0),
+                    align_items: AlignItems::FlexEnd,
+                    justify_content: JustifyContent::FlexEnd,
+                    flex_direction: FlexDirection::Row,
+                    ..default()
+                },
                 ..default()
             },
-            ..default()
-        },))
+            Name::new("Speedometer Container"),
+        ))
         .with_children(|parent| {
             parent.spawn((
                 TextBundle {
@@ -58,18 +61,21 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         });
 
     commands
-        .spawn((NodeBundle {
-            style: Style {
-                position_type: PositionType::Absolute,
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                align_items: AlignItems::FlexStart,
-                justify_content: JustifyContent::FlexEnd,
-                flex_direction: FlexDirection::Row,
+        .spawn((
+            NodeBundle {
+                style: Style {
+                    position_type: PositionType::Absolute,
+                    width: Val::Percent(100.0),
+                    height: Val::Percent(100.0),
+                    align_items: AlignItems::FlexStart,
+                    justify_content: JustifyContent::FlexEnd,
+                    flex_direction: FlexDirection::Row,
+                    ..default()
+                },
                 ..default()
             },
-            ..default()
-        },))
+            Name::new("Location Container"),
+        ))
         .with_children(|parent| {
             parent.spawn((TextBundle {
                 style: Style {

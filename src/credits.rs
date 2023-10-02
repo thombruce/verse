@@ -26,6 +26,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             ForState {
                 states: vec![AppState::Credits],
             },
+            Name::new("Credits"),
         ))
         .with_children(|parent| {
             parent.spawn((TextBundle {
