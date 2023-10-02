@@ -15,25 +15,12 @@
 
 ## Controls
 
-### Keyboard
-
-Thrust: <kbd>W</kbd> | <kbd>&uarr;</kbd>
-
-Turn left: <kbd>A</kbd> | <kbd>&larr;</kbd>
-
-Turn right: <kbd>D</kbd> | <kbd>&rarr;</kbd>
-
-Pause/Unpause: <kbd>Esc</kbd> | <kbd>P</kbd>
-
-### Controller
-
-Thrust: <kbd>RT</kbd>
-
-Turn left: <kbd>LS &larr;</kbd>
-
-Turn right: <kbd>LS &rarr;</kbd>
-
-Pause/Unpause: <kbd>Start</kbd>
+| Action        | Keyboard                        | Controller           |
+| ------------- | ------------------------------- | -------------------- |
+| Thrust        | <kbd>W</kbd>, <kbd>&uarr;</kbd> | <kbd>RT</kbd>        |
+| Turn left     | <kbd>A</kbd>, <kbd>&larr;</kbd> | <kbd>LS &larr;</kbd> |
+| Turn right    | <kbd>D</kbd>, <kbd>&rarr;</kbd> | <kbd>LS &rarr;</kbd> |
+| Pause/unpause | <kbd>Esc</kbd>, <kbd>P</kbd>    | <kbd>Start</kbd>     |
 
 ## Development
 
