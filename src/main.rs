@@ -11,6 +11,7 @@ mod effects;
 mod hud;
 mod menu;
 mod pause;
+mod planet;
 mod ship;
 mod star;
 mod state;
@@ -24,6 +25,7 @@ use crate::{
     hud::HudPlugin,
     menu::{MenuAction, MenuPlugin},
     pause::PausePlugin,
+    planet::PlanetPlugin,
     ship::ShipPlugin,
     star::StarPlugin,
     state::{AppState, ForState, StatePlugin},
@@ -57,6 +59,7 @@ fn main() {
         EffectsPlugin,
         PausePlugin,
         StarPlugin,
+        PlanetPlugin,
     ));
 
     #[cfg(debug_assertions)]
