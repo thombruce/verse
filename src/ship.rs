@@ -64,6 +64,7 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
         },
         SpriteBundle {
             texture: sprites.player_ship.clone(),
+            transform: Transform::from_scale(Vec3::splat(0.5)),
             ..default()
         },
         RigidBody::Dynamic,
