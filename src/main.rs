@@ -15,7 +15,7 @@ mod orbit;
 mod pause;
 mod planet;
 mod planetary_system;
-mod shader;
+mod shaders;
 mod ship;
 mod star;
 mod state;

@@ -26,8 +26,8 @@ use bevy::{
     },
 };
 
-pub struct ShaderPlugin;
-impl Plugin for ShaderPlugin {
+pub struct PixelatePlugin;
+impl Plugin for PixelatePlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(PostProcessPlugin);
     }
