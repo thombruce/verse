@@ -10,6 +10,7 @@ mod credits;
 mod effects;
 mod hud;
 mod menu;
+mod orbit;
 mod pause;
 mod planet;
 mod ship;

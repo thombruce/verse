@@ -1,6 +1,9 @@
 use bevy::prelude::*;
 
-use crate::state::AppState;
+use crate::{
+    orbit::{orbital_positioning_system, Orbit},
+    state::AppState,
+};
 
 pub struct PlanetPlugin;
 impl Plugin for PlanetPlugin {
@@ -18,14 +21,6 @@ impl Plugin for PlanetPlugin {
 struct AnimationIndices {
     first: usize,
     last: usize,
-}
-
-#[derive(Component, Clone, Debug)]
-struct Orbit {
-    pub semi_major_axis: f32,
-    // pub eccentricity: f32,
-    // pub argument_of_periapsis: f32,
-    // pub initial_mean_anomaly: f32,
 }
 
 #[derive(Component, Deref, DerefMut)]
@@ -79,12 +74,4 @@ fn setup(
         },
         Name::new("Planet"),
     ));
-}
-
-/// Really basic circular motion around (0., 0.)
-fn orbital_positioning_system(time: Res<Time>, mut orbits: Query<(&Orbit, &mut Transform)>) {
-    for (orbit, mut transform) in orbits.iter_mut() {
-        transform.translation.x = time.elapsed_seconds().cos() * orbit.semi_major_axis;
-        transform.translation.y = time.elapsed_seconds().sin() * orbit.semi_major_axis;
-    }
 }
