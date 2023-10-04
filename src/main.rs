@@ -8,6 +8,7 @@ mod background;
 mod camera;
 mod credits;
 mod effects;
+mod game_time;
 mod hud;
 mod menu;
 mod orbit;
@@ -24,6 +25,7 @@ use crate::{
     camera::CameraPlugin,
     credits::CreditsPlugin,
     effects::EffectsPlugin,
+    game_time::GameTimePlugin,
     hud::HudPlugin,
     menu::{MenuAction, MenuPlugin},
     pause::PausePlugin,
@@ -47,6 +49,7 @@ fn main() {
                 ..default()
             })
             .set(ImagePlugin::default_nearest()),
+        GameTimePlugin,
         AssetsPlugin,
         RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(1.0),
         InputManagerPlugin::<MenuAction>::default(),
