@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Animated star and planet exported as spritesheets from Deep-Fold's Pixel Planet Generator
 - Basic orbital system moving planet in circlular orbit around star
+- Attribution for Deep-Fold in Credits for Pixel Planets
 - WorldInspectorPlugin from bevy-inspector-egui for development/debugging
 
 ### Changed
