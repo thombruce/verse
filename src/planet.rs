@@ -77,6 +77,7 @@ fn setup(
         Orbit {
             semi_major_axis: 500.0,
         },
+        Name::new("Planet"),
     ));
 }
 
