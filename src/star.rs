@@ -62,5 +62,6 @@ fn setup(
         animation_indices,
         // TODO: .1 is too fast, .2 is too choppy; needs more animation frames.
         AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)),
+        Name::new("Star"),
     ));
 }
