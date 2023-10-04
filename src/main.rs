@@ -68,7 +68,7 @@ fn main() {
 
     #[cfg(debug_assertions)]
     app.add_plugins((
-        RapierDebugRenderPlugin::default(),
+        // RapierDebugRenderPlugin::default(),
         WorldInspectorPlugin::new(),
     ));
 
