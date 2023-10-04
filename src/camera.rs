@@ -1,15 +1,14 @@
 use bevy::prelude::*;
 
-use crate::{
-    shader::{PixelateSettings, ShaderPlugin},
-    ship::Ship,
-    state::AppState,
-};
+#[allow(unused_imports)]
+use crate::shader::{PixelateSettings, ShaderPlugin};
+
+use crate::{ship::Ship, state::AppState};
 
 pub struct CameraPlugin;
 impl Plugin for CameraPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins(ShaderPlugin);
+        // app.add_plugins(ShaderPlugin);
         app.add_systems(Startup, setup);
         app.add_systems(Update, follow_player.run_if(in_state(AppState::Active)));
     }
