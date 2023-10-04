@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Moved assets to reusable resources plugin in assets.rs
 - Moved controls to table in README
 
+### Removed
+
+- Blog moved to [itch.io](https://thombruce.itch.io/verse)
+
 ## [0.0.9] - 2023-10-02
 
 ### Added
