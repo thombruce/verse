@@ -3,6 +3,8 @@ use bevy::prelude::*;
 #[derive(Debug, Resource)]
 pub struct SpriteAssets {
     pub player_ship: Handle<Image>,
+    pub star: Handle<TextureAtlas>,
+    pub planet: Handle<TextureAtlas>,
     pub background: Handle<Image>,
 }
 #[derive(Debug, Resource)]
@@ -30,9 +32,29 @@ impl Plugin for AssetsPlugin {
 //       See: asset_server.free_unused_assets()
 //       We can then remove the use of PreStartup above, which
 //       doesn't feel idiomatic.
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn setup(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    mut texture_atlases: ResMut<Assets<TextureAtlas>>,
+) {
     commands.insert_resource(SpriteAssets {
         player_ship: asset_server.load("space/ships/playerShip2_blue.png"),
+        star: texture_atlases.add(TextureAtlas::from_grid(
+            asset_server.load("space/celestials/star-pixelplanet.png"),
+            Vec2::new(500.0, 500.0),
+            25,
+            5,
+            None,
+            None,
+        )),
+        planet: texture_atlases.add(TextureAtlas::from_grid(
+            asset_server.load("space/celestials/planet-pixelplanet.png"),
+            Vec2::new(125.0, 125.0),
+            25,
+            5,
+            None,
+            None,
+        )),
         background: asset_server.load("space/backgrounds/custom.png"),
     });
     commands.insert_resource(AudioAssets {

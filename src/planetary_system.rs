@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
+    assets::SpriteAssets,
     orbit::{orbital_positioning_system, Orbit},
     planet::Planet,
     star::Star,
@@ -47,32 +48,14 @@ fn animate_sprite(
     }
 }
 
-fn setup(
-    mut commands: Commands,
-    asset_server: Res<AssetServer>,
-    mut texture_atlases: ResMut<Assets<TextureAtlas>>,
-) {
+fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
     // Star
-    let texture_handle = asset_server.load("space/celestials/star-pixelplanet.png");
-    let texture_atlas =
-        TextureAtlas::from_grid(texture_handle, Vec2::new(500.0, 500.0), 25, 5, None, None);
-    let texture_atlas_handle = texture_atlases.add(texture_atlas);
-    let animation_indices = AnimationIndices {
+    let star_animation_indices = AnimationIndices {
         first: 0,
         last: 124,
     };
 
     // Planet
-    let planet_texture_handle = asset_server.load("space/celestials/planet-pixelplanet.png");
-    let planet_texture_atlas = TextureAtlas::from_grid(
-        planet_texture_handle,
-        Vec2::new(125.0, 125.0),
-        25,
-        5,
-        None,
-        None,
-    );
-    let planet_texture_atlas_handle = texture_atlases.add(planet_texture_atlas);
     let planet_animation_indices = AnimationIndices {
         first: 0,
         last: 124,
@@ -81,12 +64,12 @@ fn setup(
     commands
         .spawn((
             SpriteSheetBundle {
-                texture_atlas: texture_atlas_handle,
-                sprite: TextureAtlasSprite::new(animation_indices.first),
+                texture_atlas: sprites.star.clone(),
+                sprite: TextureAtlasSprite::new(star_animation_indices.first),
                 transform: Transform::from_scale(Vec3::splat(2.0)),
                 ..default()
             },
-            animation_indices,
+            star_animation_indices,
             // TODO: .1 is too fast, .2 is too choppy; needs more animation frames.
             AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)),
             Star {},
@@ -95,7 +78,7 @@ fn setup(
         .with_children(|parent| {
             parent.spawn((
                 SpriteSheetBundle {
-                    texture_atlas: planet_texture_atlas_handle,
+                    texture_atlas: sprites.planet.clone(),
                     sprite: TextureAtlasSprite::new(planet_animation_indices.first),
                     transform: Transform::from_scale(Vec3::splat(2.0 / 2.0)), // Divide by parent scale?
                     ..default()
