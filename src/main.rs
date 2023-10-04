@@ -13,6 +13,7 @@ mod menu;
 mod orbit;
 mod pause;
 mod planet;
+mod planetary_system;
 mod ship;
 mod star;
 mod state;
@@ -26,9 +27,8 @@ use crate::{
     hud::HudPlugin,
     menu::{MenuAction, MenuPlugin},
     pause::PausePlugin,
-    planet::PlanetPlugin,
+    planetary_system::PlanetarySystemPlugin,
     ship::ShipPlugin,
-    star::StarPlugin,
     state::{AppState, ForState, StatePlugin},
 };
 
@@ -59,8 +59,7 @@ fn main() {
         CreditsPlugin,
         EffectsPlugin,
         PausePlugin,
-        StarPlugin,
-        PlanetPlugin,
+        PlanetarySystemPlugin,
     ));
 
     #[cfg(debug_assertions)]

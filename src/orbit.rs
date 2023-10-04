@@ -10,7 +10,7 @@ pub struct Orbit {
     // pub initial_mean_anomaly: f32,
 }
 
-/// Really basic circular motion around (0., 0.)
+/// Really basic circular motion around (0., 0.) or parent entity
 pub fn orbital_positioning_system(time: Res<Time>, mut orbits: Query<(&Orbit, &mut Transform)>) {
     for (orbit, mut transform) in orbits.iter_mut() {
         transform.translation.x = (time.elapsed_seconds() / orbit.semi_major_axis.sqrt()
