@@ -1,18 +1,36 @@
 use bevy::prelude::*;
 
+#[allow(unused_imports)]
+use crate::shaders::{
+    chromatic_aberration::{ChromaticAberrationPlugin, ChromaticAberrationSettings},
+    pixelate::{PixelatePlugin, PixelateSettings},
+};
+
 use crate::{ship::Ship, state::AppState};
 
 pub struct CameraPlugin;
 impl Plugin for CameraPlugin {
     fn build(&self, app: &mut App) {
+        // app.add_plugins(PixelatePlugin);
+        // app.add_plugins(ChromaticAberrationPlugin);
         app.add_systems(Startup, setup);
         app.add_systems(Update, follow_player.run_if(in_state(AppState::Active)));
     }
 }
 
 fn setup(mut commands: Commands) {
-    // Spawns game camera
-    commands.spawn((Camera2dBundle::default(), Name::new("Main Camera")));
+    commands.spawn((
+        Camera2dBundle::default(),
+        PixelateSettings {
+            block_size: 3.25,
+            ..default()
+        },
+        ChromaticAberrationSettings {
+            intensity: 0.001,
+            ..default()
+        },
+        Name::new("Main Camera"),
+    ));
 }
 
 pub fn follow_player(

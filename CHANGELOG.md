@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- (Optional) pixelation shader for retro effect
+- (Optional) chromatic aberration shader
+
 ## [0.0.10] - 2023-10-04
 
 ### Added

@@ -15,6 +15,7 @@ mod orbit;
 mod pause;
 mod planet;
 mod planetary_system;
+mod shaders;
 mod ship;
 mod star;
 mod state;
@@ -67,7 +68,7 @@ fn main() {
 
     #[cfg(debug_assertions)]
     app.add_plugins((
-        RapierDebugRenderPlugin::default(),
+        // RapierDebugRenderPlugin::default(),
         WorldInspectorPlugin::new(),
     ));
 
