@@ -7,10 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-
-- Pixelation shader for retro effect
-
 ## [0.0.10] - 2023-10-04
 
 ### Added
