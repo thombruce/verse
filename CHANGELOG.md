@@ -9,10 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Animated star and planet exported as spritesheets from Deep-Fold's Pixel Planet Generator
+- Basic orbital system moving planet in circlular orbit around star
+- Pausable GameTime resource and tick system to prevent dynamic systems jumping forwards after unpause
+- Attribution for Deep-Fold in Credits for Pixel Planets
 - WorldInspectorPlugin from bevy-inspector-egui for development/debugging
 
 ### Changed
 
+- Adjusted scale of ship smaller by default
+- Moved background handling to plugin
+- Adjusted movement scale of background for parallax effect
 - Moved assets to reusable resources plugin in assets.rs
 - Moved controls to table in README
 

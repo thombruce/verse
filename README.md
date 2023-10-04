@@ -46,6 +46,10 @@ Built on [Rust](https://www.rust-lang.org/) with [Bevy](https://bevyengine.org/)
 
   From [Kenney.nl](https://www.kenney.nl/), [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
 
+- [Pixel Planet Generator](https://deep-fold.itch.io/pixel-planet-generator) by [Deep-Fold](https://deep-fold.itch.io/)
+
+  From [itch.io](https://itch.io/)
+
 ### Music
 
 - [Lightspeed](https://freemusicarchive.org/music/beat-mekanik/single/lightspeed/) by [Beat Mekanik](https://freemusicarchive.org/music/beat-mekanik/)

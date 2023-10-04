@@ -120,6 +120,21 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
             },));
             parent.spawn((TextBundle {
                 style: Style {
+                    margin: UiRect::top(Val::Px(25.)),
+                    ..default()
+                },
+                text: Text::from_section(
+                    "Pixel Planets by Deep-Fold",
+                    TextStyle {
+                        font: ui.font.clone(),
+                        font_size: 20.0,
+                        color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
+                    },
+                ),
+                ..default()
+            },));
+            parent.spawn((TextBundle {
+                style: Style {
                     margin: UiRect::top(Val::Px(50.)),
                     ..default()
                 },

@@ -1,29 +1,35 @@
-use bevy::{audio::PlaybackMode, prelude::*, render::view::NoFrustumCulling};
+use bevy::{audio::PlaybackMode, prelude::*};
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_rapier2d::prelude::*;
-use bevy_tiling_background::{
-    BackgroundImageBundle, BackgroundMaterial, SetImageRepeatingExt, TilingBackgroundPlugin,
-};
 use leafwing_input_manager::prelude::*;
 
 mod assets;
+mod background;
 mod camera;
 mod credits;
 mod effects;
+mod game_time;
 mod hud;
 mod menu;
+mod orbit;
 mod pause;
+mod planet;
+mod planetary_system;
 mod ship;
+mod star;
 mod state;
 
 use crate::{
-    assets::{AssetsPlugin, AudioAssets, SpriteAssets},
+    assets::{AssetsPlugin, AudioAssets},
+    background::BackgroundPlugin,
     camera::CameraPlugin,
     credits::CreditsPlugin,
     effects::EffectsPlugin,
+    game_time::GameTimePlugin,
     hud::HudPlugin,
     menu::{MenuAction, MenuPlugin},
     pause::PausePlugin,
+    planetary_system::PlanetarySystemPlugin,
     ship::ShipPlugin,
     state::{AppState, ForState, StatePlugin},
 };
@@ -34,17 +40,20 @@ fn main() {
     app.add_state::<AppState>();
 
     app.add_plugins((
-        DefaultPlugins.set(WindowPlugin {
-            primary_window: Some(Window {
-                title: String::from("Verse"),
+        DefaultPlugins
+            .set(WindowPlugin {
+                primary_window: Some(Window {
+                    title: String::from("Verse"),
+                    ..default()
+                }),
                 ..default()
-            }),
-            ..default()
-        }),
+            })
+            .set(ImagePlugin::default_nearest()),
+        GameTimePlugin,
         AssetsPlugin,
         RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(1.0),
         InputManagerPlugin::<MenuAction>::default(),
-        TilingBackgroundPlugin::<BackgroundMaterial>::default(),
+        BackgroundPlugin,
         CameraPlugin,
         StatePlugin,
         HudPlugin,
@@ -53,6 +62,7 @@ fn main() {
         CreditsPlugin,
         EffectsPlugin,
         PausePlugin,
+        PlanetarySystemPlugin,
     ));
 
     #[cfg(debug_assertions)]
@@ -71,22 +81,10 @@ fn main() {
 /// The setup function
 fn setup(
     mut commands: Commands,
-    sprites: Res<SpriteAssets>,
     audios: Res<AudioAssets>,
     mut rapier_configuration: ResMut<RapierConfiguration>,
-    mut materials: ResMut<Assets<BackgroundMaterial>>,
 ) {
     rapier_configuration.gravity = Vec2::ZERO;
-
-    let image = sprites.background.clone();
-    // Queue a command to set the image to be repeating once the image is loaded.
-    commands.set_image_repeating(image.clone());
-
-    commands.spawn((
-        BackgroundImageBundle::from_image(image, materials.as_mut()).at_z_layer(-0.1),
-        NoFrustumCulling,
-        Name::new("Background"),
-    ));
 
     // TODO: Moved here from menu to prevent reloading every time the credits are toggled.
     //       In reality, we do want this to be respawned when the menu is re-entered,
