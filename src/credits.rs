@@ -89,6 +89,17 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                 ..default()
             },));
             parent.spawn((TextBundle {
+                text: Text::from_section(
+                    "FontSpace, Public Domain",
+                    TextStyle {
+                        font: ui.font.clone(),
+                        font_size: 14.0,
+                        color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
+                    },
+                ),
+                ..default()
+            },));
+            parent.spawn((TextBundle {
                 style: Style {
                     margin: UiRect::top(Val::Px(50.)),
                     ..default()
@@ -119,6 +130,17 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                 ..default()
             },));
             parent.spawn((TextBundle {
+                text: Text::from_section(
+                    "kenney.nl, CC0",
+                    TextStyle {
+                        font: ui.font.clone(),
+                        font_size: 14.0,
+                        color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
+                    },
+                ),
+                ..default()
+            },));
+            parent.spawn((TextBundle {
                 style: Style {
                     margin: UiRect::top(Val::Px(25.)),
                     ..default()
@@ -129,6 +151,17 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                         font: ui.font.clone(),
                         font_size: 20.0,
                         color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
+                    },
+                ),
+                ..default()
+            },));
+            parent.spawn((TextBundle {
+                text: Text::from_section(
+                    "itch.io, MIT",
+                    TextStyle {
+                        font: ui.font.clone(),
+                        font_size: 14.0,
+                        color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
                     },
                 ),
                 ..default()
