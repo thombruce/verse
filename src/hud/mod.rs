@@ -3,6 +3,10 @@ use bevy_rapier2d::prelude::Velocity;
 
 use crate::{assets::UiAssets, ship::Ship, state::AppState};
 
+mod indicator;
+
+use indicator::IndicatorPlugin;
+
 /// UI Speed component
 #[derive(Component)]
 pub struct UISpeed {}
@@ -10,6 +14,7 @@ pub struct UISpeed {}
 pub struct HudPlugin;
 impl Plugin for HudPlugin {
     fn build(&self, app: &mut App) {
+        app.add_plugins(IndicatorPlugin);
         app.add_systems(OnEnter(AppState::GameCreate), setup);
         app.add_systems(Update, hud_speedometer.run_if(in_state(AppState::Active)));
     }
