@@ -41,6 +41,8 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                         height: Val::Px(10.0),
                         ..default()
                     },
+                    // TODO: Set this value on the Indicator struct.
+                    background_color: BackgroundColor(Color::ORANGE_RED),
                     ..default()
                 },
                 Indicator {},
