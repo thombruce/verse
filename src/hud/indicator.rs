@@ -96,7 +96,7 @@ fn indicators_system(
 
             // get the extents of the bounding UI node (size of window)
             let bounds = bounds_query.single().size();
-            let extents = Vec3::from((bounds / 2.0, 0.0));
+            let extents = Vec2::from(bounds / 2.0);
 
             // reposition indicator relative to the direction of the entity
             // we're using the non-normalized real_to_entity for this in order
