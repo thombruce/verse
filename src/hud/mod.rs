@@ -3,7 +3,7 @@ use bevy_rapier2d::prelude::Velocity;
 
 use crate::{assets::UiAssets, ship::Ship, state::AppState};
 
-mod indicator;
+pub mod indicator;
 
 use indicator::IndicatorPlugin;
 
