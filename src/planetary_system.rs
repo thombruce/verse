@@ -2,6 +2,7 @@ use bevy::prelude::*;
 
 use crate::{
     assets::SpriteAssets,
+    hud::indicator::Indicated,
     orbit::{orbital_positioning_system, Orbit},
     planet::Planet,
     star::Star,
@@ -73,6 +74,9 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
             // TODO: .1 is too fast, .2 is too choppy; needs more animation frames.
             AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)),
             Star {},
+            Indicated {
+                color: Color::YELLOW,
+            },
             Name::new("Star"),
         ))
         .with_children(|parent| {
@@ -87,6 +91,9 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
                 // TODO: .1 is too fast, .2 is too choppy; needs more animation frames.
                 AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)),
                 Planet {},
+                Indicated {
+                    color: Color::ORANGE_RED,
+                },
                 Orbit {
                     semi_major_axis: 500.0 / 2.0, // Divide by parent scale?
                 },
