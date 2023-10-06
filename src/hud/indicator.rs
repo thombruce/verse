@@ -66,14 +66,21 @@ fn setup(
 fn indicators_system(
     mut query: Query<(&mut Transform, &mut Style, &Indicator)>,
     player_query: Query<&Transform, (With<Ship>, Without<Indicator>)>,
-    entity_query: Query<&Transform, (With<Indicated>, Without<Indicator>)>,
+    entity_query: Query<(&Transform, &ComputedVisibility), (With<Indicated>, Without<Indicator>)>,
     bounds_query: Query<&Node, (With<Bounds>, Without<Indicator>)>,
 ) {
     let player_transform = player_query.single();
     let player_translation = player_transform.translation.xy();
 
     for (mut indicator_transform, mut indicator_style, indicator) in &mut query {
-        if let Ok(entity_transform) = entity_query.get(indicator.entity) {
+        if let Ok((entity_transform, entity_visibility)) = entity_query.get(indicator.entity) {
+            if entity_visibility.is_visible() {
+                indicator_style.display = Display::None;
+                continue;
+            }
+
+            indicator_style.display = Display::DEFAULT;
+
             let entity_translation = entity_transform.translation.xy();
 
             // get the vector from the entity to the player ship in 2D and normalize it.
