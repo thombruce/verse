@@ -1,5 +1,3 @@
-use std::cmp::max;
-
 use bevy::{math::Vec3Swizzles, prelude::*};
 
 use crate::{planet::Planet, ship::Ship, state::AppState};
@@ -83,24 +81,21 @@ fn indicators_system(
         // to get the actual size of the player-entity vector's x and y values
         match real_to_entity.x > 0. {
             true => {
-                indicator_style.right =
-                    Val::Px(max((extents.x - real_to_entity.x) as i32, 0) as f32);
+                indicator_style.right = Val::Px((extents.x - real_to_entity.x).max(0.));
                 indicator_style.left = Val::Auto;
             }
             false => {
-                indicator_style.left =
-                    Val::Px(max((extents.x + real_to_entity.x) as i32, 0) as f32);
+                indicator_style.left = Val::Px((extents.x + real_to_entity.x).max(0.));
                 indicator_style.right = Val::Auto;
             }
         }
         match real_to_entity.y > 0. {
             true => {
-                indicator_style.top = Val::Px(max((extents.y - real_to_entity.y) as i32, 0) as f32);
+                indicator_style.top = Val::Px((extents.y - real_to_entity.y).max(0.));
                 indicator_style.bottom = Val::Auto;
             }
             false => {
-                indicator_style.bottom =
-                    Val::Px(max((extents.y + real_to_entity.y) as i32, 0) as f32);
+                indicator_style.bottom = Val::Px((extents.y + real_to_entity.y).max(0.));
                 indicator_style.top = Val::Auto;
             }
         }
