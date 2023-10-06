@@ -75,7 +75,7 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
             AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)),
             Star {},
             Indicated {
-                color: Color::YELLOW,
+                color: Color::ANTIQUE_WHITE,
             },
             Name::new("Star"),
         ))
@@ -92,7 +92,7 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
                 AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)),
                 Planet {},
                 Indicated {
-                    color: Color::ORANGE_RED,
+                    color: Color::LIME_GREEN,
                 },
                 Orbit {
                     semi_major_axis: 500.0 / 2.0, // Divide by parent scale?
