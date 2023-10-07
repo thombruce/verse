@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::game_time::GameTime;
+use crate::{game_time::GameTime, state::AppState};
 
 const ORBITAL_PERIOD_SCALING_FACTOR: f32 = 1.0;
 
@@ -13,25 +13,42 @@ pub struct Orbit {
     // pub initial_mean_anomaly: f32,
 }
 
+#[derive(Component, Clone, Debug)]
+pub struct Orbitable(pub Vec3);
+impl Orbitable {
+    pub const ZERO: Self = Self(Vec3::ZERO);
+}
+impl Default for Orbitable {
+    fn default() -> Self {
+        Self::ZERO
+    }
+}
+
+pub struct OrbitPlugin;
+impl Plugin for OrbitPlugin {
+    fn build(&self, app: &mut App) {
+        app.add_systems(
+            Update,
+            (orbitable_update_system, orbital_positioning_system)
+                .run_if(in_state(AppState::Active)),
+        );
+    }
+}
+
 /// Really basic circular motion around a parent body or [0., 0.]
 pub fn orbital_positioning_system(
     game_time: Res<GameTime>,
     mut orbits: Query<(&Orbit, &mut Transform)>,
-    // TODO: Orbiting bodies should be able to orbit other bodies
-    //       This might call for use of a ParamSet,
-    //       except... I also can't borrow the ParamSet more than once.
-    //       Technically, the thing I want below is also in the above,
-    //       so it's a question of how do I borrow from the above twice?
-    //       This is what copy and clone are for. Look into this.
-    entity_query: Query<&Transform, Without<Orbit>>,
+    orbitables: Query<&Orbitable>,
 ) {
     for (orbit, mut transform) in orbits.iter_mut() {
         let mut entity_translation = Vec3::ZERO;
 
         if let Some(parent) = orbit.parent {
-            let entity_transform = entity_query.get(parent);
-            entity_translation = match entity_transform {
-                Ok(transform) => transform.translation,
+            let orbitable = orbitables.get(parent);
+
+            entity_translation = match orbitable {
+                Ok(orb) => orb.0,
                 Err(_) => Vec3::ZERO,
             };
         }
@@ -46,5 +63,11 @@ pub fn orbital_positioning_system(
                 * ORBITAL_PERIOD_SCALING_FACTOR)
                 .sin()
                 * orbit.semi_major_axis;
+    }
+}
+
+pub fn orbitable_update_system(mut orbitables: Query<(&mut Orbitable, &Transform)>) {
+    for (mut orbitable, transform) in orbitables.iter_mut() {
+        orbitable.0 = transform.translation;
     }
 }

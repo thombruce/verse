@@ -6,6 +6,7 @@ pub struct SpriteAssets {
     pub star: Handle<TextureAtlas>,
     pub planet: Handle<TextureAtlas>,
     pub background: Handle<Image>,
+    pub meteor: Handle<Image>,
 }
 #[derive(Debug, Resource)]
 pub struct AudioAssets {
@@ -56,6 +57,7 @@ fn setup(
             None,
         )),
         background: asset_server.load("space/backgrounds/custom.png"),
+        meteor: asset_server.load("space/meteors/meteorGrey_med1.png"),
     });
     commands.insert_resource(AudioAssets {
         title_music: asset_server.load("sound/Beat Mekanik - Lightspeed.ogg"),
