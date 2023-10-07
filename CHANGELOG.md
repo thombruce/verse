@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Moon orbiting planet, demonstrating new orbital system
 - Indicator system added to the HUD
 - (Optional) pixelation shader for retro effect
 - (Optional) chromatic aberration shader
@@ -16,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Generalised orbital system for any spatial coordinates and parent bodies
+- Planet orbital radius extended to more "realistic" value
 - HUD module moved to new hud directory
 
 ## [0.0.10] - 2023-10-04
