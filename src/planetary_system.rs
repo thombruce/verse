@@ -14,9 +14,17 @@ impl Plugin for PlanetarySystemPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(OrbitPlugin);
         // TODO: Having some real trouble with ordering systems
-        app.add_systems(OnExit(AppState::StartMenu), spawn_star);
-        app.add_systems(OnEnter(AppState::GameCreate), spawn_planets);
-        app.add_systems(OnExit(AppState::GameCreate), spawn_demo_orbital);
+        app.add_systems(
+            OnEnter(AppState::GameCreate),
+            (
+                spawn_star,
+                apply_deferred,
+                spawn_planets,
+                apply_deferred,
+                spawn_demo_orbital,
+            )
+                .chain(),
+        );
         app.add_systems(Update, animate_sprite.run_if(in_state(AppState::Active)));
     }
 }

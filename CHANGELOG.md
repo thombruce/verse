@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Implement buffer to prevent crash to desktop when systems are loaded out of order
+
 ## [0.0.11] - 2023-10-07
 
 ### Added
