@@ -7,13 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.11] - 2023-10-07
+
 ### Added
 
 - Moon orbiting planet, demonstrating new orbital system
 - Indicator system added to the HUD
 - (Optional) pixelation shader for retro effect
 - (Optional) chromatic aberration shader
-- Source and license info to credit attributions
+- Source and license info added to credit attributions
 
 ### Changed
 
@@ -138,7 +140,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CHANGELOG.md matching Keep a Changelog formatting
 - README with link to license doc and changelog
 
-[unreleased]: https://github.com/thombruce/verse/compare/v0.0.10...HEAD
+[unreleased]: https://github.com/thombruce/verse/compare/v0.0.11...HEAD
+[0.0.11]: https://github.com/thombruce/verse/compare/v0.0.10...v0.0.11
 [0.0.10]: https://github.com/thombruce/verse/compare/v0.0.9...v0.0.10
 [0.0.9]: https://github.com/thombruce/verse/compare/v0.0.8...v0.0.9
 [0.0.8]: https://github.com/thombruce/verse/compare/v0.0.7...v0.0.8
