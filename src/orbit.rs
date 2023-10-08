@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{game_time::GameTime, state::AppState};
+use crate::{game_time::GameTime, state::GameState};
 
 const ORBITAL_PERIOD_SCALING_FACTOR: f32 = 1.0;
 
@@ -30,7 +30,7 @@ impl Plugin for OrbitPlugin {
         app.add_systems(
             Update,
             (orbitable_update_system, orbital_positioning_system)
-                .run_if(in_state(AppState::Active)),
+                .run_if(in_state(GameState::Active)),
         );
     }
 }

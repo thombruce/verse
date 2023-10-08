@@ -8,7 +8,7 @@ use leafwing_input_manager::{
 use crate::{
     assets::UiAssets,
     effects::DrawBlinkTimer,
-    state::{is_in_game_state, AppState, ForState},
+    state::{is_in_game_state, ForState, GameState},
 };
 
 #[derive(Actionlike, PartialEq, Eq, Clone, Copy, Hash, Debug, Reflect)]
@@ -21,9 +21,9 @@ impl Plugin for PausePlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(InputManagerPlugin::<PauseAction>::default());
 
-        app.add_systems(OnEnter(AppState::GameCreate), setup)
+        app.add_systems(OnEnter(GameState::GameCreate), setup)
             .add_systems(Update, pause_system.run_if(is_in_game_state))
-            .add_systems(OnEnter(AppState::Paused), pause_screen);
+            .add_systems(OnEnter(GameState::Paused), pause_screen);
     }
 }
 
@@ -39,19 +39,19 @@ fn setup(mut commands: Commands) {
 }
 
 fn pause_system(
-    state: Res<State<AppState>>,
-    mut next_state: ResMut<NextState<AppState>>,
+    state: Res<State<GameState>>,
+    mut next_state: ResMut<NextState<GameState>>,
     pause_action_state: Res<ActionState<PauseAction>>,
     mut rapier_configuration: ResMut<RapierConfiguration>,
 ) {
     if pause_action_state.just_pressed(PauseAction::Pause) {
         match state.get() {
-            AppState::Active => {
-                next_state.set(AppState::Paused);
+            GameState::Active => {
+                next_state.set(GameState::Paused);
                 rapier_configuration.physics_pipeline_active = false;
             }
-            AppState::Paused => {
-                next_state.set(AppState::Active);
+            GameState::Paused => {
+                next_state.set(GameState::Active);
                 rapier_configuration.physics_pipeline_active = true;
             }
             _ => {}
@@ -75,7 +75,7 @@ fn pause_screen(mut commands: Commands, ui: Res<UiAssets>) {
                 ..default()
             },
             ForState {
-                states: vec![AppState::Paused],
+                states: vec![GameState::Paused],
             },
         ))
         .with_children(|parent| {

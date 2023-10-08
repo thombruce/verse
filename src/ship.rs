@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use leafwing_input_manager::prelude::*;
 
-use crate::{assets::SpriteAssets, state::AppState};
+use crate::{assets::SpriteAssets, state::GameState};
 
 #[derive(Actionlike, PartialEq, Eq, Clone, Copy, Hash, Debug, Reflect)]
 pub enum ShipAction {
@@ -25,10 +25,10 @@ impl Plugin for ShipPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(InputManagerPlugin::<ShipAction>::default());
 
-        app.add_systems(OnEnter(AppState::GameCreate), setup);
+        app.add_systems(OnEnter(GameState::GameCreate), setup);
         app.add_systems(
             Update,
-            ship_flight_system.run_if(in_state(AppState::Active)),
+            ship_flight_system.run_if(in_state(GameState::Active)),
         );
     }
 }

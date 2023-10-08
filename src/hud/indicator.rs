@@ -1,12 +1,15 @@
 use bevy::{math::Vec3Swizzles, prelude::*};
 
-use crate::{ship::Ship, state::AppState};
+use crate::{ship::Ship, state::GameState};
 
 pub struct IndicatorPlugin;
 impl Plugin for IndicatorPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnExit(AppState::GameCreate), setup);
-        app.add_systems(Update, indicators_system.run_if(in_state(AppState::Active)));
+        app.add_systems(OnExit(GameState::GameCreate), setup);
+        app.add_systems(
+            Update,
+            indicators_system.run_if(in_state(GameState::Active)),
+        );
     }
 }
 

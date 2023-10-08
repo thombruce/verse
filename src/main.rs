@@ -32,13 +32,13 @@ use crate::{
     pause::PausePlugin,
     planetary_system::PlanetarySystemPlugin,
     ship::ShipPlugin,
-    state::{AppState, ForState, StatePlugin},
+    state::{ForState, GameState, StatePlugin},
 };
 
 fn main() {
     let mut app = App::new();
 
-    app.add_state::<AppState>();
+    app.add_state::<GameState>();
 
     app.add_plugins((
         DefaultPlugins
@@ -99,7 +99,7 @@ fn setup(
             },
         },
         ForState {
-            states: AppState::IN_MENU_STATE.to_vec(),
+            states: GameState::IN_MENU_STATE.to_vec(),
         },
         Name::new("Menu Music"),
     ));

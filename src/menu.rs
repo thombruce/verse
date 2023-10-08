@@ -7,7 +7,7 @@ use leafwing_input_manager::{
 use crate::{
     assets::UiAssets,
     effects::DrawBlinkTimer,
-    state::{is_in_menu_state, AppState, ForState},
+    state::{is_in_menu_state, ForState, GameState},
 };
 
 #[derive(Actionlike, PartialEq, Eq, Clone, Copy, Hash, Debug, Reflect)]
@@ -19,7 +19,7 @@ pub enum MenuAction {
 pub struct MenuPlugin;
 impl Plugin for MenuPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(AppState::StartMenu), setup)
+        app.add_systems(OnEnter(GameState::StartMenu), setup)
             .add_systems(Update, menu_input_system.run_if(is_in_menu_state));
     }
 }
@@ -49,7 +49,7 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                 ..default()
             },
             ForState {
-                states: vec![AppState::StartMenu],
+                states: vec![GameState::StartMenu],
             },
             Name::new("Start Menu"),
         ))
@@ -101,7 +101,7 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                 ..default()
             },
             ForState {
-                states: vec![AppState::StartMenu],
+                states: vec![GameState::StartMenu],
             },
             Name::new("Hint"),
         ))
@@ -135,20 +135,20 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
 }
 
 fn menu_input_system(
-    state: Res<State<AppState>>,
-    mut next_state: ResMut<NextState<AppState>>,
+    state: Res<State<GameState>>,
+    mut next_state: ResMut<NextState<GameState>>,
     inputs: Res<ActionState<MenuAction>>,
 ) {
     if inputs.just_pressed(MenuAction::Start) {
-        next_state.set(AppState::GameCreate);
+        next_state.set(GameState::GameCreate);
     }
     if inputs.just_released(MenuAction::Credits) {
         match state.get() {
-            AppState::StartMenu => {
-                next_state.set(AppState::Credits);
+            GameState::StartMenu => {
+                next_state.set(GameState::Credits);
             }
-            AppState::Credits => {
-                next_state.set(AppState::StartMenu);
+            GameState::Credits => {
+                next_state.set(GameState::StartMenu);
             }
             _ => {}
         }

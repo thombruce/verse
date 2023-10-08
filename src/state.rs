@@ -6,7 +6,7 @@ use bevy::{
 use crate::assets::AudioAssets;
 
 #[derive(States, Debug, Copy, Clone, Hash, Eq, PartialEq, Default)]
-pub enum AppState {
+pub enum GameState {
     #[default]
     StartMenu,
     GameCreate,
@@ -14,18 +14,18 @@ pub enum AppState {
     Paused,
     Credits,
 }
-impl AppState {
-    pub const IN_MENU_STATE: &[AppState; 2] = &[AppState::StartMenu, AppState::Credits];
-    pub const IN_GAME_STATE: &[AppState; 3] =
-        &[AppState::GameCreate, AppState::Active, AppState::Paused];
+impl GameState {
+    pub const IN_MENU_STATE: &[GameState; 2] = &[GameState::StartMenu, GameState::Credits];
+    pub const IN_GAME_STATE: &[GameState; 3] =
+        &[GameState::GameCreate, GameState::Active, GameState::Paused];
 }
 
-pub fn is_in_menu_state(state: Res<State<AppState>>) -> bool {
-    AppState::IN_MENU_STATE.contains(state.get())
+pub fn is_in_menu_state(state: Res<State<GameState>>) -> bool {
+    GameState::IN_MENU_STATE.contains(state.get())
 }
 
-pub fn is_in_game_state(state: Res<State<AppState>>) -> bool {
-    AppState::IN_GAME_STATE.contains(state.get())
+pub fn is_in_game_state(state: Res<State<GameState>>) -> bool {
+    GameState::IN_GAME_STATE.contains(state.get())
 }
 
 /// Component to tag an entity as only needed in some of the states
@@ -37,9 +37,9 @@ pub struct ForState<T> {
 pub struct StatePlugin;
 impl Plugin for StatePlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(AppState::GameCreate), game_setup);
-        for state in AppState::variants() {
-            app.add_systems(OnEnter(state), state_enter_despawn::<AppState>);
+        app.add_systems(OnEnter(GameState::GameCreate), game_setup);
+        for state in GameState::variants() {
+            app.add_systems(OnEnter(state), state_enter_despawn::<GameState>);
         }
     }
 }
@@ -47,7 +47,7 @@ impl Plugin for StatePlugin {
 fn game_setup(
     mut commands: Commands,
     audios: Res<AudioAssets>,
-    mut next_state: ResMut<NextState<AppState>>,
+    mut next_state: ResMut<NextState<GameState>>,
 ) {
     commands.spawn((
         AudioBundle {
@@ -61,7 +61,7 @@ fn game_setup(
         Name::new("Ambient Music"),
     ));
 
-    next_state.set(AppState::Active);
+    next_state.set(GameState::Active);
 }
 
 fn state_enter_despawn<T: States>(
