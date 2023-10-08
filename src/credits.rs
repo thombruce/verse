@@ -2,13 +2,13 @@ use bevy::prelude::*;
 
 use crate::{
     assets::UiAssets,
-    state::{AppState, ForState},
+    state::{ForState, GameState},
 };
 
 pub struct CreditsPlugin;
 impl Plugin for CreditsPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(AppState::Credits), setup);
+        app.add_systems(OnEnter(GameState::Credits), setup);
     }
 }
 
@@ -27,7 +27,7 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                 ..default()
             },
             ForState {
-                states: vec![AppState::Credits],
+                states: vec![GameState::Credits],
             },
             Name::new("Credits"),
         ))

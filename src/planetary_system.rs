@@ -6,7 +6,7 @@ use crate::{
     orbit::{Orbit, OrbitPlugin, Orbitable},
     planet::Planet,
     star::Star,
-    state::AppState,
+    state::GameState,
 };
 
 pub struct PlanetarySystemPlugin;
@@ -15,7 +15,7 @@ impl Plugin for PlanetarySystemPlugin {
         app.add_plugins(OrbitPlugin);
         // TODO: Having some real trouble with ordering systems
         app.add_systems(
-            OnEnter(AppState::GameCreate),
+            OnEnter(GameState::GameCreate),
             (
                 spawn_star,
                 apply_deferred,
@@ -25,7 +25,7 @@ impl Plugin for PlanetarySystemPlugin {
             )
                 .chain(),
         );
-        app.add_systems(Update, animate_sprite.run_if(in_state(AppState::Active)));
+        app.add_systems(Update, animate_sprite.run_if(in_state(GameState::Active)));
     }
 }
 

@@ -1,13 +1,13 @@
-use bevy::prelude::*;
+use bevy::{audio::PlaybackMode, prelude::*};
 use leafwing_input_manager::{
     prelude::{ActionState, InputMap},
     Actionlike,
 };
 
 use crate::{
-    assets::UiAssets,
+    assets::{AudioAssets, UiAssets},
     effects::DrawBlinkTimer,
-    state::{is_in_menu_state, AppState, ForState},
+    state::{is_in_menu_state, ForState, GameState},
 };
 
 #[derive(Actionlike, PartialEq, Eq, Clone, Copy, Hash, Debug, Reflect)]
@@ -19,12 +19,19 @@ pub enum MenuAction {
 pub struct MenuPlugin;
 impl Plugin for MenuPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(AppState::StartMenu), setup)
-            .add_systems(Update, menu_input_system.run_if(is_in_menu_state));
+        app.add_systems(
+            OnTransition {
+                from: GameState::Loading,
+                to: GameState::StartMenu,
+            },
+            init,
+        )
+        .add_systems(OnEnter(GameState::StartMenu), setup)
+        .add_systems(Update, menu_input_system.run_if(is_in_menu_state));
     }
 }
 
-fn setup(mut commands: Commands, ui: Res<UiAssets>) {
+fn init(mut commands: Commands, audios: Res<AudioAssets>) {
     let mut input_map = InputMap::<MenuAction>::new([
         (KeyCode::Return, MenuAction::Start),
         (KeyCode::C, MenuAction::Credits),
@@ -35,6 +42,22 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
     commands.insert_resource(input_map.build());
     commands.insert_resource(ActionState::<MenuAction>::default());
 
+    commands.spawn((
+        AudioBundle {
+            source: audios.title_music.clone(),
+            settings: PlaybackSettings {
+                mode: PlaybackMode::Loop,
+                ..default()
+            },
+        },
+        ForState {
+            states: GameState::IN_MENU_STATE.to_vec(),
+        },
+        Name::new("Menu Music"),
+    ));
+}
+
+fn setup(mut commands: Commands, ui: Res<UiAssets>) {
     commands
         .spawn((
             NodeBundle {
@@ -49,14 +72,17 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                 ..default()
             },
             ForState {
-                states: vec![AppState::StartMenu],
+                states: vec![GameState::StartMenu],
             },
             Name::new("Start Menu"),
         ))
         .with_children(|parent| {
             parent.spawn((
                 ImageBundle {
-                    image: ui.title.clone(),
+                    image: UiImage {
+                        texture: ui.title.clone(),
+                        ..default()
+                    },
                     style: Style {
                         width: Val::Px(350.0),
                         height: Val::Px(169.4),
@@ -101,7 +127,7 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                 ..default()
             },
             ForState {
-                states: vec![AppState::StartMenu],
+                states: vec![GameState::StartMenu],
             },
             Name::new("Hint"),
         ))
@@ -135,20 +161,20 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
 }
 
 fn menu_input_system(
-    state: Res<State<AppState>>,
-    mut next_state: ResMut<NextState<AppState>>,
+    state: Res<State<GameState>>,
+    mut next_state: ResMut<NextState<GameState>>,
     inputs: Res<ActionState<MenuAction>>,
 ) {
     if inputs.just_pressed(MenuAction::Start) {
-        next_state.set(AppState::GameCreate);
+        next_state.set(GameState::GameCreate);
     }
     if inputs.just_released(MenuAction::Credits) {
         match state.get() {
-            AppState::StartMenu => {
-                next_state.set(AppState::Credits);
+            GameState::StartMenu => {
+                next_state.set(GameState::Credits);
             }
-            AppState::Credits => {
-                next_state.set(AppState::StartMenu);
+            GameState::Credits => {
+                next_state.set(GameState::StartMenu);
             }
             _ => {}
         }
