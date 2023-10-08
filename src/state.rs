@@ -8,6 +8,7 @@ use crate::assets::AudioAssets;
 #[derive(States, Debug, Copy, Clone, Hash, Eq, PartialEq, Default)]
 pub enum GameState {
     #[default]
+    Loading,
     StartMenu,
     GameCreate,
     Active,

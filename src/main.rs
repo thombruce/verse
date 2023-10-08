@@ -1,4 +1,5 @@
 use bevy::{audio::PlaybackMode, prelude::*};
+use bevy_asset_loader::prelude::*;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_rapier2d::prelude::*;
 use leafwing_input_manager::prelude::*;
@@ -21,7 +22,7 @@ mod star;
 mod state;
 
 use crate::{
-    assets::{AssetsPlugin, AudioAssets},
+    assets::{AudioAssets, SpriteAssets, UiAssets},
     background::BackgroundPlugin,
     camera::CameraPlugin,
     credits::CreditsPlugin,
@@ -51,7 +52,6 @@ fn main() {
             })
             .set(ImagePlugin::default_nearest()),
         GameTimePlugin,
-        AssetsPlugin,
         RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(1.0),
         InputManagerPlugin::<MenuAction>::default(),
         BackgroundPlugin,
@@ -72,9 +72,22 @@ fn main() {
         WorldInspectorPlugin::new(),
     ));
 
+    app.add_loading_state(
+        LoadingState::new(GameState::Loading).continue_to_state(GameState::StartMenu),
+    )
+    .add_collection_to_loading_state::<_, SpriteAssets>(GameState::Loading)
+    .add_collection_to_loading_state::<_, AudioAssets>(GameState::Loading)
+    .add_collection_to_loading_state::<_, UiAssets>(GameState::Loading);
+
     // app.insert_resource(ClearColor(Color::rgb(0., 0., 0.)));
 
-    app.add_systems(Startup, setup);
+    app.add_systems(
+        OnTransition {
+            from: GameState::Loading,
+            to: GameState::StartMenu,
+        },
+        setup,
+    );
 
     app.run();
 }

@@ -3,14 +3,14 @@ use bevy_tiling_background::{
     BackgroundImageBundle, BackgroundMaterial, SetImageRepeatingExt, TilingBackgroundPlugin,
 };
 
-use crate::assets::SpriteAssets;
+use crate::{assets::SpriteAssets, state::GameState};
 
 pub struct BackgroundPlugin;
 impl Plugin for BackgroundPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(TilingBackgroundPlugin::<BackgroundMaterial>::default());
 
-        app.add_systems(Startup, setup);
+        app.add_systems(OnEnter(GameState::StartMenu), setup);
     }
 }
 

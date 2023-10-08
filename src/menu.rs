@@ -56,7 +56,10 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
         .with_children(|parent| {
             parent.spawn((
                 ImageBundle {
-                    image: ui.title.clone(),
+                    image: UiImage {
+                        texture: ui.title.clone(),
+                        ..default()
+                    },
                     style: Style {
                         width: Val::Px(350.0),
                         height: Val::Px(169.4),
