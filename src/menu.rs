@@ -1,11 +1,11 @@
-use bevy::prelude::*;
+use bevy::{audio::PlaybackMode, prelude::*};
 use leafwing_input_manager::{
     prelude::{ActionState, InputMap},
     Actionlike,
 };
 
 use crate::{
-    assets::UiAssets,
+    assets::{AudioAssets, UiAssets},
     effects::DrawBlinkTimer,
     state::{is_in_menu_state, ForState, GameState},
 };
@@ -19,12 +19,19 @@ pub enum MenuAction {
 pub struct MenuPlugin;
 impl Plugin for MenuPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(GameState::StartMenu), setup)
-            .add_systems(Update, menu_input_system.run_if(is_in_menu_state));
+        app.add_systems(
+            OnTransition {
+                from: GameState::Loading,
+                to: GameState::StartMenu,
+            },
+            init,
+        )
+        .add_systems(OnEnter(GameState::StartMenu), setup)
+        .add_systems(Update, menu_input_system.run_if(is_in_menu_state));
     }
 }
 
-fn setup(mut commands: Commands, ui: Res<UiAssets>) {
+fn init(mut commands: Commands, audios: Res<AudioAssets>) {
     let mut input_map = InputMap::<MenuAction>::new([
         (KeyCode::Return, MenuAction::Start),
         (KeyCode::C, MenuAction::Credits),
@@ -35,6 +42,22 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
     commands.insert_resource(input_map.build());
     commands.insert_resource(ActionState::<MenuAction>::default());
 
+    commands.spawn((
+        AudioBundle {
+            source: audios.title_music.clone(),
+            settings: PlaybackSettings {
+                mode: PlaybackMode::Loop,
+                ..default()
+            },
+        },
+        ForState {
+            states: GameState::IN_MENU_STATE.to_vec(),
+        },
+        Name::new("Menu Music"),
+    ));
+}
+
+fn setup(mut commands: Commands, ui: Res<UiAssets>) {
     commands
         .spawn((
             NodeBundle {

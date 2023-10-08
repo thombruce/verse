@@ -1,4 +1,4 @@
-use bevy::{audio::PlaybackMode, prelude::*};
+use bevy::prelude::*;
 use bevy_asset_loader::prelude::*;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_rapier2d::prelude::*;
@@ -33,7 +33,7 @@ use crate::{
     pause::PausePlugin,
     planetary_system::PlanetarySystemPlugin,
     ship::ShipPlugin,
-    state::{ForState, GameState, StatePlugin},
+    state::{GameState, StatePlugin},
 };
 
 fn main() {
@@ -79,7 +79,7 @@ fn main() {
     .add_collection_to_loading_state::<_, AudioAssets>(GameState::Loading)
     .add_collection_to_loading_state::<_, UiAssets>(GameState::Loading);
 
-    // app.insert_resource(ClearColor(Color::rgb(0., 0., 0.)));
+    app.insert_resource(ClearColor(Color::rgb(0., 0., 0.)));
 
     app.add_systems(
         OnTransition {
@@ -93,27 +93,6 @@ fn main() {
 }
 
 /// The setup function
-fn setup(
-    mut commands: Commands,
-    audios: Res<AudioAssets>,
-    mut rapier_configuration: ResMut<RapierConfiguration>,
-) {
+fn setup(mut rapier_configuration: ResMut<RapierConfiguration>) {
     rapier_configuration.gravity = Vec2::ZERO;
-
-    // TODO: Moved here from menu to prevent reloading every time the credits are toggled.
-    //       In reality, we do want this to be respawned when the menu is re-entered,
-    //       just not if the previous state was also a menu state (e.g. Credits).
-    commands.spawn((
-        AudioBundle {
-            source: audios.title_music.clone(),
-            settings: PlaybackSettings {
-                mode: PlaybackMode::Loop,
-                ..default()
-            },
-        },
-        ForState {
-            states: GameState::IN_MENU_STATE.to_vec(),
-        },
-        Name::new("Menu Music"),
-    ));
 }

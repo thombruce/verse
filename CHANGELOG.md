@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Renamed AppState to GameState for better clarity
 - Improved readability and versatility of assets with bevy_asset_loader
+- Moved menu music loading from main to menu module
 
 ## [0.0.12] - 2023-10-07
 
