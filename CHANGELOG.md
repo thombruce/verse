@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Indicators now appear in circle close to player ship for better readability
 - Add transparency to indicators
+- Moved bulk of planet and star setup to own modules
 - Renamed AppState to GameState for better clarity
 - Improved readability and versatility of assets with bevy_asset_loader
 - Moved menu music loading from main to menu module
@@ -23,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Moved assets, camera, game_time and state to resources module
 - Moved credits, pause and start_menu to menus module
 - Moved blink effect to effects module
+- Moved animation to effects module
 
 ## [0.0.12] - 2023-10-07
 

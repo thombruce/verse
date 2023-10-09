@@ -14,7 +14,7 @@ mod ship;
 
 use crate::{
     astronomy::{planetary_system::PlanetarySystemPlugin, starfield::BackgroundPlugin},
-    effects::blink::EffectsPlugin,
+    effects::{animate::AnimatePlugin, blink::EffectsPlugin},
     hud::HudPlugin,
     menus::{
         credits::CreditsPlugin,
@@ -56,6 +56,7 @@ fn main() {
         MenuPlugin,
         CreditsPlugin,
         EffectsPlugin,
+        AnimatePlugin,
         PausePlugin,
         PlanetarySystemPlugin,
     ));

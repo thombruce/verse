@@ -6,9 +6,9 @@ use crate::{
 };
 
 use super::{
-    orbit::{Orbit, OrbitPlugin, Orbitable},
-    planet::Planet,
-    star::Star,
+    orbit::{Orbit, OrbitPlugin},
+    planet::{Planet, PlanetBundle},
+    star::{Star, StarBundle},
 };
 
 pub struct PlanetarySystemPlugin;
@@ -27,63 +27,11 @@ impl Plugin for PlanetarySystemPlugin {
             )
                 .chain(),
         );
-        app.add_systems(Update, animate_sprite.run_if(in_state(GameState::Active)));
-    }
-}
-
-#[derive(Component, Clone, Copy)]
-struct AnimationIndices {
-    first: usize,
-    last: usize,
-}
-
-#[derive(Component, Deref, DerefMut)]
-struct AnimationTimer(Timer);
-
-fn animate_sprite(
-    time: Res<Time>,
-    mut query: Query<(
-        &AnimationIndices,
-        &mut AnimationTimer,
-        &mut TextureAtlasSprite,
-    )>,
-) {
-    for (indices, mut timer, mut sprite) in &mut query {
-        timer.tick(time.delta());
-        if timer.just_finished() {
-            sprite.index = if sprite.index == indices.last {
-                indices.first
-            } else {
-                sprite.index + 1
-            };
-        }
     }
 }
 
 fn spawn_star(mut commands: Commands, sprites: Res<SpriteAssets>) {
-    // Star
-    let star_animation_indices = AnimationIndices {
-        first: 0,
-        last: 124,
-    };
-
-    commands.spawn((
-        SpriteSheetBundle {
-            texture_atlas: sprites.star.clone(),
-            sprite: TextureAtlasSprite::new(star_animation_indices.first),
-            transform: Transform::from_scale(Vec3::splat(2.0)),
-            ..default()
-        },
-        star_animation_indices,
-        // TODO: .1 is too fast, .2 is too choppy; needs more animation frames.
-        AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)),
-        Star {},
-        Indicated {
-            color: Color::ANTIQUE_WHITE,
-        },
-        Orbitable::ZERO,
-        Name::new("Star"),
-    ));
+    commands.spawn(StarBundle::from_sprites(sprites));
 }
 
 fn spawn_planets(
@@ -91,54 +39,39 @@ fn spawn_planets(
     sprites: Res<SpriteAssets>,
     star_query: Query<Entity, With<Star>>,
 ) {
-    // Planet
-    let planet_animation_indices = AnimationIndices {
-        first: 0,
-        last: 124,
-    };
-
-    commands.spawn((
-        SpriteSheetBundle {
-            texture_atlas: sprites.planet.clone(),
-            sprite: TextureAtlasSprite::new(planet_animation_indices.first),
-            transform: Transform::from_scale(Vec3::splat(2.0)), // Divide by parent scale?
-            ..default()
-        },
-        planet_animation_indices,
-        // TODO: .1 is too fast, .2 is too choppy; needs more animation frames.
-        AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)),
-        Planet {},
-        Indicated {
+    commands.spawn(PlanetBundle {
+        indicated: Indicated {
             color: Color::LIME_GREEN,
         },
-        Orbitable::default(),
-        Orbit {
+        orbit: Orbit {
             parent: Some(star_query.single()),
             semi_major_axis: 5000.0,
         },
-        Name::new("Planet"),
-    ));
+        sprite_sheet_bundle: SpriteSheetBundle {
+            texture_atlas: sprites.planet.clone(),
+            sprite: TextureAtlasSprite::new(0),
+            transform: Transform::from_scale(Vec3::splat(2.0)), // Divide by parent scale?
+            ..default()
+        },
+        ..default()
+    });
 
     for radius in [10000.0, 50000.0] {
-        commands.spawn((
-            SpriteSheetBundle {
-                texture_atlas: sprites.noatmos.clone(),
-                sprite: TextureAtlasSprite::new(planet_animation_indices.first),
-                transform: Transform::from_scale(Vec3::splat(2.0)), // Divide by parent scale?
-                ..default()
-            },
-            planet_animation_indices,
-            // TODO: .1 is too fast, .2 is too choppy; needs more animation frames.
-            AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)),
-            Planet {},
-            Indicated { color: Color::GRAY },
-            Orbitable::default(),
-            Orbit {
+        commands.spawn(PlanetBundle {
+            name: Name::new("Secondary Planet"),
+            indicated: Indicated { color: Color::GRAY },
+            orbit: Orbit {
                 parent: Some(star_query.single()),
                 semi_major_axis: radius,
             },
-            Name::new("NoAtmos"),
-        ));
+            sprite_sheet_bundle: SpriteSheetBundle {
+                texture_atlas: sprites.noatmos.clone(),
+                sprite: TextureAtlasSprite::new(0),
+                transform: Transform::from_scale(Vec3::splat(2.0)), // Divide by parent scale?
+                ..default()
+            },
+            ..default()
+        });
     }
 }
 
