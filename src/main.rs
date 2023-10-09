@@ -5,8 +5,6 @@ use bevy_rapier2d::prelude::*;
 use leafwing_input_manager::prelude::*;
 
 mod astronomy;
-mod background;
-mod camera;
 mod effects;
 mod hud;
 mod menus;
@@ -16,14 +14,14 @@ mod ship;
 
 use crate::{
     astronomy::planetary_system::PlanetarySystemPlugin,
-    background::BackgroundPlugin,
-    camera::CameraPlugin,
-    effects::EffectsPlugin,
+    astronomy::starfield::BackgroundPlugin,
+    effects::blink::EffectsPlugin,
     hud::HudPlugin,
     menus::credits::CreditsPlugin,
     menus::pause::PausePlugin,
     menus::start_menu::{MenuAction, MenuPlugin},
     resources::assets::{AudioAssets, SpriteAssets, UiAssets},
+    resources::camera::CameraPlugin,
     resources::game_time::GameTimePlugin,
     resources::state::{GameState, StatePlugin},
     ship::ShipPlugin,

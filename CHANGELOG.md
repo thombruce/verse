@@ -12,9 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed AppState to GameState for better clarity
 - Improved readability and versatility of assets with bevy_asset_loader
 - Moved menu music loading from main to menu module
-- Moved celestial bodies to new astronomy module
-- Moved assets, game_time and state to resources module
+- Moved celestial bodies and starfield background to new astronomy module
+- Moved assets, camera, game_time and state to resources module
 - Moved credits, pause and start_menu to menus module
+- Moved blink effect to effects module
 
 ## [0.0.12] - 2023-10-07
 

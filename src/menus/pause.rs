@@ -6,7 +6,7 @@ use leafwing_input_manager::{
 };
 
 use crate::{
-    effects::DrawBlinkTimer,
+    effects::blink::DrawBlinkTimer,
     resources::assets::UiAssets,
     resources::state::{is_in_game_state, ForState, GameState},
 };
