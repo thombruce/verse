@@ -7,11 +7,9 @@ use leafwing_input_manager::prelude::*;
 mod astronomy;
 mod background;
 mod camera;
-mod credits;
 mod effects;
 mod hud;
-mod menu;
-mod pause;
+mod menus;
 mod resources;
 mod shaders;
 mod ship;
@@ -20,11 +18,11 @@ use crate::{
     astronomy::planetary_system::PlanetarySystemPlugin,
     background::BackgroundPlugin,
     camera::CameraPlugin,
-    credits::CreditsPlugin,
     effects::EffectsPlugin,
     hud::HudPlugin,
-    menu::{MenuAction, MenuPlugin},
-    pause::PausePlugin,
+    menus::credits::CreditsPlugin,
+    menus::pause::PausePlugin,
+    menus::start_menu::{MenuAction, MenuPlugin},
     resources::assets::{AudioAssets, SpriteAssets, UiAssets},
     resources::game_time::GameTimePlugin,
     resources::state::{GameState, StatePlugin},

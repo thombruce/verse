@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Moved menu music loading from main to menu module
 - Moved celestial bodies to new astronomy module
 - Moved assets, game_time and state to resources module
+- Moved credits, pause and start_menu to menus module
 
 ## [0.0.12] - 2023-10-07
 
