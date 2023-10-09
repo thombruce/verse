@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::Velocity;
 
-use crate::{assets::UiAssets, ship::Ship, state::GameState};
+use crate::{resources::assets::UiAssets, resources::state::GameState, ship::Ship};
 
 pub mod indicator;
 

@@ -3,7 +3,7 @@ use bevy_tiling_background::{
     BackgroundImageBundle, BackgroundMaterial, SetImageRepeatingExt, TilingBackgroundPlugin,
 };
 
-use crate::{assets::SpriteAssets, state::GameState};
+use crate::resources::{assets::SpriteAssets, state::GameState};
 
 pub struct BackgroundPlugin;
 impl Plugin for BackgroundPlugin {

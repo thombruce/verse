@@ -1,6 +1,8 @@
 use bevy::prelude::*;
 
-use crate::{assets::SpriteAssets, hud::indicator::Indicated, state::GameState};
+use crate::{
+    hud::indicator::Indicated, resources::assets::SpriteAssets, resources::state::GameState,
+};
 
 use super::{
     orbit::{Orbit, OrbitPlugin, Orbitable},

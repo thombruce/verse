@@ -3,7 +3,7 @@ use bevy::{
     prelude::*,
 };
 
-use crate::assets::AudioAssets;
+use crate::resources::assets::AudioAssets;
 
 #[derive(States, Debug, Copy, Clone, Hash, Eq, PartialEq, Default)]
 pub enum GameState {

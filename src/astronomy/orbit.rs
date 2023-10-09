@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{game_time::GameTime, state::GameState};
+use crate::{resources::game_time::GameTime, resources::state::GameState};
 
 const ORBITAL_PERIOD_SCALING_FACTOR: f32 = 1.0;
 

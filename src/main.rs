@@ -4,33 +4,31 @@ use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_rapier2d::prelude::*;
 use leafwing_input_manager::prelude::*;
 
-mod assets;
 mod astronomy;
 mod background;
 mod camera;
 mod credits;
 mod effects;
-mod game_time;
 mod hud;
 mod menu;
 mod pause;
+mod resources;
 mod shaders;
 mod ship;
-mod state;
 
 use crate::{
-    assets::{AudioAssets, SpriteAssets, UiAssets},
     astronomy::planetary_system::PlanetarySystemPlugin,
     background::BackgroundPlugin,
     camera::CameraPlugin,
     credits::CreditsPlugin,
     effects::EffectsPlugin,
-    game_time::GameTimePlugin,
     hud::HudPlugin,
     menu::{MenuAction, MenuPlugin},
     pause::PausePlugin,
+    resources::assets::{AudioAssets, SpriteAssets, UiAssets},
+    resources::game_time::GameTimePlugin,
+    resources::state::{GameState, StatePlugin},
     ship::ShipPlugin,
-    state::{GameState, StatePlugin},
 };
 
 fn main() {

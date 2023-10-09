@@ -5,9 +5,9 @@ use leafwing_input_manager::{
 };
 
 use crate::{
-    assets::{AudioAssets, UiAssets},
     effects::DrawBlinkTimer,
-    state::{is_in_menu_state, ForState, GameState},
+    resources::assets::{AudioAssets, UiAssets},
+    resources::state::{is_in_menu_state, ForState, GameState},
 };
 
 #[derive(Actionlike, PartialEq, Eq, Clone, Copy, Hash, Debug, Reflect)]
