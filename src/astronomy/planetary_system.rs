@@ -31,7 +31,7 @@ impl Plugin for PlanetarySystemPlugin {
     }
 }
 
-#[derive(Component)]
+#[derive(Component, Clone, Copy)]
 struct AnimationIndices {
     first: usize,
     last: usize,
@@ -97,27 +97,29 @@ fn spawn_planets(
         last: 124,
     };
 
-    commands.spawn((
-        SpriteSheetBundle {
-            texture_atlas: sprites.planet.clone(),
-            sprite: TextureAtlasSprite::new(planet_animation_indices.first),
-            transform: Transform::from_scale(Vec3::splat(2.0)), // Divide by parent scale?
-            ..default()
-        },
-        planet_animation_indices,
-        // TODO: .1 is too fast, .2 is too choppy; needs more animation frames.
-        AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)),
-        Planet {},
-        Indicated {
-            color: Color::LIME_GREEN,
-        },
-        Orbitable::default(),
-        Orbit {
-            parent: Some(star_query.single()),
-            semi_major_axis: 5000.0,
-        },
-        Name::new("Planet"),
-    ));
+    for radius in [5000.0, 10000.0, 50000.0] {
+        commands.spawn((
+            SpriteSheetBundle {
+                texture_atlas: sprites.planet.clone(),
+                sprite: TextureAtlasSprite::new(planet_animation_indices.first),
+                transform: Transform::from_scale(Vec3::splat(2.0)), // Divide by parent scale?
+                ..default()
+            },
+            planet_animation_indices,
+            // TODO: .1 is too fast, .2 is too choppy; needs more animation frames.
+            AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)),
+            Planet {},
+            Indicated {
+                color: Color::LIME_GREEN,
+            },
+            Orbitable::default(),
+            Orbit {
+                parent: Some(star_query.single()),
+                semi_major_axis: radius,
+            },
+            Name::new("Planet"),
+        ));
+    }
 }
 
 fn spawn_demo_orbital(
@@ -135,7 +137,7 @@ fn spawn_demo_orbital(
             ..default()
         },
         Orbit {
-            parent: Some(planet_query.single()),
+            parent: planet_query.iter().min(),
             semi_major_axis: 250.0,
         },
         Name::new("Demo Orbital"),
