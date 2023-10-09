@@ -101,29 +101,35 @@ fn indicators_system(
             let bounds = bounds_query.single().size();
             let extents = Vec2::from(bounds / 2.0);
 
+            /* Circular indicators */
+            let normalized = real_to_entity.normalize() * 200.0;
+            indicator_style.left = Val::Px(extents.x + normalized.x);
+            indicator_style.top = Val::Px(extents.y - normalized.y);
+
+            /* Edge-of-screen indicators */
             // reposition indicator relative to the direction of the entity
             // we're using the non-normalized real_to_entity for this in order
             // to get the actual size of the player-entity vector's x and y values
-            match real_to_entity.x > 0. {
-                true => {
-                    indicator_style.right = Val::Px((extents.x - real_to_entity.x).max(0.));
-                    indicator_style.left = Val::Auto;
-                }
-                false => {
-                    indicator_style.left = Val::Px((extents.x + real_to_entity.x).max(0.));
-                    indicator_style.right = Val::Auto;
-                }
-            }
-            match real_to_entity.y > 0. {
-                true => {
-                    indicator_style.top = Val::Px((extents.y - real_to_entity.y).max(0.));
-                    indicator_style.bottom = Val::Auto;
-                }
-                false => {
-                    indicator_style.bottom = Val::Px((extents.y + real_to_entity.y).max(0.));
-                    indicator_style.top = Val::Auto;
-                }
-            }
+            // match real_to_entity.x > 0. {
+            //     true => {
+            //         indicator_style.right = Val::Px((extents.x - real_to_entity.x).max(0.));
+            //         indicator_style.left = Val::Auto;
+            //     }
+            //     false => {
+            //         indicator_style.left = Val::Px((extents.x + real_to_entity.x).max(0.));
+            //         indicator_style.right = Val::Auto;
+            //     }
+            // }
+            // match real_to_entity.y > 0. {
+            //     true => {
+            //         indicator_style.top = Val::Px((extents.y - real_to_entity.y).max(0.));
+            //         indicator_style.bottom = Val::Auto;
+            //     }
+            //     false => {
+            //         indicator_style.bottom = Val::Px((extents.y + real_to_entity.y).max(0.));
+            //         indicator_style.top = Val::Auto;
+            //     }
+            // }
         }
     }
 }

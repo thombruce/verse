@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Indicators now appear in circle close to player ship for better readability
 - Renamed AppState to GameState for better clarity
 - Improved readability and versatility of assets with bevy_asset_loader
 - Moved menu music loading from main to menu module
