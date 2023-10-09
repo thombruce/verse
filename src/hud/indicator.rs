@@ -56,8 +56,7 @@ fn setup(
                             height: Val::Px(10.0),
                             ..default()
                         },
-                        // TODO: Set this value on the Indicator struct.
-                        background_color: BackgroundColor(indicated.color),
+                        background_color: BackgroundColor(indicated.color.with_a(0.75)),
                         ..default()
                     },
                     Indicator { entity: entity },
