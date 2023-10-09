@@ -14,6 +14,10 @@ pub struct SpriteAssets {
     #[asset(path = "space/celestials/planet-pixelplanet.png")]
     pub planet: Handle<TextureAtlas>,
 
+    #[asset(texture_atlas(tile_size_x = 75., tile_size_y = 75., columns = 25, rows = 5))]
+    #[asset(path = "space/celestials/noatmos-pixelplanet.png")]
+    pub noatmos: Handle<TextureAtlas>,
+
     #[asset(path = "space/backgrounds/custom.png")]
     pub background: Handle<Image>,
 
