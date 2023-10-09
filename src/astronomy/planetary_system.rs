@@ -1,12 +1,11 @@
 use bevy::prelude::*;
 
-use crate::{
-    assets::SpriteAssets,
-    hud::indicator::Indicated,
+use crate::{assets::SpriteAssets, hud::indicator::Indicated, state::GameState};
+
+use super::{
     orbit::{Orbit, OrbitPlugin, Orbitable},
     planet::Planet,
     star::Star,
-    state::GameState,
 };
 
 pub struct PlanetarySystemPlugin;

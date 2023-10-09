@@ -5,6 +5,7 @@ use bevy_rapier2d::prelude::*;
 use leafwing_input_manager::prelude::*;
 
 mod assets;
+mod astronomy;
 mod background;
 mod camera;
 mod credits;
@@ -12,17 +13,14 @@ mod effects;
 mod game_time;
 mod hud;
 mod menu;
-mod orbit;
 mod pause;
-mod planet;
-mod planetary_system;
 mod shaders;
 mod ship;
-mod star;
 mod state;
 
 use crate::{
     assets::{AudioAssets, SpriteAssets, UiAssets},
+    astronomy::planetary_system::PlanetarySystemPlugin,
     background::BackgroundPlugin,
     camera::CameraPlugin,
     credits::CreditsPlugin,
@@ -31,7 +29,6 @@ use crate::{
     hud::HudPlugin,
     menu::{MenuAction, MenuPlugin},
     pause::PausePlugin,
-    planetary_system::PlanetarySystemPlugin,
     ship::ShipPlugin,
     state::{GameState, StatePlugin},
 };
