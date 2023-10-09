@@ -13,17 +13,20 @@ mod shaders;
 mod ship;
 
 use crate::{
-    astronomy::planetary_system::PlanetarySystemPlugin,
-    astronomy::starfield::BackgroundPlugin,
+    astronomy::{planetary_system::PlanetarySystemPlugin, starfield::BackgroundPlugin},
     effects::blink::EffectsPlugin,
     hud::HudPlugin,
-    menus::credits::CreditsPlugin,
-    menus::pause::PausePlugin,
-    menus::start_menu::{MenuAction, MenuPlugin},
-    resources::assets::{AudioAssets, SpriteAssets, UiAssets},
-    resources::camera::CameraPlugin,
-    resources::game_time::GameTimePlugin,
-    resources::state::{GameState, StatePlugin},
+    menus::{
+        credits::CreditsPlugin,
+        pause::PausePlugin,
+        start_menu::{MenuAction, MenuPlugin},
+    },
+    resources::{
+        assets::{AudioAssets, SpriteAssets, UiAssets},
+        camera::CameraPlugin,
+        game_time::GameTimePlugin,
+        state::{GameState, StatePlugin},
+    },
     ship::ShipPlugin,
 };
 
