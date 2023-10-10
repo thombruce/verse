@@ -25,6 +25,7 @@ use crate::{
         assets::{AudioAssets, SpriteAssets, UiAssets},
         camera::CameraPlugin,
         game_time::GameTimePlugin,
+        spatial::SpatialPlugin,
         state::{GameState, StatePlugin},
     },
     ship::ShipPlugin,
@@ -60,6 +61,10 @@ fn main() {
         PausePlugin,
         PlanetarySystemPlugin,
     ));
+
+    // You can only add 15 plugins to add_plugins
+    // I need to start refactoring.
+    app.add_plugins(SpatialPlugin);
 
     #[cfg(debug_assertions)]
     app.add_plugins((

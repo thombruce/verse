@@ -1,9 +1,6 @@
-use std::time::Duration;
-
 use bevy::prelude::*;
-use bevy_spatial::{AutomaticUpdate, SpatialStructure};
 
-use crate::resources::{game_time::GameTime, spatial::KDNode, state::GameState};
+use crate::resources::{game_time::GameTime, state::GameState};
 
 const ORBITAL_PERIOD_SCALING_FACTOR: f32 = 1.0;
 
@@ -30,11 +27,6 @@ impl Default for Orbitable {
 pub struct OrbitPlugin;
 impl Plugin for OrbitPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins(
-            AutomaticUpdate::<KDNode>::new()
-                .with_spatial_ds(SpatialStructure::KDTree2)
-                .with_frequency(Duration::from_millis(1)),
-        );
         app.add_systems(
             Update,
             (orbitable_update_system, orbital_positioning_system)
