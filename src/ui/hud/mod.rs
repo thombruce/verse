@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{resources::assets::UiAssets, resources::state::GameState};
+use crate::core::{resources::assets::UiAssets, resources::state::GameState};
 
 pub mod indicator;
 pub mod nav;

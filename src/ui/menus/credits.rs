@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::resources::{
+use crate::core::resources::{
     assets::UiAssets,
     state::{ForState, GameState},
 };

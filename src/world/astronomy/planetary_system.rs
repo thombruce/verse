@@ -1,8 +1,8 @@
 use bevy::prelude::*;
 
 use crate::{
-    hud::indicator::Indicated,
-    resources::{assets::SpriteAssets, state::GameState},
+    core::resources::{assets::SpriteAssets, state::GameState},
+    ui::hud::indicator::Indicated,
 };
 
 use super::{

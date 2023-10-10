@@ -1,6 +1,6 @@
 use bevy::{prelude::*, time::Stopwatch};
 
-use crate::resources::state::GameState;
+use super::state::GameState;
 
 #[derive(Resource, Deref)]
 pub struct GameTime(Stopwatch);

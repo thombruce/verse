@@ -7,23 +7,17 @@ use bevy_asset_loader::prelude::*;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_rapier2d::prelude::*;
 
-mod astronomy;
 mod core;
-mod effects;
-mod hud;
-mod menus;
-mod resources;
 mod shaders;
-mod ship;
 mod ui;
 mod world;
 
 use crate::{
-    core::CorePlugin,
-    resources::{
+    core::resources::{
         assets::{AudioAssets, SpriteAssets, UiAssets},
         state::GameState,
     },
+    core::CorePlugin,
     ui::UiPlugin,
     world::WorldPlugin,
 };

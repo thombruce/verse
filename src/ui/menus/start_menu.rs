@@ -4,7 +4,7 @@ use leafwing_input_manager::{
     Actionlike,
 };
 
-use crate::{
+use crate::core::{
     effects::blink::DrawBlinkTimer,
     resources::{
         assets::{AudioAssets, UiAssets},

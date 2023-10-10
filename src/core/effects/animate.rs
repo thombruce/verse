@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::resources::state::GameState;
+use super::super::resources::state::GameState;
 
 pub struct AnimatePlugin;
 impl Plugin for AnimatePlugin {

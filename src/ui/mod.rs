@@ -1,9 +1,13 @@
 use bevy::prelude::*;
 
-use crate::{
+pub mod camera;
+pub mod hud;
+pub mod menus;
+
+use self::{
+    camera::CameraPlugin,
     hud::HudPlugin,
     menus::{credits::CreditsPlugin, pause::PausePlugin, start_menu::MenuPlugin},
-    resources::camera::CameraPlugin,
 };
 
 pub struct UiPlugin;

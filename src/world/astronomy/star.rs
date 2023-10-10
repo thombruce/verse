@@ -1,9 +1,10 @@
 use bevy::prelude::*;
 
 use crate::{
-    effects::animate::{AnimationBundle, AnimationIndices, AnimationTimer},
-    hud::indicator::Indicated,
-    resources::{assets::SpriteAssets, spatial::KDNode},
+    core::effects::animate::{AnimationBundle, AnimationIndices, AnimationTimer},
+    core::resources::assets::SpriteAssets,
+    ui::hud::indicator::Indicated,
+    world::spatial::KDNode,
 };
 
 use super::orbit::Orbitable;

@@ -1,6 +1,9 @@
 use bevy::prelude::*;
 
-use crate::{
+pub mod effects;
+pub mod resources;
+
+use self::{
     effects::{animate::AnimatePlugin, blink::EffectsPlugin},
     resources::{game_time::GameTimePlugin, state::StatePlugin},
 };

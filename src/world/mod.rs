@@ -1,10 +1,14 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
-use crate::{
+pub mod astronomy;
+pub mod ship;
+pub mod spatial;
+
+use self::{
     astronomy::{planetary_system::PlanetarySystemPlugin, starfield::StarfieldPlugin},
-    resources::spatial::SpatialPlugin,
     ship::ShipPlugin,
+    spatial::SpatialPlugin,
 };
 
 pub struct WorldPlugin;
