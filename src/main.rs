@@ -6,7 +6,6 @@ use bevy::{
 use bevy_asset_loader::prelude::*;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_rapier2d::prelude::*;
-use leafwing_input_manager::prelude::*;
 
 mod astronomy;
 mod effects;
@@ -17,14 +16,10 @@ mod shaders;
 mod ship;
 
 use crate::{
-    astronomy::{planetary_system::PlanetarySystemPlugin, starfield::BackgroundPlugin},
+    astronomy::{planetary_system::PlanetarySystemPlugin, starfield::StarfieldPlugin},
     effects::{animate::AnimatePlugin, blink::EffectsPlugin},
     hud::HudPlugin,
-    menus::{
-        credits::CreditsPlugin,
-        pause::PausePlugin,
-        start_menu::{MenuAction, MenuPlugin},
-    },
+    menus::{credits::CreditsPlugin, pause::PausePlugin, start_menu::MenuPlugin},
     resources::{
         assets::{AudioAssets, SpriteAssets, UiAssets},
         camera::CameraPlugin,
@@ -40,7 +35,8 @@ fn main() {
 
     app.add_state::<GameState>();
 
-    app.add_plugins((
+    // Defaults
+    app.add_plugins(
         DefaultPlugins
             .set(WindowPlugin {
                 primary_window: Some(Window {
@@ -56,25 +52,28 @@ fn main() {
                 ..default()
             })
             .set(ImagePlugin::default_nearest()),
-        GameTimePlugin,
+    );
+
+    // Core
+    app.add_plugins((GameTimePlugin, StatePlugin, EffectsPlugin, AnimatePlugin));
+
+    // World
+    app.add_plugins((
         RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(1.0),
-        InputManagerPlugin::<MenuAction>::default(),
-        BackgroundPlugin,
-        CameraPlugin,
-        StatePlugin,
-        HudPlugin,
+        StarfieldPlugin,
         ShipPlugin,
-        MenuPlugin,
-        CreditsPlugin,
-        EffectsPlugin,
-        AnimatePlugin,
-        PausePlugin,
         PlanetarySystemPlugin,
+        SpatialPlugin,
     ));
 
-    // You can only add 15 plugins to add_plugins
-    // I need to start refactoring.
-    app.add_plugins(SpatialPlugin);
+    // UI
+    app.add_plugins((
+        HudPlugin,
+        MenuPlugin,
+        CreditsPlugin,
+        PausePlugin,
+        CameraPlugin,
+    ));
 
     #[cfg(debug_assertions)]
     app.add_plugins((

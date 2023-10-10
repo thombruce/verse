@@ -5,8 +5,8 @@ use bevy_tiling_background::{
 
 use crate::resources::{assets::SpriteAssets, state::GameState};
 
-pub struct BackgroundPlugin;
-impl Plugin for BackgroundPlugin {
+pub struct StarfieldPlugin;
+impl Plugin for StarfieldPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(TilingBackgroundPlugin::<BackgroundMaterial>::default());
 

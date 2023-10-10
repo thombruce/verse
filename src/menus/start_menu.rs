@@ -1,6 +1,6 @@
 use bevy::{audio::PlaybackMode, prelude::*};
 use leafwing_input_manager::{
-    prelude::{ActionState, InputMap},
+    prelude::{ActionState, InputManagerPlugin, InputMap},
     Actionlike,
 };
 
@@ -21,6 +21,7 @@ pub enum MenuAction {
 pub struct MenuPlugin;
 impl Plugin for MenuPlugin {
     fn build(&self, app: &mut App) {
+        app.add_plugins(InputManagerPlugin::<MenuAction>::default());
         app.add_systems(
             OnTransition {
                 from: GameState::Loading,
