@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::Velocity;
 
-use crate::world::ship::Ship;
+use crate::player::ship::Ship;
 
 /// UI Speed component
 #[derive(Component)]
