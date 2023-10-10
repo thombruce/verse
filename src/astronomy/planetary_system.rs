@@ -56,13 +56,13 @@ fn spawn_planets(
         ..default()
     });
 
-    for radius in [10000.0, 50000.0] {
+    for (i, radius) in [10000.0, 50000.0].iter().enumerate() {
         commands.spawn(PlanetBundle {
-            name: Name::new("Secondary Planet"),
+            name: Name::new(format!("Rocky Planet {}", i + 1)),
             indicated: Indicated { color: Color::GRAY },
             orbit: Orbit {
                 parent: Some(star_query.single()),
-                semi_major_axis: radius,
+                semi_major_axis: *radius,
             },
             sprite_sheet_bundle: SpriteSheetBundle {
                 texture_atlas: sprites.noatmos.clone(),

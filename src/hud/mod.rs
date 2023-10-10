@@ -1,7 +1,11 @@
-use bevy::prelude::*;
+use bevy::{math::Vec3Swizzles, prelude::*};
 use bevy_rapier2d::prelude::Velocity;
+use bevy_spatial::{kdtree::KDTree2, SpatialAccess};
 
-use crate::{resources::assets::UiAssets, resources::state::GameState, ship::Ship};
+use crate::{
+    astronomy::orbit::Orbitable, resources::assets::UiAssets, resources::state::GameState,
+    ship::Ship,
+};
 
 pub mod indicator;
 
@@ -11,12 +15,19 @@ use indicator::IndicatorPlugin;
 #[derive(Component)]
 pub struct UISpeed {}
 
+/// UI Location component
+#[derive(Component)]
+pub struct UILocation {}
+
 pub struct HudPlugin;
 impl Plugin for HudPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(IndicatorPlugin);
         app.add_systems(OnEnter(GameState::GameCreate), setup);
-        app.add_systems(Update, hud_speedometer.run_if(in_state(GameState::Active)));
+        app.add_systems(
+            Update,
+            (hud_speedometer, current_location).run_if(in_state(GameState::Active)),
+        );
     }
 }
 
@@ -60,6 +71,7 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                     ),
                     ..default()
                 },
+                UILocation {},
                 Name::new("Location"),
             ));
 
@@ -102,5 +114,24 @@ pub fn hud_speedometer(
             "{} m/s",
             ((velocity.linvel.x.powf(2.0) + velocity.linvel.y.powf(2.0)).sqrt()).trunc()
         );
+    }
+}
+
+pub fn current_location(
+    mut query: Query<&mut Text, With<UILocation>>,
+    player: Query<&Transform, With<Ship>>,
+    tree: Res<KDTree2<Orbitable>>,
+    orbitables: Query<&Name, With<Orbitable>>,
+) {
+    let ship_transform = player.single();
+
+    let player_translation = ship_transform.translation.xy();
+
+    if let Some((_pos, entity)) = tree.nearest_neighbour(player_translation) {
+        let orbitable = orbitables.get(entity.unwrap());
+
+        for mut text in query.iter_mut() {
+            text.sections[0].value = format!("Near {}", orbitable.unwrap());
+        }
     }
 }

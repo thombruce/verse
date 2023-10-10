@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Spritesheet for planet with no atmosphere
 - Two extra demo planets (using no atmosphere texture)
+- KDTree search for nearest neighbour using bevy_spatial
+- Working location indicator for nearest planet
 
 ### Changed
 
