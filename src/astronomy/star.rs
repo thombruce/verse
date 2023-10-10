@@ -3,7 +3,7 @@ use bevy::prelude::*;
 use crate::{
     effects::animate::{AnimationBundle, AnimationIndices, AnimationTimer},
     hud::indicator::Indicated,
-    resources::assets::SpriteAssets,
+    resources::{assets::SpriteAssets, spatial::KDNode},
 };
 
 use super::orbit::Orbitable;
@@ -24,6 +24,7 @@ pub struct StarBundle {
     pub orbitable: Orbitable,
     pub animation_bundle: AnimationBundle,
     pub sprite_sheet_bundle: SpriteSheetBundle,
+    pub kd_node: KDNode,
 }
 impl Default for StarBundle {
     fn default() -> Self {
@@ -39,6 +40,7 @@ impl Default for StarBundle {
                 timer: AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)),
             },
             sprite_sheet_bundle: SpriteSheetBundle::default(),
+            kd_node: KDNode,
         }
     }
 }

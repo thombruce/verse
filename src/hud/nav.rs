@@ -1,7 +1,7 @@
 use bevy::{math::Vec3Swizzles, prelude::*};
 use bevy_spatial::{kdtree::KDTree2, SpatialAccess};
 
-use crate::{astronomy::orbit::Orbitable, ship::Ship};
+use crate::{resources::spatial::KDNode, ship::Ship};
 
 /// UI Location component
 #[derive(Component)]
@@ -46,18 +46,18 @@ impl NavBundle {
 pub fn current_location(
     mut query: Query<&mut Text, With<UILocation>>,
     player: Query<&Transform, With<Ship>>,
-    tree: Res<KDTree2<Orbitable>>,
-    orbitables: Query<&Name, With<Orbitable>>,
+    tree: Res<KDTree2<KDNode>>,
+    nodes: Query<&Name, With<KDNode>>,
 ) {
     let ship_transform = player.single();
 
     let player_translation = ship_transform.translation.xy();
 
     if let Some((_pos, entity)) = tree.nearest_neighbour(player_translation) {
-        let orbitable = orbitables.get(entity.unwrap());
+        let node = nodes.get(entity.unwrap());
 
         for mut text in query.iter_mut() {
-            text.sections[0].value = format!("Near {}", orbitable.unwrap());
+            text.sections[0].value = format!("Near {}", node.unwrap());
         }
     }
 }
