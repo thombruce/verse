@@ -1,23 +1,16 @@
-use bevy::{math::Vec3Swizzles, prelude::*};
-use bevy_rapier2d::prelude::Velocity;
-use bevy_spatial::{kdtree::KDTree2, SpatialAccess};
+use bevy::prelude::*;
 
-use crate::{
-    astronomy::orbit::Orbitable, resources::assets::UiAssets, resources::state::GameState,
-    ship::Ship,
-};
+use crate::{resources::assets::UiAssets, resources::state::GameState};
 
 pub mod indicator;
+pub mod nav;
+pub mod speedometer;
 
 use indicator::IndicatorPlugin;
+use nav::current_location;
+use speedometer::hud_speedometer;
 
-/// UI Speed component
-#[derive(Component)]
-pub struct UISpeed {}
-
-/// UI Location component
-#[derive(Component)]
-pub struct UILocation {}
+use self::{nav::NavBundle, speedometer::SpeedometerBundle};
 
 pub struct HudPlugin;
 impl Plugin for HudPlugin {
@@ -49,89 +42,7 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
             Name::new("HUD"),
         ))
         .with_children(|parent| {
-            parent.spawn((
-                TextBundle {
-                    style: Style {
-                        margin: UiRect {
-                            left: Val::Px(10.0),
-                            right: Val::Px(10.0),
-                            top: Val::Px(10.0),
-                            bottom: Val::Px(10.0),
-                        },
-                        ..default()
-                    },
-                    text: Text::from_section(
-                        "In Space",
-                        TextStyle {
-                            font: ui.font.clone(),
-                            font_size: 25.0,
-                            color: Color::rgb_u8(0x00, 0xAA, 0xAA),
-                            ..default()
-                        },
-                    ),
-                    ..default()
-                },
-                UILocation {},
-                Name::new("Location"),
-            ));
-
-            parent.spawn((
-                TextBundle {
-                    style: Style {
-                        margin: UiRect {
-                            left: Val::Px(10.0),
-                            right: Val::Px(10.0),
-                            top: Val::Px(10.0),
-                            bottom: Val::Px(10.0),
-                        },
-                        ..default()
-                    },
-                    text: Text::from_section(
-                        "0",
-                        TextStyle {
-                            font: ui.font.clone(),
-                            font_size: 25.0,
-                            color: Color::rgb_u8(0xAA, 0xAA, 0x33),
-                            ..default()
-                        },
-                    ),
-                    ..default()
-                },
-                UISpeed {},
-                Name::new("Speedometer"),
-            ));
+            parent.spawn(NavBundle::use_font(ui.font.clone()));
+            parent.spawn(SpeedometerBundle::use_font(ui.font.clone()));
         });
-}
-
-pub fn hud_speedometer(
-    mut query: Query<&mut Text, With<UISpeed>>,
-    mut player: Query<&Velocity, With<Ship>>,
-) {
-    let velocity = player.single_mut();
-
-    for mut text in query.iter_mut() {
-        text.sections[0].value = format!(
-            "{} m/s",
-            ((velocity.linvel.x.powf(2.0) + velocity.linvel.y.powf(2.0)).sqrt()).trunc()
-        );
-    }
-}
-
-pub fn current_location(
-    mut query: Query<&mut Text, With<UILocation>>,
-    player: Query<&Transform, With<Ship>>,
-    tree: Res<KDTree2<Orbitable>>,
-    orbitables: Query<&Name, With<Orbitable>>,
-) {
-    let ship_transform = player.single();
-
-    let player_translation = ship_transform.translation.xy();
-
-    if let Some((_pos, entity)) = tree.nearest_neighbour(player_translation) {
-        let orbitable = orbitables.get(entity.unwrap());
-
-        for mut text in query.iter_mut() {
-            text.sections[0].value = format!("Near {}", orbitable.unwrap());
-        }
-    }
 }
