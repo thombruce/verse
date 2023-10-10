@@ -8,26 +8,24 @@ use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_rapier2d::prelude::*;
 
 mod astronomy;
+mod core;
 mod effects;
 mod hud;
 mod menus;
 mod resources;
 mod shaders;
 mod ship;
+mod ui;
+mod world;
 
 use crate::{
-    astronomy::{planetary_system::PlanetarySystemPlugin, starfield::StarfieldPlugin},
-    effects::{animate::AnimatePlugin, blink::EffectsPlugin},
-    hud::HudPlugin,
-    menus::{credits::CreditsPlugin, pause::PausePlugin, start_menu::MenuPlugin},
+    core::CorePlugin,
     resources::{
         assets::{AudioAssets, SpriteAssets, UiAssets},
-        camera::CameraPlugin,
-        game_time::GameTimePlugin,
-        spatial::SpatialPlugin,
-        state::{GameState, StatePlugin},
+        state::GameState,
     },
-    ship::ShipPlugin,
+    ui::UiPlugin,
+    world::WorldPlugin,
 };
 
 fn main() {
@@ -54,26 +52,7 @@ fn main() {
             .set(ImagePlugin::default_nearest()),
     );
 
-    // Core
-    app.add_plugins((GameTimePlugin, StatePlugin, EffectsPlugin, AnimatePlugin));
-
-    // World
-    app.add_plugins((
-        RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(1.0),
-        StarfieldPlugin,
-        ShipPlugin,
-        PlanetarySystemPlugin,
-        SpatialPlugin,
-    ));
-
-    // UI
-    app.add_plugins((
-        HudPlugin,
-        MenuPlugin,
-        CreditsPlugin,
-        PausePlugin,
-        CameraPlugin,
-    ));
+    app.add_plugins((CorePlugin, WorldPlugin, UiPlugin));
 
     #[cfg(debug_assertions)]
     app.add_plugins((
@@ -102,6 +81,7 @@ fn main() {
 }
 
 /// The setup function
-fn setup(mut rapier_configuration: ResMut<RapierConfiguration>) {
-    rapier_configuration.gravity = Vec2::ZERO;
+fn setup() {
+    // Good place to put window setup configs, like whether or not
+    // the player has suggested the game be played fullscreen.
 }
