@@ -1,4 +1,8 @@
-use bevy::prelude::*;
+#[allow(unused_imports)]
+use bevy::{
+    prelude::*,
+    window::{Cursor, WindowMode},
+};
 use bevy_asset_loader::prelude::*;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_rapier2d::prelude::*;
@@ -41,6 +45,12 @@ fn main() {
             .set(WindowPlugin {
                 primary_window: Some(Window {
                     title: String::from("Verse"),
+                    position: WindowPosition::Centered(MonitorSelection::Primary),
+                    cursor: Cursor {
+                        visible: false,
+                        ..default()
+                    },
+                    // mode: WindowMode::Fullscreen,
                     ..default()
                 }),
                 ..default()
