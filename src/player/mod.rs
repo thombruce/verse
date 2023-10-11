@@ -1,9 +1,10 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
+pub mod dynamic_orbit;
 pub mod ship;
 
-use self::ship::ShipPlugin;
+use self::{dynamic_orbit::DynamicOrbitPlugin, ship::ShipPlugin};
 
 pub struct PlayerPlugin;
 impl Plugin for PlayerPlugin {
@@ -11,6 +12,7 @@ impl Plugin for PlayerPlugin {
         app.add_plugins((
             RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(1.0),
             ShipPlugin,
+            DynamicOrbitPlugin,
         ));
 
         app.add_systems(Startup, setup);
