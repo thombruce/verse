@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::core::resources::{game_time::GameTime, state::GameState};
 
-const ORBITAL_PERIOD_SCALING_FACTOR: f32 = 1.0;
+pub const ORBITAL_PERIOD_SCALING_FACTOR: f32 = 1.0;
 
 #[derive(Component, Clone, Debug)]
 pub struct Orbit {
