@@ -5,12 +5,17 @@ use crate::core::{resources::assets::UiAssets, resources::state::GameState};
 pub mod indicator;
 pub mod nav;
 pub mod speedometer;
+pub mod time;
 
 use indicator::IndicatorPlugin;
 use nav::current_location;
 use speedometer::hud_speedometer;
 
-use self::{nav::NavBundle, speedometer::SpeedometerBundle};
+use self::{
+    nav::NavBundle,
+    speedometer::SpeedometerBundle,
+    time::{current_time, TimeBundle},
+};
 
 pub struct HudPlugin;
 impl Plugin for HudPlugin {
@@ -19,7 +24,7 @@ impl Plugin for HudPlugin {
         app.add_systems(OnEnter(GameState::GameCreate), setup);
         app.add_systems(
             Update,
-            (hud_speedometer, current_location).run_if(in_state(GameState::Active)),
+            (hud_speedometer, current_location, current_time).run_if(in_state(GameState::Active)),
         );
     }
 }
@@ -44,5 +49,24 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
         .with_children(|parent| {
             parent.spawn(NavBundle::use_font(ui.font.clone()));
             parent.spawn(SpeedometerBundle::use_font(ui.font.clone()));
+        });
+    commands
+        .spawn((
+            NodeBundle {
+                style: Style {
+                    position_type: PositionType::Absolute,
+                    width: Val::Percent(100.0),
+                    height: Val::Percent(100.0),
+                    align_items: AlignItems::FlexStart,
+                    justify_content: JustifyContent::SpaceBetween,
+                    flex_direction: FlexDirection::Column,
+                    ..default()
+                },
+                ..default()
+            },
+            Name::new("HUD"),
+        ))
+        .with_children(|parent| {
+            parent.spawn(TimeBundle::use_font(ui.font.clone()));
         });
 }
