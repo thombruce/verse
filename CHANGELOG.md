@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Separate nav and speedometer UI features into own modules
 - Open game centered on primary monitor
-- Hide cursor
+- Hide cursor in release builds
 - Compartmentalise code into core, ui and world modules
 
 ## [0.0.13] - 2023-10-10
