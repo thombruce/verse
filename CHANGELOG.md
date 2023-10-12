@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Current time display in HUD
+- Set initial time to 8 a.m. March 14th 2724 CE
 
 ## [0.0.14] - 2023-10-11
 
