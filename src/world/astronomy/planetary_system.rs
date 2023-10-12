@@ -7,9 +7,12 @@ use crate::{
 
 use super::{
     orbit::{Orbit, OrbitPlugin},
-    planet::{Planet, PlanetBundle},
+    planet::PlanetBundle,
     star::{Star, StarBundle},
 };
+
+#[derive(Component)]
+pub struct EarthLike;
 
 pub struct PlanetarySystemPlugin;
 impl Plugin for PlanetarySystemPlugin {
@@ -39,24 +42,30 @@ fn spawn_planets(
     sprites: Res<SpriteAssets>,
     star_query: Query<Entity, With<Star>>,
 ) {
-    commands.spawn(PlanetBundle {
-        indicated: Indicated {
-            color: Color::LIME_GREEN,
-        },
-        orbit: Orbit {
-            parent: Some(star_query.single()),
-            semi_major_axis: 5000.0,
-        },
-        sprite_sheet_bundle: SpriteSheetBundle {
-            texture_atlas: sprites.planet.clone(),
-            sprite: TextureAtlasSprite::new(0),
-            transform: Transform::from_scale(Vec3::splat(2.0)), // Divide by parent scale?
+    commands.spawn((
+        PlanetBundle {
+            indicated: Indicated {
+                color: Color::LIME_GREEN,
+            },
+            orbit: Orbit {
+                parent: Some(star_query.single()),
+                semi_major_axis: 20000.0,
+            },
+            sprite_sheet_bundle: SpriteSheetBundle {
+                texture_atlas: sprites.planet.clone(),
+                sprite: TextureAtlasSprite::new(0),
+                transform: Transform::from_scale(Vec3::splat(2.0)), // Divide by parent scale?
+                ..default()
+            },
             ..default()
         },
-        ..default()
-    });
+        EarthLike,
+    ));
 
-    for (i, radius) in [10000.0, 50000.0].iter().enumerate() {
+    for (i, radius) in [4000.0, 10000.0, 30000.0, 50000.0, 60000.0, 70000.0, 80000.0]
+        .iter()
+        .enumerate()
+    {
         commands.spawn(PlanetBundle {
             name: Name::new(format!("Rocky Planet {}", i + 1)),
             indicated: Indicated { color: Color::GRAY },
@@ -78,7 +87,7 @@ fn spawn_planets(
 fn spawn_demo_orbital(
     mut commands: Commands,
     sprites: Res<SpriteAssets>,
-    planet_query: Query<Entity, With<Planet>>,
+    planet_query: Query<Entity, With<EarthLike>>,
 ) {
     commands.spawn((
         SpriteBundle {
