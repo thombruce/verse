@@ -9,6 +9,7 @@
 [![Changelog](https://img.shields.io/github/v/release/thombruce/verse?label=changelog&color=E05735)](CHANGELOG.md)
 [![GitHub all releases](https://img.shields.io/github/downloads/thombruce/verse/total?link=https%3A%2F%2Fgithub.com%2Fthombruce%2Fverse%2Freleases%2Flatest)](https://github.com/thombruce/verse/releases/latest)
 [![License](https://img.shields.io/badge/license-MIT%2BCC-orangered)](LICENSE)
+[![Discord](https://img.shields.io/discord/697123984231366716?logo=discord&color=5865F2)](https://discord.gg/SAUagUgTfa)
 
 ## Download
 
