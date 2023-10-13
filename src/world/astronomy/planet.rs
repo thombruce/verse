@@ -36,10 +36,7 @@ impl Default for PlanetBundle {
                 color: Color::ORANGE_RED,
             },
             orbitable: Orbitable::default(),
-            orbit: Orbit {
-                parent: None,
-                semi_major_axis: 0.,
-            },
+            orbit: Orbit::default(),
             animation_bundle: AnimationBundle {
                 indices: PLANET_ANIMATION_INDICES,
                 timer: AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)),

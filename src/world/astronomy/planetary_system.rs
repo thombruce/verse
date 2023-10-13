@@ -50,6 +50,9 @@ fn spawn_planets(
             orbit: Orbit {
                 parent: Some(star_query.single()),
                 semi_major_axis: 20000.0,
+                eccentricity: 0.0167086,
+                argument_of_periapsis: f32::to_radians(288.1),
+                initial_mean_anomaly: f32::to_radians(0.),
             },
             sprite_sheet_bundle: SpriteSheetBundle {
                 texture_atlas: sprites.planet.clone(),
@@ -72,6 +75,7 @@ fn spawn_planets(
             orbit: Orbit {
                 parent: Some(star_query.single()),
                 semi_major_axis: *radius,
+                ..default()
             },
             sprite_sheet_bundle: SpriteSheetBundle {
                 texture_atlas: sprites.noatmos.clone(),
@@ -101,6 +105,7 @@ fn spawn_demo_orbital(
         Orbit {
             parent: planet_query.iter().min(),
             semi_major_axis: 250.0,
+            ..default()
         },
         Name::new("Demo Orbital"),
     ));

@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Set initial time to 8 a.m. March 14th 2724 CE
 - Extra planets (there are now 8 in the star system)
 
+### Changed
+
+- Introduced Kepler orbital equations for better, more accurate orbit simulations
+
 ### Fixed
 
 - Prevent division by zero in magnetic ship-planet pull effect by preventing execution at > 1.0
