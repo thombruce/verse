@@ -70,7 +70,7 @@ pub fn orbital_positioning_system(
         if let Some(parent) = orbit.parent {
             let orbitable = orbitables.get(parent);
 
-            let (entity_translation, entity_mass) = match orbitable {
+            let (parent_translation, parent_mass) = match orbitable {
                 Ok((orb, mass)) => (orb.0, mass.0),
                 Err(_) => (Vec3::ZERO, 0.),
             };
@@ -80,11 +80,10 @@ pub fn orbital_positioning_system(
                 orbit.eccentricity,
                 orbit.argument_of_periapsis,
                 orbit.initial_mean_anomaly,
-                // TODO: Set mass on parent Orbitable component
-                entity_mass * ORBITAL_PERIOD_SCALING_FACTOR, // parent_mass.mass,
+                parent_mass * ORBITAL_PERIOD_SCALING_FACTOR,
                 game_time.elapsed_secs(),
             );
-            transform.translation = entity_translation + Vec3::from(pos);
+            transform.translation = parent_translation + Vec3::from(pos);
         }
     }
 }
