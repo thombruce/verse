@@ -6,7 +6,7 @@ use crate::{
     world::spatial::KDNode,
 };
 
-use super::orbit::{Orbit, Orbitable};
+use super::orbit::{Mass, Orbit, Orbitable};
 
 const PLANET_ANIMATION_INDICES: AnimationIndices = AnimationIndices {
     first: 0,
@@ -26,6 +26,7 @@ pub struct PlanetBundle {
     pub animation_bundle: AnimationBundle,
     pub sprite_sheet_bundle: SpriteSheetBundle,
     pub kd_node: KDNode,
+    pub mass: Mass,
 }
 impl Default for PlanetBundle {
     fn default() -> Self {
@@ -43,6 +44,7 @@ impl Default for PlanetBundle {
             },
             sprite_sheet_bundle: SpriteSheetBundle::default(),
             kd_node: KDNode,
+            mass: Mass(5.972e24), // 1 Earth
         }
     }
 }

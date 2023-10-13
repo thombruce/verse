@@ -6,7 +6,7 @@ use crate::{
 };
 
 use super::{
-    orbit::{Orbit, OrbitPlugin},
+    orbit::{Mass, Orbit, OrbitPlugin},
     planet::PlanetBundle,
     star::{Star, StarBundle},
 };
@@ -60,6 +60,7 @@ fn spawn_planets(
                 transform: Transform::from_scale(Vec3::splat(2.0)), // Divide by parent scale?
                 ..default()
             },
+            mass: Mass(5.9722e24),
             ..default()
         },
         EarthLike,

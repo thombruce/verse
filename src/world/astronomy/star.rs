@@ -7,7 +7,7 @@ use crate::{
     world::spatial::KDNode,
 };
 
-use super::orbit::Orbitable;
+use super::orbit::{Mass, Orbitable};
 
 const STAR_ANIMATION_INDICES: AnimationIndices = AnimationIndices {
     first: 0,
@@ -26,6 +26,7 @@ pub struct StarBundle {
     pub animation_bundle: AnimationBundle,
     pub sprite_sheet_bundle: SpriteSheetBundle,
     pub kd_node: KDNode,
+    pub mass: Mass,
 }
 impl Default for StarBundle {
     fn default() -> Self {
@@ -42,6 +43,7 @@ impl Default for StarBundle {
             },
             sprite_sheet_bundle: SpriteSheetBundle::default(),
             kd_node: KDNode,
+            mass: Mass(1.989e30), // 1 Sol
         }
     }
 }

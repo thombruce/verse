@@ -38,6 +38,17 @@ impl Default for Orbitable {
     }
 }
 
+#[derive(Component, Clone, Debug)]
+pub struct Mass(pub f32);
+impl Mass {
+    pub const ZERO: Self = Self(0.);
+}
+impl Default for Mass {
+    fn default() -> Self {
+        Self::ZERO
+    }
+}
+
 pub struct OrbitPlugin;
 impl Plugin for OrbitPlugin {
     fn build(&self, app: &mut App) {
@@ -49,34 +60,32 @@ impl Plugin for OrbitPlugin {
     }
 }
 
-/// Really basic circular motion around a parent body or [0., 0.]
+/// Kepler-based orbital motion around a parent body
 pub fn orbital_positioning_system(
     game_time: Res<GameTime>,
     mut orbits: Query<(&Orbit, &mut Transform)>,
-    orbitables: Query<&Orbitable>,
+    orbitables: Query<(&Orbitable, &Mass)>,
 ) {
     for (orbit, mut transform) in orbits.iter_mut() {
-        let mut entity_translation = Vec3::ZERO;
-
         if let Some(parent) = orbit.parent {
             let orbitable = orbitables.get(parent);
 
-            entity_translation = match orbitable {
-                Ok(orb) => orb.0,
-                Err(_) => Vec3::ZERO,
+            let (entity_translation, entity_mass) = match orbitable {
+                Ok((orb, mass)) => (orb.0, mass.0),
+                Err(_) => (Vec3::ZERO, 0.),
             };
-        }
 
-        let pos = position_at_time(
-            orbit.semi_major_axis,
-            orbit.eccentricity,
-            orbit.argument_of_periapsis,
-            orbit.initial_mean_anomaly,
-            // TODO: Set mass on parent Orbitable component
-            1.989e30 * ORBITAL_PERIOD_SCALING_FACTOR, // parent_mass.mass,
-            game_time.elapsed_secs(),
-        );
-        transform.translation = entity_translation + Vec3::from(pos);
+            let pos = position_at_time(
+                orbit.semi_major_axis,
+                orbit.eccentricity,
+                orbit.argument_of_periapsis,
+                orbit.initial_mean_anomaly,
+                // TODO: Set mass on parent Orbitable component
+                entity_mass * ORBITAL_PERIOD_SCALING_FACTOR, // parent_mass.mass,
+                game_time.elapsed_secs(),
+            );
+            transform.translation = entity_translation + Vec3::from(pos);
+        }
     }
 }
 
