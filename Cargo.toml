@@ -12,7 +12,9 @@ bevy_asset_loader = { version = "0.17.0", features = ["2d"] }
 bevy_rapier2d = "0.22.0"
 bevy_spatial = "0.6.0"
 bevy_tiling_background = { git = "https://github.com/rparrett/bevy_tiling_background.git", branch = "tex-typo" }
+image = "0.24.7"
 leafwing-input-manager = "0.10.0"
+winit = "0.28.6"
 
 # Enable a small amount of optimization in debug mode
 [profile.dev]
