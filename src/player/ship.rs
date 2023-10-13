@@ -65,7 +65,7 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
         SpriteBundle {
             texture: sprites.player_ship.clone(),
             transform: Transform {
-                translation: Vec3::new(200., 0., 100.0),
+                translation: Vec3::new(0., 0., 100.0),
                 scale: Vec3::splat(0.5),
                 ..default()
             },

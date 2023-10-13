@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Introduced Kepler orbital equations for better, more accurate orbit simulations
+- Restore player origin to [0.,0.]
 
 ### Removed
 
