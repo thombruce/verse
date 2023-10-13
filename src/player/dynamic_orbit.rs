@@ -26,7 +26,7 @@ pub fn dynamic_orbital_positioning_system(
     let player_translation = transform.translation.xy();
 
     if let Some((pos, _entity)) = tree.nearest_neighbour(player_translation) {
-        if pos.distance(player_translation) < 1500. {
+        if pos.distance(player_translation) > 1. && pos.distance(player_translation) < 1500. {
             impulse.impulse += (pos - player_translation).normalize() * 2000.;
         }
     }
