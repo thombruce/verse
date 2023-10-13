@@ -5,7 +5,7 @@ use bevy::prelude::*;
 use crate::core::resources::{game_time::GameTime, state::GameState};
 
 pub const GRAVITATIONAL_CONSTANT: f32 = 6.67430e-11; // https://en.wikipedia.org/wiki/Gravitational_constant#Modern_value
-pub const ORBITAL_PERIOD_SCALING_FACTOR: f32 = 1.0e-15;
+pub const ORBITAL_PERIOD_SCALING_FACTOR: f32 = 1.0e-13;
 
 #[derive(Component, Clone, Debug)]
 pub struct Orbit {
