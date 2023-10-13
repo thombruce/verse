@@ -5,9 +5,10 @@ use bevy::{
     winit::WinitWindows,
 };
 use bevy_asset_loader::prelude::*;
-use bevy_inspector_egui::quick::WorldInspectorPlugin;
-use bevy_rapier2d::prelude::*;
 use winit::window::Icon;
+
+#[cfg(debug_assertions)]
+use {bevy_inspector_egui::quick::WorldInspectorPlugin, bevy_rapier2d::prelude::*};
 
 mod core;
 mod player;
