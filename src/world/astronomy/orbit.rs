@@ -116,7 +116,13 @@ fn period(semi_major_axis: f32, parent_mass: f32) -> f32 {
 }
 
 fn mean_motion(period: f32) -> f32 {
-    TAU / period
+    // TODO: Sign (+|-) should be configurable per system for clockwise (+)
+    //       or counterclockwise (-) motion.
+    //       Eventually, planets should **rarely** be able to flip it themselves.
+    //       Small objects like comets and asteroids should be able to orbit the other
+    //       way regardless of the system bias (so flipping it should maybe be a
+    //       probability value determined by the mass of the body).
+    -(TAU / period)
 }
 
 fn mean_anomaly(mean_motion: f32, initial_mean_anomaly: f32, time: f32) -> f32 {
