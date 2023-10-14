@@ -57,7 +57,7 @@ pub fn current_location(
         let node = nodes.get(entity.unwrap());
 
         for mut text in query.iter_mut() {
-            text.sections[0].value = format!("Near {}", node.unwrap());
+            text.sections[0].value = format!("Near {}", node.unwrap()).to_ascii_uppercase();
         }
     }
 }

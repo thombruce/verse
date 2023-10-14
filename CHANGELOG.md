@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Verse "V" window icon
+- Xolonium font (Regular and Bold)
+
+### Changed
+
+- UI text now uses Xolonium-Bold
 
 ## [0.0.15] - 2023-10-13
 

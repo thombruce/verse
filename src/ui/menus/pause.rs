@@ -85,7 +85,7 @@ fn pause_screen(mut commands: Commands, ui: Res<UiAssets>) {
                 TextBundle {
                     style: Style { ..default() },
                     text: Text::from_section(
-                        "Pause",
+                        "Pause".to_ascii_uppercase(),
                         TextStyle {
                             font: ui.font.clone(),
                             font_size: 50.0,

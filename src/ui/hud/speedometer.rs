@@ -53,6 +53,7 @@ pub fn hud_speedometer(
         text.sections[0].value = format!(
             "{} m/s",
             ((velocity.linvel.x.powf(2.0) + velocity.linvel.y.powf(2.0)).sqrt()).trunc()
-        );
+        )
+        .to_ascii_uppercase();
     }
 }

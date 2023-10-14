@@ -80,6 +80,7 @@ pub fn current_time(game_time: Res<GameTime>, mut query: Query<&mut Text, With<U
         //     seconds.to_string()
         // };
 
-        text.sections[0].value = format!("{years} {current_month} {dd} {hh}:{mm}");
+        text.sections[0].value =
+            format!("{years} {current_month} {dd} {hh}:{mm}").to_ascii_uppercase();
     }
 }

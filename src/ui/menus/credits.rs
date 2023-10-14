@@ -34,7 +34,7 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
         .with_children(|parent| {
             parent.spawn((TextBundle {
                 text: Text::from_section(
-                    "Developed by",
+                    "Developed by".to_ascii_uppercase(),
                     TextStyle {
                         font: ui.font.clone(),
                         font_size: 24.0,
@@ -64,7 +64,7 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                     ..default()
                 },
                 text: Text::from_section(
-                    "Title Font",
+                    "Title Font".to_ascii_uppercase(),
                     TextStyle {
                         font: ui.font.clone(),
                         font_size: 24.0,
@@ -105,7 +105,7 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                     ..default()
                 },
                 text: Text::from_section(
-                    "Art",
+                    "Art".to_ascii_uppercase(),
                     TextStyle {
                         font: ui.font.clone(),
                         font_size: 24.0,
@@ -168,11 +168,37 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
             },));
             parent.spawn((TextBundle {
                 style: Style {
+                    margin: UiRect::top(Val::Px(25.)),
+                    ..default()
+                },
+                text: Text::from_section(
+                    "Xolonium Typeface by Severin Meyer",
+                    TextStyle {
+                        font: ui.font.clone(),
+                        font_size: 20.0,
+                        color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
+                    },
+                ),
+                ..default()
+            },));
+            parent.spawn((TextBundle {
+                text: Text::from_section(
+                    "Font Library, OFL (SIL Open Font License)",
+                    TextStyle {
+                        font: ui.font.clone(),
+                        font_size: 14.0,
+                        color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
+                    },
+                ),
+                ..default()
+            },));
+            parent.spawn((TextBundle {
+                style: Style {
                     margin: UiRect::top(Val::Px(50.)),
                     ..default()
                 },
                 text: Text::from_section(
-                    "Music",
+                    "Music".to_ascii_uppercase(),
                     TextStyle {
                         font: ui.font.clone(),
                         font_size: 24.0,

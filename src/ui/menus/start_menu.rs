@@ -102,7 +102,7 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                         ..default()
                     },
                     text: Text::from_section(
-                        "PRESS START",
+                        "Press Start".to_ascii_uppercase(),
                         TextStyle {
                             font: ui.font.clone(),
                             font_size: 35.0,

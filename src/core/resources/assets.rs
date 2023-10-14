@@ -36,7 +36,7 @@ pub struct AudioAssets {
 
 #[derive(AssetCollection, Resource)]
 pub struct UiAssets {
-    #[asset(path = "fonts/kenvector_future.ttf")]
+    #[asset(path = "fonts/Xolonium/Xolonium-Bold.ttf")]
     pub font: Handle<Font>,
 
     #[asset(path = "verse.png")]
