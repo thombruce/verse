@@ -52,6 +52,10 @@ Built on [Rust](https://www.rust-lang.org/) with [Bevy](https://bevyengine.org/)
 
   From [itch.io](https://itch.io/)
 
+- [Xolonium](https://fontlibrary.org/en/font/xolonium) by [Severin Meyer](https://fontlibrary.org/en/member/sev)
+
+  From the [Font Library](https://fontlibrary.org/), [OFL (SIL Open Font License)](https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL)
+
 ### Music
 
 - [Lightspeed](https://freemusicarchive.org/music/beat-mekanik/single/lightspeed/) by [Beat Mekanik](https://freemusicarchive.org/music/beat-mekanik/)
