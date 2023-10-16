@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - UI text now uses Xolonium-Bold
+- Replace Nuxt docs site with simpler docs markdown files managed in Obsidian
 
 ## [0.0.15] - 2023-10-13
 
