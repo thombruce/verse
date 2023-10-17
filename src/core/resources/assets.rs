@@ -3,8 +3,11 @@ use bevy_asset_loader::prelude::*;
 
 #[derive(AssetCollection, Resource)]
 pub struct SpriteAssets {
-    #[asset(path = "space/ships/playerShip2_blue.png")]
+    #[asset(path = "space/ships/player.png")]
     pub player_ship: Handle<Image>,
+
+    #[asset(path = "space/ships/enemy.png")]
+    pub enemy_ship: Handle<Image>,
 
     #[asset(texture_atlas(tile_size_x = 500., tile_size_y = 500., columns = 25, rows = 5))]
     #[asset(path = "space/celestials/star-pixelplanet.png")]

@@ -9,12 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Enemy ship sprite
 - Verse "V" window icon
 - Xolonium font (Regular and Bold)
 - Roadmap added to docs
 
 ### Changed
 
+- New player ship sprite
 - UI text now uses Xolonium-Bold
 - Replace Nuxt docs site with simpler docs markdown files managed in Obsidian
 
