@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Verse "V" window icon
 - Xolonium font (Regular and Bold)
+- Roadmap added to docs
 
 ### Changed
 
