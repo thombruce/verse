@@ -20,6 +20,14 @@ pub struct Ship {
     pub rotation: f32,
 }
 
+/// Player component
+#[derive(Component)]
+pub struct Player;
+
+/// Enemy component
+#[derive(Component)]
+pub struct Enemy;
+
 pub struct ShipPlugin;
 impl Plugin for ShipPlugin {
     fn build(&self, app: &mut App) {
@@ -58,6 +66,7 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
 
     // Spawns player ship
     commands.spawn((
+        Player,
         Ship {
             thrust: 10000.0,                  // Ship thrust (TODO: What unit is this?)
             rotation: f32::to_radians(360.0), // Ship manoeuvrability (rad)
@@ -89,19 +98,50 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
             action_state: ActionState::default(),
             input_map: input_map.build(),
         },
-        Name::new("Ship"),
+        Name::new("Player"),
+    ));
+
+    // Spawns enemy ship
+    commands.spawn((
+        Enemy,
+        Ship {
+            thrust: 10000.0,                  // Ship thrust (TODO: What unit is this?)
+            rotation: f32::to_radians(360.0), // Ship manoeuvrability (rad)
+        },
+        SpriteBundle {
+            texture: sprites.enemy_ship.clone(),
+            transform: Transform {
+                translation: Vec3::new(1000., 1000., 100.0),
+                scale: Vec3::splat(0.5),
+                ..default()
+            },
+            ..default()
+        },
+        RigidBody::Dynamic,
+        Collider::ball(50.0),                  // 50.0 meters
+        ColliderMassProperties::Mass(3926.99), // 3926.99 kilograms
+        Velocity::linear(Vec2::ZERO),
+        ExternalImpulse::default(),
+        InputManagerBundle::<ShipAction> {
+            action_state: ActionState::default(),
+            input_map: input_map.build(),
+        },
+        Name::new("Enemy"),
     ));
 }
 
 pub fn ship_flight_system(
     time: Res<Time>,
-    mut query: Query<(
-        &Ship,
-        &Transform,
-        &mut Velocity,
-        &mut ExternalImpulse,
-        &ActionState<ShipAction>,
-    )>,
+    mut query: Query<
+        (
+            &Ship,
+            &Transform,
+            &mut Velocity,
+            &mut ExternalImpulse,
+            &ActionState<ShipAction>,
+        ),
+        With<Player>,
+    >,
 ) {
     let (ship, transform, mut velocity, mut impulse, action_state) = query.single_mut();
 
