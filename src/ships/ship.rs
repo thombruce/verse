@@ -79,6 +79,8 @@ fn ship_damage(
 ) {
     for event in bullet_ship_contact_events.iter() {
         commands.entity(event.bullet).despawn();
+        // TODO: Take damage
+        // TODO: When health <= 0., despawn:
         // commands.entity(event.ship).despawn();
     }
 }
