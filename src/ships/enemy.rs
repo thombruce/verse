@@ -3,7 +3,10 @@ use bevy_rapier2d::prelude::*;
 
 use crate::core::resources::{assets::SpriteAssets, state::GameState};
 
-use super::ship::{dampening, Ship};
+use super::{
+    bullet::BulletSpawnEvent,
+    ship::{dampening, Ship},
+};
 
 /// Enemy component
 #[derive(Component)]
@@ -15,7 +18,7 @@ impl Plugin for EnemyPlugin {
         app.add_systems(OnEnter(GameState::GameCreate), setup);
         app.add_systems(
             Update,
-            enemy_flight_system.run_if(in_state(GameState::Active)),
+            (enemy_flight_system, enemy_weapons_system).run_if(in_state(GameState::Active)),
         );
     }
 }
@@ -28,6 +31,7 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
         Ship {
             thrust: 10000.0,                  // Ship thrust (TODO: What unit is this?)
             rotation: f32::to_radians(360.0), // Ship manoeuvrability (rad)
+            bullet_timer: Timer::from_seconds(0.1, TimerMode::Once),
         },
         SpriteBundle {
             texture: sprites.enemy_ship.clone(),
@@ -55,5 +59,21 @@ pub fn enemy_flight_system(
 
     dampening(time, &mut velocity);
 
-    // Controls
+    // TODO: Enemy needs a brain!
+}
+
+pub fn enemy_weapons_system(
+    mut bullet_spawn_events: EventWriter<BulletSpawnEvent>,
+    mut query: Query<(&mut Ship, &Transform, &mut Velocity), With<Enemy>>,
+) {
+    let (mut ship, transform, velocity) = query.single_mut();
+
+    // TODO: Enemy needs a brain!
+    if false && ship.bullet_timer.finished() {
+        bullet_spawn_events.send(BulletSpawnEvent {
+            transform: *transform,
+            velocity: *velocity,
+        });
+        ship.bullet_timer.reset();
+    }
 }

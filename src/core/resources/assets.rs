@@ -9,6 +9,9 @@ pub struct SpriteAssets {
     #[asset(path = "space/ships/enemy.png")]
     pub enemy_ship: Handle<Image>,
 
+    #[asset(path = "space/ships/bullet.png")]
+    pub bullet: Handle<Image>,
+
     #[asset(texture_atlas(tile_size_x = 500., tile_size_y = 500., columns = 25, rows = 5))]
     #[asset(path = "space/celestials/star-pixelplanet.png")]
     pub star: Handle<TextureAtlas>,

@@ -4,7 +4,10 @@ use leafwing_input_manager::prelude::*;
 
 use crate::core::resources::{assets::SpriteAssets, state::GameState};
 
-use super::ship::{dampening, ship_rotation, ship_thrust, Ship, ShipAction};
+use super::{
+    bullet::BulletSpawnEvent,
+    ship::{dampening, ship_rotation, ship_thrust, Ship, ShipAction},
+};
 
 /// Player component
 #[derive(Component)]
@@ -18,13 +21,14 @@ impl Plugin for PlayerPlugin {
         app.add_systems(OnEnter(GameState::GameCreate), setup);
         app.add_systems(
             Update,
-            ship_flight_system.run_if(in_state(GameState::Active)),
+            (player_flight_system, player_weapons_system).run_if(in_state(GameState::Active)),
         );
     }
 }
 
 /// The setup function
 fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
+    // TODO: Move me to dedicated controls module for better code organisation
     let mut input_map = InputMap::new([
         // Cursor keys
         (KeyCode::Up, ShipAction::Forward),
@@ -34,6 +38,8 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
         (KeyCode::W, ShipAction::Forward),
         (KeyCode::A, ShipAction::RotateLeft),
         (KeyCode::D, ShipAction::RotateRight),
+        // Actions
+        (KeyCode::Space, ShipAction::Fire),
     ]);
     // Gamepad
     input_map.insert(GamepadButtonType::RightTrigger2, ShipAction::Forward);
@@ -45,6 +51,7 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
         SingleAxis::negative_only(GamepadAxisType::LeftStickX, -0.4),
         ShipAction::RotateLeft,
     );
+    input_map.insert(GamepadButtonType::South, ShipAction::Fire);
 
     // Spawns player ship
     commands.spawn((
@@ -52,6 +59,7 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
         Ship {
             thrust: 10000.0,                  // Ship thrust (TODO: What unit is this?)
             rotation: f32::to_radians(360.0), // Ship manoeuvrability (rad)
+            bullet_timer: Timer::from_seconds(0.1, TimerMode::Once),
         },
         SpriteBundle {
             texture: sprites.player_ship.clone(),
@@ -84,7 +92,7 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
     ));
 }
 
-pub fn ship_flight_system(
+pub fn player_flight_system(
     time: Res<Time>,
     mut query: Query<
         (
@@ -118,4 +126,27 @@ pub fn ship_flight_system(
     ship_rotation(rotation_factor, &mut velocity, ship);
 
     ship_thrust(&mut impulse, transform, thrust_factor, ship);
+}
+
+pub fn player_weapons_system(
+    mut bullet_spawn_events: EventWriter<BulletSpawnEvent>,
+    mut query: Query<
+        (
+            &mut Ship,
+            &Transform,
+            &mut Velocity,
+            &ActionState<ShipAction>,
+        ),
+        With<Player>,
+    >,
+) {
+    let (mut ship, transform, velocity, action_state) = query.single_mut();
+
+    if action_state.pressed(ShipAction::Fire) && ship.bullet_timer.finished() {
+        bullet_spawn_events.send(BulletSpawnEvent {
+            transform: *transform,
+            velocity: *velocity,
+        });
+        ship.bullet_timer.reset();
+    }
 }

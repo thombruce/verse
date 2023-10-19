@@ -2,11 +2,14 @@ use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use leafwing_input_manager::prelude::*;
 
+use crate::core::resources::state::GameState;
+
 #[derive(Actionlike, PartialEq, Eq, Clone, Copy, Hash, Debug, Reflect)]
 pub enum ShipAction {
     Forward,
     RotateLeft,
     RotateRight,
+    Fire,
 }
 
 /// Ship component
@@ -16,6 +19,18 @@ pub struct Ship {
     pub thrust: f32,
     /// rotation speed in radians per second
     pub rotation: f32,
+    /// staggers firing of bullets
+    pub bullet_timer: Timer,
+}
+
+pub struct ShipPlugin;
+impl Plugin for ShipPlugin {
+    fn build(&self, app: &mut App) {
+        app.add_systems(
+            Update,
+            bullet_timers_system.run_if(in_state(GameState::Active)),
+        );
+    }
 }
 
 /// Dampening
@@ -41,4 +56,10 @@ pub fn ship_thrust(
     ship: &Ship,
 ) {
     impulse.impulse += (transform.rotation * (Vec3::Y * thrust_factor * ship.thrust)).truncate();
+}
+
+fn bullet_timers_system(time: Res<Time>, mut ship: Query<&mut Ship>) {
+    for mut ship in ship.iter_mut() {
+        ship.bullet_timer.tick(time.delta());
+    }
 }
