@@ -33,10 +33,10 @@ pub struct SpriteAssets {
 
 #[derive(AssetCollection, Resource)]
 pub struct AudioAssets {
-    #[asset(path = "sound/Beat Mekanik - Lightspeed.ogg")]
+    #[asset(path = "sound/music/Beat Mekanik - Lightspeed.ogg")]
     pub title_music: Handle<AudioSource>,
 
-    #[asset(path = "sound/Kirk Osamayo - Space Dust.ogg")]
+    #[asset(path = "sound/music/Kirk Osamayo - Space Dust.ogg")]
     pub ambience: Handle<AudioSource>,
 
     #[asset(path = "sound/sfx/impactPlank_medium_000.ogg")]
