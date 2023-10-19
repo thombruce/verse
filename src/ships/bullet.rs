@@ -6,6 +6,8 @@ use crate::core::resources::{
     state::{ForState, GameState},
 };
 
+use super::ship::MovementSet;
+
 #[derive(Component)]
 pub struct Bullet {
     pub despawn_timer: Timer,
@@ -19,13 +21,22 @@ pub struct BulletSpawnEvent {
     pub velocity: Velocity,
 }
 
+#[derive(Event)]
+pub struct BulletShipContactEvent {
+    pub bullet: Entity,
+    pub ship: Entity,
+}
+
 pub struct BulletPlugin;
 impl Plugin for BulletPlugin {
     fn build(&self, app: &mut App) {
-        app.add_event::<BulletSpawnEvent>().add_systems(
-            Update,
-            (spawn_bullet, bullet_despawn_system).run_if(in_state(GameState::Active)),
-        );
+        app.add_event::<BulletSpawnEvent>()
+            .add_event::<BulletShipContactEvent>()
+            .add_systems(
+                Update,
+                (spawn_bullet.after(MovementSet), bullet_despawn_system)
+                    .run_if(in_state(GameState::Active)),
+            );
     }
 }
 
@@ -44,7 +55,8 @@ fn spawn_bullet(
         commands.spawn((
             SpriteBundle {
                 transform: Transform {
-                    translation: Vec3::new(transform.translation.x, transform.translation.y, 99.0),
+                    translation: Vec3::new(transform.translation.x, transform.translation.y, 99.0)
+                        + transform.rotation * (Vec3::Y * 35.0), // Ships radius * scaling factor + 5px padding
                     rotation: transform.rotation,
                     ..default()
                 },

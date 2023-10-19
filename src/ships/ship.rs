@@ -4,6 +4,14 @@ use leafwing_input_manager::prelude::*;
 
 use crate::core::resources::state::GameState;
 
+use super::bullet::BulletShipContactEvent;
+
+#[derive(SystemSet, Clone, Hash, Debug, PartialEq, Eq)]
+pub struct MovementSet;
+
+#[derive(SystemSet, Clone, Hash, Debug, PartialEq, Eq)]
+pub struct AttackSet;
+
 #[derive(Actionlike, PartialEq, Eq, Clone, Copy, Hash, Debug, Reflect)]
 pub enum ShipAction {
     Forward,
@@ -28,13 +36,14 @@ impl Plugin for ShipPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            bullet_timers_system.run_if(in_state(GameState::Active)),
+            (bullet_timers_system, (ship_damage).after(AttackSet))
+                .run_if(in_state(GameState::Active)),
         );
     }
 }
 
 /// Dampening
-pub fn dampening(time: Res<Time>, velocity: &mut Velocity) {
+pub fn dampening(time: &Res<Time>, velocity: &mut Velocity) {
     // TODO: Dampening should not affect gravitational attraction (dynamic_orbits.rs)
     // TODO: Use Rapier Damping: https://rapier.rs/docs/user_guides/bevy_plugin/rigid_bodies#damping
     let elapsed = time.delta_seconds();
@@ -61,5 +70,15 @@ pub fn ship_thrust(
 fn bullet_timers_system(time: Res<Time>, mut ship: Query<&mut Ship>) {
     for mut ship in ship.iter_mut() {
         ship.bullet_timer.tick(time.delta());
+    }
+}
+
+fn ship_damage(
+    mut commands: Commands,
+    mut bullet_ship_contact_events: EventReader<BulletShipContactEvent>,
+) {
+    for event in bullet_ship_contact_events.iter() {
+        commands.entity(event.bullet).despawn();
+        // commands.entity(event.ship).despawn();
     }
 }

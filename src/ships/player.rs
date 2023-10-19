@@ -6,7 +6,7 @@ use crate::core::resources::{assets::SpriteAssets, state::GameState};
 
 use super::{
     bullet::BulletSpawnEvent,
-    ship::{dampening, ship_rotation, ship_thrust, Ship, ShipAction},
+    ship::{dampening, ship_rotation, ship_thrust, AttackSet, MovementSet, Ship, ShipAction},
 };
 
 /// Player component
@@ -21,7 +21,11 @@ impl Plugin for PlayerPlugin {
         app.add_systems(OnEnter(GameState::GameCreate), setup);
         app.add_systems(
             Update,
-            (player_flight_system, player_weapons_system).run_if(in_state(GameState::Active)),
+            (
+                player_flight_system.in_set(MovementSet),
+                player_weapons_system.in_set(AttackSet),
+            )
+                .run_if(in_state(GameState::Active)),
         );
     }
 }
@@ -107,7 +111,7 @@ pub fn player_flight_system(
 ) {
     let (ship, transform, mut velocity, mut impulse, action_state) = query.single_mut();
 
-    dampening(time, &mut velocity);
+    dampening(&time, &mut velocity);
 
     // Controls
     let mut rotation_factor = 0.0;

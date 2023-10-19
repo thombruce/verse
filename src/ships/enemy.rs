@@ -5,7 +5,7 @@ use crate::core::resources::{assets::SpriteAssets, state::GameState};
 
 use super::{
     bullet::BulletSpawnEvent,
-    ship::{dampening, Ship},
+    ship::{dampening, AttackSet, MovementSet, Ship},
 };
 
 /// Enemy component
@@ -18,7 +18,11 @@ impl Plugin for EnemyPlugin {
         app.add_systems(OnEnter(GameState::GameCreate), setup);
         app.add_systems(
             Update,
-            (enemy_flight_system, enemy_weapons_system).run_if(in_state(GameState::Active)),
+            (
+                enemy_flight_system.in_set(MovementSet),
+                enemy_weapons_system.in_set(AttackSet),
+            )
+                .run_if(in_state(GameState::Active)),
         );
     }
 }
@@ -55,25 +59,25 @@ pub fn enemy_flight_system(
     time: Res<Time>,
     mut query: Query<(&Ship, &Transform, &mut Velocity, &mut ExternalImpulse), With<Enemy>>,
 ) {
-    let (_ship, _transform, mut velocity, mut _impulse) = query.single_mut();
+    for (_ship, _transform, mut velocity, mut _impulse) in query.iter_mut() {
+        dampening(&time, &mut velocity);
 
-    dampening(time, &mut velocity);
-
-    // TODO: Enemy needs a brain!
+        // TODO: Enemy needs a brain!
+    }
 }
 
 pub fn enemy_weapons_system(
     mut bullet_spawn_events: EventWriter<BulletSpawnEvent>,
     mut query: Query<(&mut Ship, &Transform, &mut Velocity), With<Enemy>>,
 ) {
-    let (mut ship, transform, velocity) = query.single_mut();
-
-    // TODO: Enemy needs a brain!
-    if false && ship.bullet_timer.finished() {
-        bullet_spawn_events.send(BulletSpawnEvent {
-            transform: *transform,
-            velocity: *velocity,
-        });
-        ship.bullet_timer.reset();
+    for (mut ship, transform, velocity) in query.iter_mut() {
+        // TODO: Enemy needs a brain!
+        if false && ship.bullet_timer.finished() {
+            bullet_spawn_events.send(BulletSpawnEvent {
+                transform: *transform,
+                velocity: *velocity,
+            });
+            ship.bullet_timer.reset();
+        }
     }
 }
