@@ -38,6 +38,9 @@ pub struct AudioAssets {
 
     #[asset(path = "sound/Kirk Osamayo - Space Dust.ogg")]
     pub ambience: Handle<AudioSource>,
+
+    #[asset(path = "sound/sfx/impactPlank_medium_000.ogg")]
+    pub gun: Handle<AudioSource>,
 }
 
 #[derive(AssetCollection, Resource)]

@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
 use crate::core::resources::{
-    assets::SpriteAssets,
+    assets::{AudioAssets, SpriteAssets},
     state::{ForState, GameState},
 };
 
@@ -33,6 +33,7 @@ fn spawn_bullet(
     mut commands: Commands,
     mut bullet_spawn_events: EventReader<BulletSpawnEvent>,
     handles: Res<SpriteAssets>,
+    audios: Res<AudioAssets>,
 ) {
     for spawn_event in bullet_spawn_events.iter() {
         let transform = spawn_event.transform;
@@ -61,6 +62,10 @@ fn spawn_bullet(
             velocity,
             Sensor,
             ActiveEvents::COLLISION_EVENTS,
+            AudioBundle {
+                source: audios.gun.clone(),
+                ..default()
+            },
         ));
     }
 }

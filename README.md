@@ -72,6 +72,12 @@ Built on [Rust](https://www.rust-lang.org/) with [Bevy](https://bevyengine.org/)
 
   _Fade in/out added to beginning and end of track for looping in game._
 
+### Audio
+
+- [Impact Sounds](https://www.kenney.nl/assets/impact-sounds) by [Kenney](https://www.kenney.nl/)
+
+  From [Kenney.nl](https://www.kenney.nl/), [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
+
 ## License
 
 [LICENSE](LICENSE)
