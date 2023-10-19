@@ -1,6 +1,6 @@
 use bevy::{math::Vec3Swizzles, prelude::*};
 
-use crate::{core::resources::state::GameState, player::ship::Player};
+use crate::{core::resources::state::GameState, ships::ship::Player};
 
 pub struct IndicatorPlugin;
 impl Plugin for IndicatorPlugin {

@@ -6,7 +6,7 @@ use crate::shaders::{
     pixelate::{PixelatePlugin, PixelateSettings},
 };
 
-use crate::{core::resources::state::GameState, player::ship::Player};
+use crate::{core::resources::state::GameState, ships::ship::Player};
 
 pub struct CameraPlugin;
 impl Plugin for CameraPlugin {

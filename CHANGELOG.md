@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - dynamic_orbit, follow_player, indicator, nav and speedometer query for Player instead of Ship
 - New player ship sprite
 - UI text now uses Xolonium-Bold
+- Renamed player module to ships
 - Replace Nuxt docs site with simpler docs markdown files managed in Obsidian
 
 ## [0.0.15] - 2023-10-13

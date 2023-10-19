@@ -11,8 +11,8 @@ use winit::window::Icon;
 use {bevy_inspector_egui::quick::WorldInspectorPlugin, bevy_rapier2d::prelude::*};
 
 mod core;
-mod player;
 mod shaders;
+mod ships;
 mod ui;
 mod world;
 
@@ -22,7 +22,7 @@ use crate::{
         state::GameState,
     },
     core::CorePlugin,
-    player::PlayerPlugin,
+    ships::PlayerPlugin,
     ui::UiPlugin,
     world::WorldPlugin,
 };

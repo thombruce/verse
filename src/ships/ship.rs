@@ -36,7 +36,7 @@ impl Plugin for ShipPlugin {
         app.add_systems(OnEnter(GameState::GameCreate), setup);
         app.add_systems(
             Update,
-            ship_flight_system.run_if(in_state(GameState::Active)),
+            (ship_flight_system, enemy_flight_system).run_if(in_state(GameState::Active)),
         );
     }
 }
@@ -145,10 +145,7 @@ pub fn ship_flight_system(
 ) {
     let (ship, transform, mut velocity, mut impulse, action_state) = query.single_mut();
 
-    // Dampening
-    let elapsed = time.delta_seconds();
-    velocity.angvel *= 0.1f32.powf(elapsed);
-    velocity.linvel *= 0.8f32.powf(elapsed);
+    dampening(time, &mut velocity);
 
     // Controls
     let mut rotation_factor = 0.0;
@@ -164,10 +161,52 @@ pub fn ship_flight_system(
         rotation_factor += 1.0;
     }
 
+    ship_rotation(rotation_factor, &mut velocity, ship);
+
+    ship_thrust(&mut impulse, transform, thrust_factor, ship);
+}
+
+pub fn enemy_flight_system(
+    time: Res<Time>,
+    mut query: Query<
+        (
+            &Ship,
+            &Transform,
+            &mut Velocity,
+            &mut ExternalImpulse,
+            &ActionState<ShipAction>,
+        ),
+        With<Enemy>,
+    >,
+) {
+    let (_ship, _transform, mut velocity, mut _impulse, _action_state) = query.single_mut();
+
+    dampening(time, &mut velocity);
+
+    // Controls
+}
+
+/// Dampening
+fn dampening(time: Res<Time>, velocity: &mut Velocity) {
+    // TODO: Dampening should not affect gravitational attraction (dynamic_orbits.rs)
+    // TODO: Use Rapier Damping: https://rapier.rs/docs/user_guides/bevy_plugin/rigid_bodies#damping
+    let elapsed = time.delta_seconds();
+    velocity.angvel *= 0.1f32.powf(elapsed);
+    velocity.linvel *= 0.8f32.powf(elapsed);
+}
+
+fn ship_rotation(rotation_factor: f32, velocity: &mut Velocity, ship: &Ship) {
     // update the ship rotation around the Z axis (perpendicular to the 2D plane of the screen)
     if rotation_factor != 0.0 {
         velocity.angvel += rotation_factor * ship.rotation / 60.0;
     }
+}
 
+fn ship_thrust(
+    impulse: &mut ExternalImpulse,
+    transform: &Transform,
+    thrust_factor: f32,
+    ship: &Ship,
+) {
     impulse.impulse += (transform.rotation * (Vec3::Y * thrust_factor * ship.thrust)).truncate();
 }
