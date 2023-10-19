@@ -1,7 +1,7 @@
 use bevy::{math::Vec3Swizzles, prelude::*};
 use bevy_spatial::{kdtree::KDTree2, SpatialAccess};
 
-use crate::{ships::ship::Player, world::spatial::KDNode};
+use crate::{ships::player::Player, world::spatial::KDNode};
 
 /// UI Location component
 #[derive(Component)]
