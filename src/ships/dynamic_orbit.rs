@@ -20,14 +20,14 @@ pub fn dynamic_orbital_positioning_system(
     tree: Res<KDTree2<KDNode>>,
     mut query: Query<(&Transform, &mut ExternalImpulse), With<Ship>>,
 ) {
-    let (transform, mut impulse) = query.single_mut();
+    for (transform, mut impulse) in query.iter_mut() {
+        // From Nav
+        let ship_translation = transform.translation.xy();
 
-    // From Nav
-    let player_translation = transform.translation.xy();
-
-    if let Some((pos, _entity)) = tree.nearest_neighbour(player_translation) {
-        if pos.distance(player_translation) > 1. && pos.distance(player_translation) < 1500. {
-            impulse.impulse += (pos - player_translation).normalize() * 2000.;
+        if let Some((pos, _entity)) = tree.nearest_neighbour(ship_translation) {
+            if pos.distance(ship_translation) > 1. && pos.distance(ship_translation) < 1500. {
+                impulse.impulse += (pos - ship_translation).normalize() * 2000.;
+            }
         }
     }
 }

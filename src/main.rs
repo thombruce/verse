@@ -11,8 +11,8 @@ use winit::window::Icon;
 use {bevy_inspector_egui::quick::WorldInspectorPlugin, bevy_rapier2d::prelude::*};
 
 mod core;
-mod player;
 mod shaders;
+mod ships;
 mod ui;
 mod world;
 
@@ -22,7 +22,7 @@ use crate::{
         state::GameState,
     },
     core::CorePlugin,
-    player::PlayerPlugin,
+    ships::ShipsPlugin,
     ui::UiPlugin,
     world::WorldPlugin,
 };
@@ -52,7 +52,7 @@ fn main() {
             .set(ImagePlugin::default_nearest()),
     );
 
-    app.add_plugins((CorePlugin, PlayerPlugin, WorldPlugin, UiPlugin));
+    app.add_plugins((CorePlugin, ShipsPlugin, WorldPlugin, UiPlugin));
 
     #[cfg(debug_assertions)]
     app.add_plugins((

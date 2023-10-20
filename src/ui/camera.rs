@@ -6,7 +6,7 @@ use crate::shaders::{
     pixelate::{PixelatePlugin, PixelateSettings},
 };
 
-use crate::{core::resources::state::GameState, player::ship::Ship};
+use crate::{core::resources::state::GameState, ships::player::Player};
 
 pub struct CameraPlugin;
 impl Plugin for CameraPlugin {
@@ -34,8 +34,8 @@ fn setup(mut commands: Commands) {
 }
 
 pub fn follow_player(
-    mut camera: Query<&mut Transform, (With<Camera>, Without<Ship>)>,
-    player: Query<&Transform, (With<Ship>, Without<Camera>)>,
+    mut camera: Query<&mut Transform, (With<Camera>, Without<Player>)>,
+    player: Query<&Transform, (With<Player>, Without<Camera>)>,
 ) {
     let mut camera_transform = camera.single_mut();
     let player_transform = player.single();

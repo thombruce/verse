@@ -1,6 +1,6 @@
 use bevy::{math::Vec3Swizzles, prelude::*};
 
-use crate::{core::resources::state::GameState, player::ship::Ship};
+use crate::{core::resources::state::GameState, ships::player::Player};
 
 pub struct IndicatorPlugin;
 impl Plugin for IndicatorPlugin {
@@ -67,7 +67,7 @@ fn setup(
 
 fn indicators_system(
     mut query: Query<(&mut Transform, &mut Style, &Indicator)>,
-    player_query: Query<&Transform, (With<Ship>, Without<Indicator>)>,
+    player_query: Query<&Transform, (With<Player>, Without<Indicator>)>,
     entity_query: Query<(&Transform, &ComputedVisibility), (With<Indicated>, Without<Indicator>)>,
     bounds_query: Query<&Node, (With<Bounds>, Without<Indicator>)>,
 ) {

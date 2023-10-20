@@ -48,6 +48,10 @@ Built on [Rust](https://www.rust-lang.org/) with [Bevy](https://bevyengine.org/)
 
   From [Kenney.nl](https://www.kenney.nl/), [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
 
+- [Ship Mixer](https://kenney.itch.io/ship-mixer) by [Kenney](https://www.kenney.nl/)
+
+  From [Kenney.nl](https://www.kenney.nl/)
+
 - [Pixel Planet Generator](https://deep-fold.itch.io/pixel-planet-generator) by [Deep-Fold](https://deep-fold.itch.io/)
 
   From [itch.io](https://itch.io/)
@@ -67,6 +71,12 @@ Built on [Rust](https://www.rust-lang.org/) with [Bevy](https://bevyengine.org/)
   From the [Free Music Archive](https://freemusicarchive.org/), [CC BY](https://creativecommons.org/licenses/by/4.0/)
 
   _Fade in/out added to beginning and end of track for looping in game._
+
+### Audio
+
+- [Impact Sounds](https://www.kenney.nl/assets/impact-sounds) by [Kenney](https://www.kenney.nl/)
+
+  From [Kenney.nl](https://www.kenney.nl/), [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 ## License
 

@@ -1,7 +1,7 @@
 use bevy::{math::Vec3Swizzles, prelude::*};
 use bevy_spatial::{kdtree::KDTree2, SpatialAccess};
 
-use crate::{player::ship::Ship, world::spatial::KDNode};
+use crate::{ships::player::Player, world::spatial::KDNode};
 
 /// UI Location component
 #[derive(Component)]
@@ -45,7 +45,7 @@ impl NavBundle {
 
 pub fn current_location(
     mut query: Query<&mut Text, With<UILocation>>,
-    player: Query<&Transform, With<Ship>>,
+    player: Query<&Transform, With<Player>>,
     tree: Res<KDTree2<KDNode>>,
     nodes: Query<&Name, With<KDNode>>,
 ) {

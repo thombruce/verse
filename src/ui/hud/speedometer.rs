@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::Velocity;
 
-use crate::player::ship::Ship;
+use crate::ships::player::Player;
 
 /// UI Speed component
 #[derive(Component)]
@@ -45,7 +45,7 @@ impl SpeedometerBundle {
 
 pub fn hud_speedometer(
     mut query: Query<&mut Text, With<UISpeed>>,
-    mut player: Query<&Velocity, With<Ship>>,
+    mut player: Query<&Velocity, With<Player>>,
 ) {
     let velocity = player.single_mut();
 

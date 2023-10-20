@@ -9,13 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Ship health component
+- Weapons system enables ship to fire bullets
+- Weapons system audio assets from Kenney's Impact Sounds pack
+- Spawn enemy ship with enemy ship sprite
+- New Player and Enemy components separating specific logic for player and enemy ships
 - Verse "V" window icon
 - Xolonium font (Regular and Bold)
 - Roadmap added to docs
 
 ### Changed
 
+- Generalise dynamic orbit for multiple ship entities
+- dynamic_orbit, follow_player, indicator, nav and speedometer query for Player instead of Ship
+- New player ship sprite
 - UI text now uses Xolonium-Bold
+- Renamed player module to ships
 - Replace Nuxt docs site with simpler docs markdown files managed in Obsidian
 
 ## [0.0.15] - 2023-10-13
