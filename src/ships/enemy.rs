@@ -1,11 +1,12 @@
-use bevy::prelude::*;
+use bevy::{math::Vec3Swizzles, prelude::*};
 use bevy_rapier2d::prelude::*;
 
 use crate::core::resources::{assets::SpriteAssets, state::GameState};
 
 use super::{
     bullet::BulletSpawnEvent,
-    ship::{dampening, AttackSet, Health, MovementSet, Ship},
+    player::Player,
+    ship::{dampening, ship_rotation, ship_thrust, AttackSet, Health, MovementSet, Ship},
 };
 
 /// Enemy component
@@ -30,7 +31,7 @@ impl Plugin for EnemyPlugin {
 /// The setup function
 fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
     // Spawns enemy ships
-    for (_i, pos) in [1000.0 as f32, -1000.0 as f32].iter().enumerate() {
+    for (_i, pos) in [250.0 as f32, -250.0 as f32].iter().enumerate() {
         commands.spawn((
             Enemy,
             Ship {
@@ -61,21 +62,57 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
 pub fn enemy_flight_system(
     time: Res<Time>,
     mut query: Query<(&Ship, &Transform, &mut Velocity, &mut ExternalImpulse), With<Enemy>>,
+    player: Query<&Transform, With<Player>>,
 ) {
-    for (_ship, _transform, mut velocity, mut _impulse) in query.iter_mut() {
+    for (ship, transform, mut velocity, mut impulse) in query.iter_mut() {
         dampening(&time, &mut velocity);
 
-        // TODO: Enemy needs a brain!
+        let target = player.single();
+        let desired_velocity = (target.translation - transform.translation)
+            .xy()
+            .normalize_or_zero();
+        let steering = desired_velocity.angle_between(transform.local_y().truncate());
+
+        // Controls
+        let mut rotation_factor = 0.0;
+        let mut thrust_factor = 0.0;
+
+        if desired_velocity != Vec2::ZERO && steering.abs() < 0.5 {
+            thrust_factor += 1.0;
+        }
+        if steering > -0.1 {
+            rotation_factor -= 1.0;
+        }
+        if steering < 0.1 {
+            rotation_factor += 1.0;
+        }
+
+        ship_rotation(rotation_factor, &mut velocity, ship);
+
+        ship_thrust(&mut impulse, transform, thrust_factor, ship);
     }
 }
 
 pub fn enemy_weapons_system(
     mut bullet_spawn_events: EventWriter<BulletSpawnEvent>,
     mut query: Query<(&mut Ship, &Transform, &mut Velocity), With<Enemy>>,
+    player: Query<&Transform, With<Player>>,
 ) {
     for (mut ship, transform, velocity) in query.iter_mut() {
-        // TODO: Enemy needs a brain!
-        if false && ship.bullet_timer.finished() {
+        // TODO: Don't Repeat Yourself!
+        //       Perhaps steering intention can be stored within
+        //       a component on the Enemy ship.
+        //       Maybe a Targeting component with position and angle values.
+        let target = player.single();
+        let desired_velocity = (target.translation - transform.translation)
+            .xy()
+            .normalize_or_zero();
+        let steering = desired_velocity.angle_between(transform.local_y().truncate());
+
+        if steering.abs() < 0.1
+            && transform.translation.distance(target.translation) < 400.0
+            && ship.bullet_timer.finished()
+        {
             bullet_spawn_events.send(BulletSpawnEvent {
                 transform: *transform,
                 velocity: *velocity,
@@ -84,3 +121,6 @@ pub fn enemy_weapons_system(
         }
     }
 }
+
+// TODO: There is an issue with spawning bullets at extremely close proximity still.
+// thread 'Compute Task Pool (1)' panicked at 'Attempting to create an EntityCommands for entity 32v3, which doesn't exist.', src\ships\ship.rs:85:18

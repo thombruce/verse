@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Weapons system enables ship to fire bullets
 - Weapons system audio assets from Kenney's Impact Sounds pack
 - Spawn enemy ship with enemy ship sprite
+- Basic enemy AI system
 - New Player and Enemy components separating specific logic for player and enemy ships
 - Verse "V" window icon
 - Xolonium font (Regular and Bold)
