@@ -31,6 +31,9 @@ pub struct Ship {
     pub bullet_timer: Timer,
 }
 
+#[derive(Component)]
+pub struct Health(pub f32);
+
 pub struct ShipPlugin;
 impl Plugin for ShipPlugin {
     fn build(&self, app: &mut App) {
@@ -76,11 +79,16 @@ fn bullet_timers_system(time: Res<Time>, mut ship: Query<&mut Ship>) {
 fn ship_damage(
     mut commands: Commands,
     mut bullet_ship_contact_events: EventReader<BulletShipContactEvent>,
+    mut ship_health: Query<&mut Health, With<Ship>>,
 ) {
     for event in bullet_ship_contact_events.iter() {
         commands.entity(event.bullet).despawn();
-        // TODO: Take damage
-        // TODO: When health <= 0., despawn:
-        // commands.entity(event.ship).despawn();
+
+        if let Ok(mut health) = ship_health.get_mut(event.ship) {
+            health.0 -= 100.0;
+            if health.0 <= 0. {
+                commands.entity(event.ship).despawn();
+            }
+        }
     }
 }

@@ -5,7 +5,7 @@ use crate::core::resources::{assets::SpriteAssets, state::GameState};
 
 use super::{
     bullet::BulletSpawnEvent,
-    ship::{dampening, AttackSet, MovementSet, Ship},
+    ship::{dampening, AttackSet, Health, MovementSet, Ship},
 };
 
 /// Enemy component
@@ -29,30 +29,33 @@ impl Plugin for EnemyPlugin {
 
 /// The setup function
 fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
-    // Spawns enemy ship
-    commands.spawn((
-        Enemy,
-        Ship {
-            thrust: 10000.0,                  // Ship thrust (TODO: What unit is this?)
-            rotation: f32::to_radians(360.0), // Ship manoeuvrability (rad)
-            bullet_timer: Timer::from_seconds(0.1, TimerMode::Once),
-        },
-        SpriteBundle {
-            texture: sprites.enemy_ship.clone(),
-            transform: Transform {
-                translation: Vec3::new(1000., 1000., 100.0),
-                scale: Vec3::splat(0.5),
+    // Spawns enemy ships
+    for (_i, pos) in [1000.0 as f32, -1000.0 as f32].iter().enumerate() {
+        commands.spawn((
+            Enemy,
+            Ship {
+                thrust: 10000.0,                  // Ship thrust (TODO: What unit is this?)
+                rotation: f32::to_radians(360.0), // Ship manoeuvrability (rad)
+                bullet_timer: Timer::from_seconds(0.1, TimerMode::Once),
+            },
+            Health(1000.0),
+            SpriteBundle {
+                texture: sprites.enemy_ship.clone(),
+                transform: Transform {
+                    translation: Vec3::new(*pos, *pos, 100.0),
+                    scale: Vec3::splat(0.5),
+                    ..default()
+                },
                 ..default()
             },
-            ..default()
-        },
-        RigidBody::Dynamic,
-        Collider::ball(50.0),                  // 50.0 meters
-        ColliderMassProperties::Mass(3926.99), // 3926.99 kilograms
-        Velocity::linear(Vec2::ZERO),
-        ExternalImpulse::default(),
-        Name::new("Enemy"),
-    ));
+            RigidBody::Dynamic,
+            Collider::ball(50.0),                  // 50.0 meters
+            ColliderMassProperties::Mass(3926.99), // 3926.99 kilograms
+            Velocity::linear(Vec2::ZERO),
+            ExternalImpulse::default(),
+            Name::new("Enemy"),
+        ));
+    }
 }
 
 pub fn enemy_flight_system(

@@ -6,7 +6,9 @@ use crate::core::resources::{assets::SpriteAssets, state::GameState};
 
 use super::{
     bullet::BulletSpawnEvent,
-    ship::{dampening, ship_rotation, ship_thrust, AttackSet, MovementSet, Ship, ShipAction},
+    ship::{
+        dampening, ship_rotation, ship_thrust, AttackSet, Health, MovementSet, Ship, ShipAction,
+    },
 };
 
 /// Player component
@@ -65,6 +67,7 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
             rotation: f32::to_radians(360.0), // Ship manoeuvrability (rad)
             bullet_timer: Timer::from_seconds(0.1, TimerMode::Once),
         },
+        Health(10000.0), // TODO: Game balancing
         SpriteBundle {
             texture: sprites.player_ship.clone(),
             transform: Transform {
