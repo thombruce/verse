@@ -47,13 +47,13 @@ pub fn hud_speedometer(
     mut query: Query<&mut Text, With<UISpeed>>,
     mut player: Query<&Velocity, With<Player>>,
 ) {
-    let velocity = player.single_mut();
-
-    for mut text in query.iter_mut() {
-        text.sections[0].value = format!(
-            "{} m/s",
-            ((velocity.linvel.x.powf(2.0) + velocity.linvel.y.powf(2.0)).sqrt()).trunc()
-        )
-        .to_ascii_uppercase();
+    if let Ok(velocity) = player.get_single_mut() {
+        for mut text in query.iter_mut() {
+            text.sections[0].value = format!(
+                "{} m/s",
+                ((velocity.linvel.x.powf(2.0) + velocity.linvel.y.powf(2.0)).sqrt()).trunc()
+            )
+            .to_ascii_uppercase();
+        }
     }
 }

@@ -74,16 +74,17 @@ pub fn enemy_targeting_system(
     player: Query<&Transform, With<Player>>,
 ) {
     for (transform, entity) in query.iter_mut() {
-        let target = player.single();
-        let desired_velocity = (target.translation - transform.translation)
-            .truncate()
-            .normalize_or_zero();
-        let steering = desired_velocity.angle_between(transform.local_y().truncate());
+        if let Ok(target) = player.get_single() {
+            let desired_velocity = (target.translation - transform.translation)
+                .truncate()
+                .normalize_or_zero();
+            let steering = desired_velocity.angle_between(transform.local_y().truncate());
 
-        commands.entity(entity).insert(Targeting {
-            pos: target.translation,
-            angle: steering,
-        });
+            commands.entity(entity).insert(Targeting {
+                pos: target.translation,
+                angle: steering,
+            });
+        }
     }
 }
 

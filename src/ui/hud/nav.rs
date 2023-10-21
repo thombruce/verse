@@ -49,15 +49,15 @@ pub fn current_location(
     tree: Res<KDTree2<KDNode>>,
     nodes: Query<&Name, With<KDNode>>,
 ) {
-    let ship_transform = player.single();
+    if let Ok(ship_transform) = player.get_single() {
+        let player_translation = ship_transform.translation.xy();
 
-    let player_translation = ship_transform.translation.xy();
+        if let Some((_pos, entity)) = tree.nearest_neighbour(player_translation) {
+            let node = nodes.get(entity.unwrap());
 
-    if let Some((_pos, entity)) = tree.nearest_neighbour(player_translation) {
-        let node = nodes.get(entity.unwrap());
-
-        for mut text in query.iter_mut() {
-            text.sections[0].value = format!("Near {}", node.unwrap()).to_ascii_uppercase();
+            for mut text in query.iter_mut() {
+                text.sections[0].value = format!("Near {}", node.unwrap()).to_ascii_uppercase();
+            }
         }
     }
 }

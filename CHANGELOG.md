@@ -29,6 +29,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed player module to ships
 - Replace Nuxt docs site with simpler docs markdown files managed in Obsidian
 
+### Fixed
+
+- Conditionally run systems dependent on player existence preventing crash when despawned
+
 ## [0.0.15] - 2023-10-13
 
 ### Added

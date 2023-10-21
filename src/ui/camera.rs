@@ -38,10 +38,11 @@ pub fn follow_player(
     player: Query<&Transform, (With<Player>, Without<Camera>)>,
 ) {
     let mut camera_transform = camera.single_mut();
-    let player_transform = player.single();
 
-    let pos = player_transform.translation;
+    if let Ok(player_transform) = player.get_single() {
+        let pos = player_transform.translation;
 
-    camera_transform.translation.x = pos.x;
-    camera_transform.translation.y = pos.y;
+        camera_transform.translation.x = pos.x;
+        camera_transform.translation.y = pos.y;
+    }
 }

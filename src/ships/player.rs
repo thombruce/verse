@@ -112,27 +112,27 @@ pub fn player_flight_system(
         With<Player>,
     >,
 ) {
-    let (ship, transform, mut velocity, mut impulse, action_state) = query.single_mut();
+    if let Ok((ship, transform, mut velocity, mut impulse, action_state)) = query.get_single_mut() {
+        dampening(&time, &mut velocity);
 
-    dampening(&time, &mut velocity);
+        // Controls
+        let mut rotation_factor = 0.0;
+        let mut thrust_factor = 0.0;
 
-    // Controls
-    let mut rotation_factor = 0.0;
-    let mut thrust_factor = 0.0;
+        if action_state.pressed(ShipAction::Forward) {
+            thrust_factor += 1.0;
+        }
+        if action_state.pressed(ShipAction::RotateRight) {
+            rotation_factor -= 1.0;
+        }
+        if action_state.pressed(ShipAction::RotateLeft) {
+            rotation_factor += 1.0;
+        }
 
-    if action_state.pressed(ShipAction::Forward) {
-        thrust_factor += 1.0;
+        ship_rotation(rotation_factor, &mut velocity, ship);
+
+        ship_thrust(&mut impulse, transform, thrust_factor, ship);
     }
-    if action_state.pressed(ShipAction::RotateRight) {
-        rotation_factor -= 1.0;
-    }
-    if action_state.pressed(ShipAction::RotateLeft) {
-        rotation_factor += 1.0;
-    }
-
-    ship_rotation(rotation_factor, &mut velocity, ship);
-
-    ship_thrust(&mut impulse, transform, thrust_factor, ship);
 }
 
 pub fn player_weapons_system(
@@ -147,13 +147,13 @@ pub fn player_weapons_system(
         With<Player>,
     >,
 ) {
-    let (mut ship, transform, velocity, action_state) = query.single_mut();
-
-    if action_state.pressed(ShipAction::Fire) && ship.bullet_timer.finished() {
-        bullet_spawn_events.send(BulletSpawnEvent {
-            transform: *transform,
-            velocity: *velocity,
-        });
-        ship.bullet_timer.reset();
+    if let Ok((mut ship, transform, velocity, action_state)) = query.get_single_mut() {
+        if action_state.pressed(ShipAction::Fire) && ship.bullet_timer.finished() {
+            bullet_spawn_events.send(BulletSpawnEvent {
+                transform: *transform,
+                velocity: *velocity,
+            });
+            ship.bullet_timer.reset();
+        }
     }
 }
