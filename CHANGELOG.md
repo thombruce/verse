@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New Player and Enemy components separating specific logic for player and enemy ships
 - Verse "V" window icon
 - Xolonium font (Regular and Bold)
+- Audio section added to credits
 - Roadmap added to docs
 
 ### Changed
@@ -26,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New player ship sprite
 - Add enemies to indicator system
 - UI text now uses Xolonium-Bold
+- Credits now scroll
 - Renamed player module to ships
 - Replace Nuxt docs site with simpler docs markdown files managed in Obsidian
 
