@@ -2,15 +2,23 @@ use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
 use crate::core::resources::{assets::SpriteAssets, state::GameState};
+use crate::ui::hud::indicator::Indicated;
 
 use super::{
     bullet::BulletSpawnEvent,
-    ship::{dampening, AttackSet, Health, MovementSet, Ship},
+    player::Player,
+    ship::{dampening, ship_rotation, ship_thrust, AttackSet, Health, MovementSet, Ship},
 };
 
 /// Enemy component
 #[derive(Component)]
 pub struct Enemy;
+
+#[derive(Component)]
+pub struct Targeting {
+    pub pos: Vec3,
+    pub angle: f32,
+}
 
 pub struct EnemyPlugin;
 impl Plugin for EnemyPlugin {
@@ -19,6 +27,7 @@ impl Plugin for EnemyPlugin {
         app.add_systems(
             Update,
             (
+                enemy_targeting_system.before(MovementSet),
                 enemy_flight_system.in_set(MovementSet),
                 enemy_weapons_system.in_set(AttackSet),
             )
@@ -30,7 +39,7 @@ impl Plugin for EnemyPlugin {
 /// The setup function
 fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
     // Spawns enemy ships
-    for (_i, pos) in [1000.0 as f32, -1000.0 as f32].iter().enumerate() {
+    for (_i, pos) in [250.0 as f32, -250.0 as f32].iter().enumerate() {
         commands.spawn((
             Enemy,
             Ship {
@@ -39,6 +48,7 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
                 bullet_timer: Timer::from_seconds(0.1, TimerMode::Once),
             },
             Health(1000.0),
+            Indicated { color: Color::RED },
             SpriteBundle {
                 texture: sprites.enemy_ship.clone(),
                 transform: Transform {
@@ -58,24 +68,77 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
     }
 }
 
+pub fn enemy_targeting_system(
+    mut commands: Commands,
+    mut query: Query<(&Transform, Entity), With<Enemy>>,
+    player: Query<&Transform, With<Player>>,
+) {
+    for (transform, entity) in query.iter_mut() {
+        let target = player.single();
+        let desired_velocity = (target.translation - transform.translation)
+            .truncate()
+            .normalize_or_zero();
+        let steering = desired_velocity.angle_between(transform.local_y().truncate());
+
+        commands.entity(entity).insert(Targeting {
+            pos: target.translation,
+            angle: steering,
+        });
+    }
+}
+
 pub fn enemy_flight_system(
     time: Res<Time>,
-    mut query: Query<(&Ship, &Transform, &mut Velocity, &mut ExternalImpulse), With<Enemy>>,
+    mut query: Query<
+        (
+            &Ship,
+            &Transform,
+            &mut Velocity,
+            &mut ExternalImpulse,
+            &Targeting,
+        ),
+        With<Enemy>,
+    >,
 ) {
-    for (_ship, _transform, mut velocity, mut _impulse) in query.iter_mut() {
+    for (ship, transform, mut velocity, mut impulse, targeting) in query.iter_mut() {
         dampening(&time, &mut velocity);
 
-        // TODO: Enemy needs a brain!
+        let desired_velocity = (targeting.pos - transform.translation)
+            .truncate()
+            .normalize_or_zero();
+        let steering = targeting.angle;
+
+        // Controls
+        let mut rotation_factor = 0.0;
+        let mut thrust_factor = 0.0;
+
+        if desired_velocity != Vec2::ZERO && steering.abs() < 0.5 {
+            thrust_factor += 1.0;
+        }
+        if steering > -0.1 {
+            rotation_factor -= 1.0;
+        }
+        if steering < 0.1 {
+            rotation_factor += 1.0;
+        }
+
+        ship_rotation(rotation_factor, &mut velocity, ship);
+
+        ship_thrust(&mut impulse, transform, thrust_factor, ship);
     }
 }
 
 pub fn enemy_weapons_system(
     mut bullet_spawn_events: EventWriter<BulletSpawnEvent>,
-    mut query: Query<(&mut Ship, &Transform, &mut Velocity), With<Enemy>>,
+    mut query: Query<(&mut Ship, &Transform, &mut Velocity, &Targeting), With<Enemy>>,
 ) {
-    for (mut ship, transform, velocity) in query.iter_mut() {
-        // TODO: Enemy needs a brain!
-        if false && ship.bullet_timer.finished() {
+    for (mut ship, transform, velocity, targeting) in query.iter_mut() {
+        let steering = targeting.angle;
+
+        if steering.abs() < 0.1
+            && transform.translation.distance(targeting.pos) < 400.0
+            && ship.bullet_timer.finished()
+        {
             bullet_spawn_events.send(BulletSpawnEvent {
                 transform: *transform,
                 velocity: *velocity,

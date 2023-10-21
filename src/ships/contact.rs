@@ -14,7 +14,7 @@ impl Plugin for ContactPlugin {
         app.add_systems(
             Update,
             contact_system
-                .after(AttackSet)
+                .in_set(AttackSet)
                 .run_if(in_state(GameState::Active)),
         );
     }

@@ -88,6 +88,8 @@ fn ship_damage(
             health.0 -= 100.0;
             if health.0 <= 0. {
                 commands.entity(event.ship).despawn();
+                // TODO: Handle Player ship despawning
+                //       Right now, it crashes the game
             }
         }
     }
