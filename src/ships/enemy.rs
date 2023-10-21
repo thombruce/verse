@@ -145,6 +145,3 @@ pub fn enemy_weapons_system(
         }
     }
 }
-
-// TODO: There is an issue with spawning bullets at extremely close proximity still.
-// thread 'Compute Task Pool (1)' panicked at 'Attempting to create an EntityCommands for entity 32v3, which doesn't exist.', src\ships\ship.rs:85:18
