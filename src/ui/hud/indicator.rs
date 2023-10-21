@@ -10,6 +10,10 @@ impl Plugin for IndicatorPlugin {
             Update,
             indicators_system.run_if(in_state(GameState::Active)),
         );
+        app.add_systems(
+            PostUpdate,
+            despawn_indicators_system.run_if(in_state(GameState::Active)),
+        );
     }
 }
 
@@ -129,6 +133,18 @@ fn indicators_system(
             //         indicator_style.top = Val::Auto;
             //     }
             // }
+        }
+    }
+}
+
+fn despawn_indicators_system(
+    mut commands: Commands,
+    mut query: Query<(Entity, &Indicator)>,
+    entity_query: Query<(&Transform, &ComputedVisibility), (With<Indicated>, Without<Indicator>)>,
+) {
+    for (entity, indicator) in &mut query {
+        if let Err(_) = entity_query.get(indicator.entity) {
+            commands.entity(entity).despawn_recursive();
         }
     }
 }

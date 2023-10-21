@@ -2,6 +2,7 @@ use bevy::{math::Vec3Swizzles, prelude::*};
 use bevy_rapier2d::prelude::*;
 
 use crate::core::resources::{assets::SpriteAssets, state::GameState};
+use crate::ui::hud::indicator::Indicated;
 
 use super::{
     bullet::BulletSpawnEvent,
@@ -40,6 +41,7 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
                 bullet_timer: Timer::from_seconds(0.1, TimerMode::Once),
             },
             Health(1000.0),
+            Indicated { color: Color::RED },
             SpriteBundle {
                 texture: sprites.enemy_ship.clone(),
                 transform: Transform {
