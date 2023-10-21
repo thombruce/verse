@@ -1,4 +1,4 @@
-use bevy::{math::Vec3Swizzles, prelude::*};
+use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
 use crate::core::resources::{assets::SpriteAssets, state::GameState};
@@ -16,7 +16,7 @@ pub struct Enemy;
 
 #[derive(Component)]
 pub struct Targeting {
-    pub pos: Vec2,
+    pub pos: Vec3,
     pub angle: f32,
 }
 
@@ -76,12 +76,12 @@ pub fn enemy_targeting_system(
     for (transform, entity) in query.iter_mut() {
         let target = player.single();
         let desired_velocity = (target.translation - transform.translation)
-            .xy()
+            .truncate()
             .normalize_or_zero();
         let steering = desired_velocity.angle_between(transform.local_y().truncate());
 
         commands.entity(entity).insert(Targeting {
-            pos: target.translation.truncate(),
+            pos: target.translation,
             angle: steering,
         });
     }
@@ -103,7 +103,9 @@ pub fn enemy_flight_system(
     for (ship, transform, mut velocity, mut impulse, targeting) in query.iter_mut() {
         dampening(&time, &mut velocity);
 
-        let desired_velocity = (targeting.pos - transform.translation.xy()).normalize_or_zero();
+        let desired_velocity = (targeting.pos - transform.translation)
+            .truncate()
+            .normalize_or_zero();
         let steering = targeting.angle;
 
         // Controls
@@ -134,7 +136,7 @@ pub fn enemy_weapons_system(
         let steering = targeting.angle;
 
         if steering.abs() < 0.1
-            && transform.translation.distance(targeting.pos.extend(0.)) < 400.0
+            && transform.translation.distance(targeting.pos) < 400.0
             && ship.bullet_timer.finished()
         {
             bullet_spawn_events.send(BulletSpawnEvent {
