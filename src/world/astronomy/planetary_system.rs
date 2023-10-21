@@ -18,7 +18,6 @@ pub struct PlanetarySystemPlugin;
 impl Plugin for PlanetarySystemPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(OrbitPlugin);
-        // TODO: Having some real trouble with ordering systems
         app.add_systems(
             OnEnter(GameState::GameCreate),
             (
