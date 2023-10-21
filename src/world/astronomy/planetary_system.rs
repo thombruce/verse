@@ -33,7 +33,16 @@ impl Plugin for PlanetarySystemPlugin {
 }
 
 fn spawn_star(mut commands: Commands, sprites: Res<SpriteAssets>) {
-    commands.spawn(StarBundle::from_sprites(sprites));
+    commands.spawn(StarBundle {
+        name: Name::new("Sol"),
+        sprite_sheet_bundle: SpriteSheetBundle {
+            texture_atlas: sprites.star.clone(),
+            sprite: TextureAtlasSprite::new(0),
+            transform: Transform::from_scale(Vec3::splat(2.0)),
+            ..default()
+        },
+        ..default()
+    });
 }
 
 fn spawn_planets(
@@ -43,6 +52,7 @@ fn spawn_planets(
 ) {
     commands.spawn((
         PlanetBundle {
+            name: Name::new("Earth"),
             indicated: Indicated {
                 color: Color::LIME_GREEN,
             },
@@ -54,9 +64,9 @@ fn spawn_planets(
                 initial_mean_anomaly: f32::to_radians(0.),
             },
             sprite_sheet_bundle: SpriteSheetBundle {
-                texture_atlas: sprites.planet.clone(),
+                texture_atlas: sprites.earth.clone(),
                 sprite: TextureAtlasSprite::new(0),
-                transform: Transform::from_scale(Vec3::splat(2.0)), // Divide by parent scale?
+                transform: Transform::from_scale(Vec3::splat(2.0)),
                 ..default()
             },
             mass: Mass(5.9722e24),
@@ -65,27 +75,118 @@ fn spawn_planets(
         EarthLike,
     ));
 
-    for (i, radius) in [4000.0, 10000.0, 30000.0, 50000.0, 60000.0, 70000.0, 80000.0]
-        .iter()
-        .enumerate()
-    {
-        commands.spawn(PlanetBundle {
-            name: Name::new(format!("Rocky Planet {}", i + 1)),
-            indicated: Indicated { color: Color::GRAY },
-            orbit: Orbit {
-                parent: Some(star_query.single()),
-                semi_major_axis: *radius,
-                ..default()
-            },
-            sprite_sheet_bundle: SpriteSheetBundle {
-                texture_atlas: sprites.noatmos.clone(),
-                sprite: TextureAtlasSprite::new(0),
-                transform: Transform::from_scale(Vec3::splat(2.0)), // Divide by parent scale?
-                ..default()
-            },
+    commands.spawn(PlanetBundle {
+        name: Name::new("Mercury"),
+        indicated: Indicated { color: Color::GRAY },
+        orbit: Orbit {
+            parent: Some(star_query.single()),
+            semi_major_axis: 4000.0,
             ..default()
-        });
-    }
+        },
+        sprite_sheet_bundle: SpriteSheetBundle {
+            texture_atlas: sprites.mercury.clone(),
+            sprite: TextureAtlasSprite::new(0),
+            transform: Transform::from_scale(Vec3::splat(2.0)),
+            ..default()
+        },
+        ..default()
+    });
+    commands.spawn(PlanetBundle {
+        name: Name::new("Venus"),
+        indicated: Indicated { color: Color::GRAY },
+        orbit: Orbit {
+            parent: Some(star_query.single()),
+            semi_major_axis: 10000.0,
+            ..default()
+        },
+        sprite_sheet_bundle: SpriteSheetBundle {
+            texture_atlas: sprites.venus.clone(),
+            sprite: TextureAtlasSprite::new(0),
+            transform: Transform::from_scale(Vec3::splat(1.8)),
+            ..default()
+        },
+        ..default()
+    });
+    commands.spawn(PlanetBundle {
+        name: Name::new("Mars"),
+        indicated: Indicated { color: Color::GRAY },
+        orbit: Orbit {
+            parent: Some(star_query.single()),
+            semi_major_axis: 30000.0,
+            ..default()
+        },
+        sprite_sheet_bundle: SpriteSheetBundle {
+            texture_atlas: sprites.mars.clone(),
+            sprite: TextureAtlasSprite::new(0),
+            transform: Transform::from_scale(Vec3::splat(1.6)),
+            ..default()
+        },
+        ..default()
+    });
+    commands.spawn(PlanetBundle {
+        name: Name::new("Jupiter"),
+        indicated: Indicated { color: Color::GRAY },
+        orbit: Orbit {
+            parent: Some(star_query.single()),
+            semi_major_axis: 50000.0,
+            ..default()
+        },
+        sprite_sheet_bundle: SpriteSheetBundle {
+            texture_atlas: sprites.jupiter.clone(),
+            sprite: TextureAtlasSprite::new(0),
+            transform: Transform::from_scale(Vec3::splat(2.25)),
+            ..default()
+        },
+        ..default()
+    });
+    commands.spawn(PlanetBundle {
+        name: Name::new("Saturn"),
+        indicated: Indicated { color: Color::GRAY },
+        orbit: Orbit {
+            parent: Some(star_query.single()),
+            semi_major_axis: 60000.0,
+            ..default()
+        },
+        sprite_sheet_bundle: SpriteSheetBundle {
+            texture_atlas: sprites.saturn.clone(),
+            sprite: TextureAtlasSprite::new(0),
+            transform: Transform::from_scale(Vec3::splat(1.75)),
+            ..default()
+        },
+        ..default()
+    });
+    commands.spawn(PlanetBundle {
+        name: Name::new("Uranus"),
+        indicated: Indicated { color: Color::GRAY },
+        orbit: Orbit {
+            parent: Some(star_query.single()),
+            semi_major_axis: 70000.0,
+            ..default()
+        },
+        sprite_sheet_bundle: SpriteSheetBundle {
+            texture_atlas: sprites.uranus.clone(),
+            sprite: TextureAtlasSprite::new(0),
+            transform: Transform::from_scale(Vec3::splat(2.0)),
+            ..default()
+        },
+        ..default()
+    });
+    commands.spawn(PlanetBundle {
+        name: Name::new("Neptune"),
+        indicated: Indicated { color: Color::GRAY },
+        orbit: Orbit {
+            parent: Some(star_query.single()),
+            semi_major_axis: 80000.0,
+            ..default()
+        },
+        sprite_sheet_bundle: SpriteSheetBundle {
+            texture_atlas: sprites.neptune.clone(),
+            sprite: TextureAtlasSprite::new(0),
+            transform: Transform::from_scale(Vec3::splat(2.0)),
+            ..default()
+        },
+        ..default()
+    });
 }
 
 fn spawn_demo_orbital(

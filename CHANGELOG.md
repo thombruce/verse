@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- New planet assets emulating those of the Solar System
+
+### Changed
+
+- New yellow star sprite better resembling our own sun, Sol
+
 ## [0.0.16] - 2023-10-21
 
 ### Added

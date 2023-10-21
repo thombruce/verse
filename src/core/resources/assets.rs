@@ -13,16 +13,40 @@ pub struct SpriteAssets {
     pub bullet: Handle<Image>,
 
     #[asset(texture_atlas(tile_size_x = 500., tile_size_y = 500., columns = 25, rows = 5))]
-    #[asset(path = "space/celestials/star-pixelplanet.png")]
+    #[asset(path = "space/celestials/star-yellow.png")]
     pub star: Handle<TextureAtlas>,
 
     #[asset(texture_atlas(tile_size_x = 125., tile_size_y = 125., columns = 25, rows = 5))]
-    #[asset(path = "space/celestials/planet-pixelplanet.png")]
-    pub planet: Handle<TextureAtlas>,
+    #[asset(path = "space/celestials/earth.png")]
+    pub earth: Handle<TextureAtlas>,
 
     #[asset(texture_atlas(tile_size_x = 75., tile_size_y = 75., columns = 25, rows = 5))]
-    #[asset(path = "space/celestials/noatmos-pixelplanet.png")]
-    pub noatmos: Handle<TextureAtlas>,
+    #[asset(path = "space/celestials/mercury.png")]
+    pub mercury: Handle<TextureAtlas>,
+
+    #[asset(texture_atlas(tile_size_x = 125., tile_size_y = 125., columns = 25, rows = 5))]
+    #[asset(path = "space/celestials/venus.png")]
+    pub venus: Handle<TextureAtlas>,
+
+    #[asset(texture_atlas(tile_size_x = 125., tile_size_y = 125., columns = 25, rows = 5))]
+    #[asset(path = "space/celestials/mars.png")]
+    pub mars: Handle<TextureAtlas>,
+
+    #[asset(texture_atlas(tile_size_x = 200., tile_size_y = 200., columns = 25, rows = 5))]
+    #[asset(path = "space/celestials/jupiter.png")]
+    pub jupiter: Handle<TextureAtlas>,
+
+    #[asset(texture_atlas(tile_size_x = 600., tile_size_y = 600., columns = 25, rows = 5))]
+    #[asset(path = "space/celestials/saturn.png")]
+    pub saturn: Handle<TextureAtlas>,
+
+    #[asset(texture_atlas(tile_size_x = 175., tile_size_y = 175., columns = 25, rows = 5))]
+    #[asset(path = "space/celestials/uranus.png")]
+    pub uranus: Handle<TextureAtlas>,
+
+    #[asset(texture_atlas(tile_size_x = 175., tile_size_y = 175., columns = 25, rows = 5))]
+    #[asset(path = "space/celestials/neptune.png")]
+    pub neptune: Handle<TextureAtlas>,
 
     #[asset(path = "space/backgrounds/custom.png")]
     pub background: Handle<Image>,

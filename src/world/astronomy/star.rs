@@ -48,6 +48,7 @@ impl Default for StarBundle {
     }
 }
 impl StarBundle {
+    #[allow(dead_code)]
     pub fn from_sprites(sprites: Res<SpriteAssets>) -> Self {
         Self {
             sprite_sheet_bundle: SpriteSheetBundle {
