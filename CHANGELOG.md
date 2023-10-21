@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Ship health component
+- Ship health component and health indicator
 - Weapons system enables ship to fire bullets
 - Weapons system audio assets from Kenney's Impact Sounds pack
 - Spawn enemy ship with enemy ship sprite
