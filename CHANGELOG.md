@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.16] - 2023-10-21
+
 ### Added
 
 - Ship health component and health indicator
@@ -234,7 +236,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CHANGELOG.md matching Keep a Changelog formatting
 - README with link to license doc and changelog
 
-[unreleased]: https://github.com/thombruce/verse/compare/v0.0.15...HEAD
+[unreleased]: https://github.com/thombruce/verse/compare/v0.0.16...HEAD
+[0.0.16]: https://github.com/thombruce/verse/compare/v0.0.15...v0.0.16
 [0.0.15]: https://github.com/thombruce/verse/compare/v0.0.14...v0.0.15
 [0.0.14]: https://github.com/thombruce/verse/compare/v0.0.13...v0.0.14
 [0.0.13]: https://github.com/thombruce/verse/compare/v0.0.12...v0.0.13
