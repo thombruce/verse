@@ -16,6 +16,9 @@ impl Plugin for CreditsPlugin {
 #[derive(Component)]
 pub struct Credits;
 
+#[derive(Component)]
+pub struct Top(pub f32);
+
 fn setup(mut commands: Commands, ui: Res<UiAssets>) {
     commands
         .spawn((
@@ -46,12 +49,13 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                             justify_content: JustifyContent::Center,
                             flex_direction: FlexDirection::Column,
                             position_type: PositionType::Absolute,
-                            top: Val::Percent(110.0),
                             ..default()
                         },
                         ..default()
                     },
                     Credits,
+                    // TODO: Initial value should be window Y + 25.0
+                    Top(1000.0),
                 ))
                 .with_children(|parent| {
                     parent.spawn((TextBundle {
@@ -352,10 +356,19 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
         });
 }
 
-fn credits_system(time: Res<Time>, mut query: Query<&mut Style, With<Credits>>) {
-    for mut style in query.iter_mut() {
-        if let Ok(new_pos) = style.top.try_sub(Val::Percent(6.25 * time.delta_seconds())) {
-            style.top = new_pos;
+fn credits_system(
+    time: Res<Time>,
+    mut query: Query<(&mut Style, &mut Top, &Node), With<Credits>>,
+    mut next_state: ResMut<NextState<GameState>>,
+) {
+    for (mut style, mut top, node) in query.iter_mut() {
+        top.0 -= 50.0 * time.delta_seconds();
+        style.top = Val::Px(top.0);
+
+        // Returns to StartMenu when credits have rolled
+        // outside of the upper-bounds of the screen
+        if top.0 <= -(node.size().y + 25.0) {
+            next_state.set(GameState::StartMenu);
         }
     }
 }
