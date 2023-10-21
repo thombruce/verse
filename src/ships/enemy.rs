@@ -14,6 +14,12 @@ use super::{
 #[derive(Component)]
 pub struct Enemy;
 
+#[derive(Component)]
+pub struct Targeting {
+    pub pos: Vec2,
+    pub angle: f32,
+}
+
 pub struct EnemyPlugin;
 impl Plugin for EnemyPlugin {
     fn build(&self, app: &mut App) {
@@ -21,6 +27,7 @@ impl Plugin for EnemyPlugin {
         app.add_systems(
             Update,
             (
+                enemy_targeting_system.before(MovementSet),
                 enemy_flight_system.in_set(MovementSet),
                 enemy_weapons_system.in_set(AttackSet),
             )
@@ -61,19 +68,43 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
     }
 }
 
-pub fn enemy_flight_system(
-    time: Res<Time>,
-    mut query: Query<(&Ship, &Transform, &mut Velocity, &mut ExternalImpulse), With<Enemy>>,
+pub fn enemy_targeting_system(
+    mut commands: Commands,
+    mut query: Query<(&Transform, Entity), With<Enemy>>,
     player: Query<&Transform, With<Player>>,
 ) {
-    for (ship, transform, mut velocity, mut impulse) in query.iter_mut() {
-        dampening(&time, &mut velocity);
-
+    for (transform, entity) in query.iter_mut() {
         let target = player.single();
         let desired_velocity = (target.translation - transform.translation)
             .xy()
             .normalize_or_zero();
         let steering = desired_velocity.angle_between(transform.local_y().truncate());
+
+        commands.entity(entity).insert(Targeting {
+            pos: target.translation.truncate(),
+            angle: steering,
+        });
+    }
+}
+
+pub fn enemy_flight_system(
+    time: Res<Time>,
+    mut query: Query<
+        (
+            &Ship,
+            &Transform,
+            &mut Velocity,
+            &mut ExternalImpulse,
+            &Targeting,
+        ),
+        With<Enemy>,
+    >,
+) {
+    for (ship, transform, mut velocity, mut impulse, targeting) in query.iter_mut() {
+        dampening(&time, &mut velocity);
+
+        let desired_velocity = (targeting.pos - transform.translation.xy()).normalize_or_zero();
+        let steering = targeting.angle;
 
         // Controls
         let mut rotation_factor = 0.0;
@@ -97,22 +128,13 @@ pub fn enemy_flight_system(
 
 pub fn enemy_weapons_system(
     mut bullet_spawn_events: EventWriter<BulletSpawnEvent>,
-    mut query: Query<(&mut Ship, &Transform, &mut Velocity), With<Enemy>>,
-    player: Query<&Transform, With<Player>>,
+    mut query: Query<(&mut Ship, &Transform, &mut Velocity, &Targeting), With<Enemy>>,
 ) {
-    for (mut ship, transform, velocity) in query.iter_mut() {
-        // TODO: Don't Repeat Yourself!
-        //       Perhaps steering intention can be stored within
-        //       a component on the Enemy ship.
-        //       Maybe a Targeting component with position and angle values.
-        let target = player.single();
-        let desired_velocity = (target.translation - transform.translation)
-            .xy()
-            .normalize_or_zero();
-        let steering = desired_velocity.angle_between(transform.local_y().truncate());
+    for (mut ship, transform, velocity, targeting) in query.iter_mut() {
+        let steering = targeting.angle;
 
         if steering.abs() < 0.1
-            && transform.translation.distance(target.translation) < 400.0
+            && transform.translation.distance(targeting.pos.extend(0.)) < 400.0
             && ship.bullet_timer.finished()
         {
             bullet_spawn_events.send(BulletSpawnEvent {
