@@ -39,7 +39,17 @@ impl Plugin for EnemyPlugin {
 /// The setup function
 fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
     // Spawns enemy ships
-    for (_i, pos) in [250.0 as f32, -250.0 as f32].iter().enumerate() {
+    for (_i, pos) in [
+        (250.0 as f32, 250.0 as f32),
+        (-250.0 as f32, -250.0 as f32),
+        (-25000.0 as f32, 0.0 as f32),
+        (25000.0 as f32, 0.0 as f32),
+        (0.0 as f32, 25000.0 as f32),
+        (0.0 as f32, -25000.0 as f32),
+    ]
+    .iter()
+    .enumerate()
+    {
         commands.spawn((
             Enemy,
             Ship {
@@ -52,7 +62,7 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
             SpriteBundle {
                 texture: sprites.enemy_ship.clone(),
                 transform: Transform {
-                    translation: Vec3::new(*pos, *pos, 100.0),
+                    translation: Vec3::new(pos.0, pos.1, 100.0),
                     scale: Vec3::splat(0.5),
                     ..default()
                 },
