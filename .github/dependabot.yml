@@ -4,3 +4,6 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    ignore:
+        # winit dependency must be same as required by bevy; see: https://bevy-cheatbook.github.io/window/icon.html
+        - dependency-name: "winit"
