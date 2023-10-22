@@ -1,13 +1,16 @@
 use bevy::prelude::*;
 
 use crate::{
-    core::resources::{assets::SpriteAssets, state::GameState},
+    core::{
+        effects::animate::{AnimationBundle, AnimationTimer},
+        resources::{assets::SpriteAssets, state::GameState},
+    },
     ui::hud::indicator::Indicated,
 };
 
 use super::{
     orbit::{Mass, Orbit, OrbitPlugin},
-    planet::PlanetBundle,
+    planet::{PlanetBundle, PLANET_ANIMATION_INDICES},
     star::{Star, StarBundle},
 };
 
@@ -150,6 +153,10 @@ fn spawn_planets(
             eccentricity: 0.0489,
             argument_of_periapsis: f32::to_radians(273.867),
             initial_mean_anomaly: f32::to_radians(0.), //TODO: Set me
+        },
+        animation_bundle: AnimationBundle {
+            indices: PLANET_ANIMATION_INDICES,
+            timer: AnimationTimer(Timer::from_seconds(0.2, TimerMode::Repeating)),
         },
         sprite_sheet_bundle: SpriteSheetBundle {
             texture_atlas: sprites.jupiter.clone(),

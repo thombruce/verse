@@ -8,7 +8,7 @@ use crate::{
 
 use super::orbit::{Mass, Orbit, Orbitable};
 
-const PLANET_ANIMATION_INDICES: AnimationIndices = AnimationIndices {
+pub const PLANET_ANIMATION_INDICES: AnimationIndices = AnimationIndices {
     first: 0,
     last: 124,
 };
