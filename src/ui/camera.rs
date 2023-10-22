@@ -20,7 +20,16 @@ impl Plugin for CameraPlugin {
 
 fn setup(mut commands: Commands) {
     commands.spawn((
-        Camera2dBundle::default(),
+        Camera2dBundle {
+            // TODO: This should always be matched to the player position on load
+            //       Otherwise, we see a quick flash of the Sun at (0., 0.)
+            //       before the follow_player logic kicks in.
+            transform: Transform {
+                translation: Vec3::new(0., -6000., 100.0),
+                ..default()
+            },
+            ..default()
+        },
         PixelateSettings {
             block_size: 3.25,
             ..default()
