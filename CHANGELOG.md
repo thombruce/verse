@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Initial player position moved into space
 - Gravity affecting ship now accounts for parent mass
 - Set eccentricity, argument of periapsis and mass for all planets
 - New yellow star sprite better resembling our own sun, Sol
