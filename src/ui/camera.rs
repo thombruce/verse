@@ -28,6 +28,10 @@ fn setup(mut commands: Commands) {
                 translation: Vec3::new(0., -6000., 100.0),
                 ..default()
             },
+            projection: OrthographicProjection {
+                scale: 1.5,
+                ..default()
+            },
             ..default()
         },
         PixelateSettings {
