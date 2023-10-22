@@ -41,6 +41,7 @@ fn spawn_star(mut commands: Commands, sprites: Res<SpriteAssets>) {
             transform: Transform::from_scale(Vec3::splat(2.0)),
             ..default()
         },
+        mass: Mass(1.989e30),
         ..default()
     });
 }
@@ -93,6 +94,7 @@ fn spawn_planets(
             transform: Transform::from_scale(Vec3::splat(2.0)),
             ..default()
         },
+        mass: Mass(3.3011e23),
         ..default()
     });
     commands.spawn(PlanetBundle {
@@ -113,6 +115,7 @@ fn spawn_planets(
             transform: Transform::from_scale(Vec3::splat(1.8)),
             ..default()
         },
+        mass: Mass(4.8675e24),
         ..default()
     });
     commands.spawn(PlanetBundle {
@@ -133,6 +136,7 @@ fn spawn_planets(
             transform: Transform::from_scale(Vec3::splat(1.6)),
             ..default()
         },
+        mass: Mass(6.4171e23),
         ..default()
     });
     commands.spawn(PlanetBundle {
@@ -153,6 +157,7 @@ fn spawn_planets(
             transform: Transform::from_scale(Vec3::splat(2.25)),
             ..default()
         },
+        mass: Mass(1.8982e27),
         ..default()
     });
     commands.spawn(PlanetBundle {
@@ -173,6 +178,7 @@ fn spawn_planets(
             transform: Transform::from_scale(Vec3::splat(1.75)),
             ..default()
         },
+        mass: Mass(5.6834e26),
         ..default()
     });
     commands.spawn(PlanetBundle {
@@ -193,6 +199,7 @@ fn spawn_planets(
             transform: Transform::from_scale(Vec3::splat(2.0)),
             ..default()
         },
+        mass: Mass(8.6810e25),
         ..default()
     });
     commands.spawn(PlanetBundle {
@@ -213,6 +220,7 @@ fn spawn_planets(
             transform: Transform::from_scale(Vec3::splat(2.0)),
             ..default()
         },
+        mass: Mass(1.02413e26),
         ..default()
     });
 }
