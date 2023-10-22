@@ -70,16 +70,20 @@ fn setup(
 }
 
 fn indicators_system(
-    mut query: Query<(&mut Transform, &mut Style, &Indicator)>,
+    mut query: Query<(&mut Transform, &mut Style, &Indicator, &mut BackgroundColor)>,
     player_query: Query<&Transform, (With<Player>, Without<Indicator>)>,
-    entity_query: Query<(&Transform, &ComputedVisibility), (With<Indicated>, Without<Indicator>)>,
+    entity_query: Query<(&Transform, &ComputedVisibility, &Indicated), Without<Indicator>>,
     bounds_query: Query<&Node, (With<Bounds>, Without<Indicator>)>,
 ) {
     if let Ok(player_transform) = player_query.get_single() {
         let player_translation = player_transform.translation.xy();
 
-        for (mut indicator_transform, mut indicator_style, indicator) in &mut query {
-            if let Ok((entity_transform, entity_visibility)) = entity_query.get(indicator.entity) {
+        for (mut indicator_transform, mut indicator_style, indicator, mut indicator_color) in
+            &mut query
+        {
+            if let Ok((entity_transform, entity_visibility, indicated)) =
+                entity_query.get(indicator.entity)
+            {
                 if entity_visibility.is_visible() {
                     indicator_style.display = Display::None;
                     continue;
@@ -103,6 +107,11 @@ fn indicators_system(
                 // get the extents of the bounding UI node (size of window)
                 let bounds = bounds_query.single().size();
                 let extents = Vec2::from(bounds / 2.0);
+
+                /* Indicator transparency */
+                indicator_color.0 = indicated
+                    .color
+                    .with_a((real_to_entity.length_recip() * 5000.0).clamp(0.01, 1.0));
 
                 /* Circular indicators */
                 let normalized = real_to_entity.normalize() * 200.0;

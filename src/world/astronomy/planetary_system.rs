@@ -61,7 +61,7 @@ fn spawn_planets(
                 semi_major_axis: 20000.0,
                 eccentricity: 0.0167086,
                 argument_of_periapsis: f32::to_radians(288.1),
-                initial_mean_anomaly: f32::to_radians(0.),
+                initial_mean_anomaly: f32::to_radians(0.), // TODO: Set me
             },
             sprite_sheet_bundle: SpriteSheetBundle {
                 texture_atlas: sprites.earth.clone(),
@@ -77,11 +77,15 @@ fn spawn_planets(
 
     commands.spawn(PlanetBundle {
         name: Name::new("Mercury"),
-        indicated: Indicated { color: Color::GRAY },
+        indicated: Indicated {
+            color: Color::ORANGE,
+        },
         orbit: Orbit {
             parent: Some(star_query.single()),
             semi_major_axis: 4000.0,
-            ..default()
+            eccentricity: 0.205630,
+            argument_of_periapsis: f32::to_radians(29.124),
+            initial_mean_anomaly: f32::to_radians(0.), //TODO: Set me
         },
         sprite_sheet_bundle: SpriteSheetBundle {
             texture_atlas: sprites.mercury.clone(),
@@ -93,11 +97,15 @@ fn spawn_planets(
     });
     commands.spawn(PlanetBundle {
         name: Name::new("Venus"),
-        indicated: Indicated { color: Color::GRAY },
+        indicated: Indicated {
+            color: Color::ORANGE,
+        },
         orbit: Orbit {
             parent: Some(star_query.single()),
             semi_major_axis: 10000.0,
-            ..default()
+            eccentricity: 0.006772,
+            argument_of_periapsis: f32::to_radians(54.884),
+            initial_mean_anomaly: f32::to_radians(0.), //TODO: Set me
         },
         sprite_sheet_bundle: SpriteSheetBundle {
             texture_atlas: sprites.venus.clone(),
@@ -109,11 +117,15 @@ fn spawn_planets(
     });
     commands.spawn(PlanetBundle {
         name: Name::new("Mars"),
-        indicated: Indicated { color: Color::GRAY },
+        indicated: Indicated {
+            color: Color::ORANGE,
+        },
         orbit: Orbit {
             parent: Some(star_query.single()),
             semi_major_axis: 30000.0,
-            ..default()
+            eccentricity: 0.0934,
+            argument_of_periapsis: f32::to_radians(286.5),
+            initial_mean_anomaly: f32::to_radians(0.), //TODO: Set me
         },
         sprite_sheet_bundle: SpriteSheetBundle {
             texture_atlas: sprites.mars.clone(),
@@ -125,11 +137,15 @@ fn spawn_planets(
     });
     commands.spawn(PlanetBundle {
         name: Name::new("Jupiter"),
-        indicated: Indicated { color: Color::GRAY },
+        indicated: Indicated {
+            color: Color::SALMON,
+        },
         orbit: Orbit {
             parent: Some(star_query.single()),
             semi_major_axis: 50000.0,
-            ..default()
+            eccentricity: 0.0489,
+            argument_of_periapsis: f32::to_radians(273.867),
+            initial_mean_anomaly: f32::to_radians(0.), //TODO: Set me
         },
         sprite_sheet_bundle: SpriteSheetBundle {
             texture_atlas: sprites.jupiter.clone(),
@@ -141,11 +157,15 @@ fn spawn_planets(
     });
     commands.spawn(PlanetBundle {
         name: Name::new("Saturn"),
-        indicated: Indicated { color: Color::GRAY },
+        indicated: Indicated {
+            color: Color::SALMON,
+        },
         orbit: Orbit {
             parent: Some(star_query.single()),
             semi_major_axis: 60000.0,
-            ..default()
+            eccentricity: 0.0565,
+            argument_of_periapsis: f32::to_radians(339.392),
+            initial_mean_anomaly: f32::to_radians(0.), //TODO: Set me
         },
         sprite_sheet_bundle: SpriteSheetBundle {
             texture_atlas: sprites.saturn.clone(),
@@ -157,11 +177,15 @@ fn spawn_planets(
     });
     commands.spawn(PlanetBundle {
         name: Name::new("Uranus"),
-        indicated: Indicated { color: Color::GRAY },
+        indicated: Indicated {
+            color: Color::SALMON,
+        },
         orbit: Orbit {
             parent: Some(star_query.single()),
             semi_major_axis: 70000.0,
-            ..default()
+            eccentricity: 0.04717,
+            argument_of_periapsis: f32::to_radians(96.998857),
+            initial_mean_anomaly: f32::to_radians(0.), //TODO: Set me
         },
         sprite_sheet_bundle: SpriteSheetBundle {
             texture_atlas: sprites.uranus.clone(),
@@ -173,11 +197,15 @@ fn spawn_planets(
     });
     commands.spawn(PlanetBundle {
         name: Name::new("Neptune"),
-        indicated: Indicated { color: Color::GRAY },
+        indicated: Indicated {
+            color: Color::SALMON,
+        },
         orbit: Orbit {
             parent: Some(star_query.single()),
             semi_major_axis: 80000.0,
-            ..default()
+            eccentricity: 0.008678,
+            argument_of_periapsis: f32::to_radians(273.187),
+            initial_mean_anomaly: f32::to_radians(0.), //TODO: Set me
         },
         sprite_sheet_bundle: SpriteSheetBundle {
             texture_atlas: sprites.neptune.clone(),
@@ -206,6 +234,9 @@ fn spawn_demo_orbital(
         Orbit {
             parent: planet_query.iter().min(),
             semi_major_axis: 250.0,
+            eccentricity: 0.0549,
+            // argument_of_periapsis: f32::to_radians(0.), // Cannot be set - it rotates
+            initial_mean_anomaly: f32::to_radians(0.), //TODO: Set me
             ..default()
         },
         Name::new("Demo Orbital"),

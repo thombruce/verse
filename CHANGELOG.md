@@ -13,7 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Set eccentricity and argument of periapsis for all planets
 - New yellow star sprite better resembling our own sun, Sol
+- Indicator system now indicates distance by changing transparency
 
 ## [0.0.16] - 2023-10-21
 
