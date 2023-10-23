@@ -1,3 +1,5 @@
+# Rust
+
 ## Ferris the Crab
 
 The game being made in Rust, it seems fitting to throw in an homage to Ferris, the unofficial Rust mascot.
