@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Camera scaling to 1.5, more zoomed out, see enemies on screen for longer
+- Group input setups into shared inputs module
 
 ## [0.0.17] - 2023-10-22
 

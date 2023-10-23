@@ -1,22 +1,16 @@
 use bevy::{audio::PlaybackMode, prelude::*};
-use leafwing_input_manager::{
-    prelude::{ActionState, InputManagerPlugin, InputMap},
-    Actionlike,
-};
+use leafwing_input_manager::prelude::{ActionState, InputManagerPlugin};
 
-use crate::core::{
-    effects::blink::DrawBlinkTimer,
-    resources::{
-        assets::{AudioAssets, UiAssets},
-        state::{is_in_menu_state, ForState, GameState},
+use crate::{
+    core::{
+        effects::blink::DrawBlinkTimer,
+        resources::{
+            assets::{AudioAssets, UiAssets},
+            state::{is_in_menu_state, ForState, GameState},
+        },
     },
+    inputs::menu::{menu_input_map, MenuAction},
 };
-
-#[derive(Actionlike, PartialEq, Eq, Clone, Copy, Hash, Debug, Reflect)]
-pub enum MenuAction {
-    Start,
-    Credits,
-}
 
 pub struct MenuPlugin;
 impl Plugin for MenuPlugin {
@@ -35,14 +29,7 @@ impl Plugin for MenuPlugin {
 }
 
 fn init(mut commands: Commands, audios: Res<AudioAssets>) {
-    let mut input_map = InputMap::<MenuAction>::new([
-        (KeyCode::Return, MenuAction::Start),
-        (KeyCode::C, MenuAction::Credits),
-    ]);
-    input_map.insert(GamepadButtonType::Start, MenuAction::Start);
-    input_map.insert(GamepadButtonType::North, MenuAction::Credits);
-
-    commands.insert_resource(input_map.build());
+    commands.insert_resource(menu_input_map());
     commands.insert_resource(ActionState::<MenuAction>::default());
 
     commands.spawn((

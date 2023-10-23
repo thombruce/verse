@@ -2,13 +2,14 @@ use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use leafwing_input_manager::prelude::*;
 
-use crate::core::resources::{assets::SpriteAssets, state::GameState};
+use crate::{
+    core::resources::{assets::SpriteAssets, state::GameState},
+    inputs::ship::{ship_input_map, ShipAction},
+};
 
 use super::{
     bullet::BulletSpawnEvent,
-    ship::{
-        dampening, ship_rotation, ship_thrust, AttackSet, Health, MovementSet, Ship, ShipAction,
-    },
+    ship::{dampening, ship_rotation, ship_thrust, AttackSet, Health, MovementSet, Ship},
 };
 
 /// Player component
@@ -34,31 +35,6 @@ impl Plugin for PlayerPlugin {
 
 /// The setup function
 fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
-    // TODO: Move me to dedicated controls module for better code organisation
-    let mut input_map = InputMap::new([
-        // Cursor keys
-        (KeyCode::Up, ShipAction::Forward),
-        (KeyCode::Left, ShipAction::RotateLeft),
-        (KeyCode::Right, ShipAction::RotateRight),
-        // WASD
-        (KeyCode::W, ShipAction::Forward),
-        (KeyCode::A, ShipAction::RotateLeft),
-        (KeyCode::D, ShipAction::RotateRight),
-        // Actions
-        (KeyCode::Space, ShipAction::Fire),
-    ]);
-    // Gamepad
-    input_map.insert(GamepadButtonType::RightTrigger2, ShipAction::Forward);
-    input_map.insert(
-        SingleAxis::positive_only(GamepadAxisType::LeftStickX, 0.4),
-        ShipAction::RotateRight,
-    );
-    input_map.insert(
-        SingleAxis::negative_only(GamepadAxisType::LeftStickX, -0.4),
-        ShipAction::RotateLeft,
-    );
-    input_map.insert(GamepadButtonType::South, ShipAction::Fire);
-
     // Spawns player ship
     commands.spawn((
         Player,
@@ -93,7 +69,7 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
         ExternalImpulse::default(),
         InputManagerBundle::<ShipAction> {
             action_state: ActionState::default(),
-            input_map: input_map.build(),
+            input_map: ship_input_map(),
         },
         Name::new("Player"),
     ));

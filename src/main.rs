@@ -11,6 +11,7 @@ use winit::window::Icon;
 use {bevy_inspector_egui::quick::WorldInspectorPlugin, bevy_rapier2d::prelude::*};
 
 mod core;
+mod inputs;
 mod shaders;
 mod ships;
 mod ui;

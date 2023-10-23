@@ -1,22 +1,17 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::RapierConfiguration;
-use leafwing_input_manager::{
-    prelude::{ActionState, InputManagerPlugin, InputMap},
-    Actionlike,
-};
+use leafwing_input_manager::prelude::{ActionState, InputManagerPlugin};
 
-use crate::core::{
-    effects::blink::DrawBlinkTimer,
-    resources::{
-        assets::UiAssets,
-        state::{is_in_game_state, ForState, GameState},
+use crate::{
+    core::{
+        effects::blink::DrawBlinkTimer,
+        resources::{
+            assets::UiAssets,
+            state::{is_in_game_state, ForState, GameState},
+        },
     },
+    inputs::pause::{pause_input_map, PauseAction},
 };
-
-#[derive(Actionlike, PartialEq, Eq, Clone, Copy, Hash, Debug, Reflect)]
-pub enum PauseAction {
-    Pause,
-}
 
 pub struct PausePlugin;
 impl Plugin for PausePlugin {
@@ -30,13 +25,7 @@ impl Plugin for PausePlugin {
 }
 
 fn setup(mut commands: Commands) {
-    let mut input_map = InputMap::<PauseAction>::new([
-        (KeyCode::Escape, PauseAction::Pause),
-        (KeyCode::P, PauseAction::Pause),
-    ]);
-    input_map.insert(GamepadButtonType::Start, PauseAction::Pause);
-
-    commands.insert_resource(input_map.build());
+    commands.insert_resource(pause_input_map());
     commands.insert_resource(ActionState::<PauseAction>::default());
 }
 

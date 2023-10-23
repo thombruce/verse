@@ -1,6 +1,5 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
-use leafwing_input_manager::prelude::*;
 
 use crate::core::resources::state::GameState;
 
@@ -11,14 +10,6 @@ pub struct MovementSet;
 
 #[derive(SystemSet, Clone, Hash, Debug, PartialEq, Eq)]
 pub struct AttackSet;
-
-#[derive(Actionlike, PartialEq, Eq, Clone, Copy, Hash, Debug, Reflect)]
-pub enum ShipAction {
-    Forward,
-    RotateLeft,
-    RotateRight,
-    Fire,
-}
 
 /// Ship component
 #[derive(Component)]
