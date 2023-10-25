@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
-    core::resources::{assets::UiAssets, state::GameState},
+    core::resources::{assets::UiAssets, despawn_timer::DespawnTimer, state::GameState},
     ships::{
         bullet::BulletShipContactEvent,
         ship::{AttackSet, Ship},
@@ -36,29 +36,31 @@ fn ui_spawn_damage(
                 .world_to_viewport(camera_transform, transform.translation)
                 .unwrap();
 
-            commands.spawn(TextBundle {
-                text: Text::from_section(
-                    "100",
-                    TextStyle {
-                        font: ui.font.clone(),
-                        font_size: 25.0,
-                        color: Color::RED,
+            commands.spawn((
+                TextBundle {
+                    text: Text::from_section(
+                        "100",
+                        TextStyle {
+                            font: ui.font.clone(),
+                            font_size: 25.0,
+                            color: Color::RED,
+                            ..default()
+                        },
+                    ),
+                    style: Style {
+                        position_type: PositionType::Absolute,
+                        top: Val::Px(coords.y),
+                        left: Val::Px(coords.x),
                         ..default()
                     },
-                ),
-                style: Style {
-                    position_type: PositionType::Absolute,
-                    top: Val::Px(coords.y),
-                    left: Val::Px(coords.x),
                     ..default()
                 },
-                ..default()
-            });
+                DespawnTimer(Timer::from_seconds(0.5, TimerMode::Once)),
+            ));
         }
     }
 }
 
 fn ui_update_damage() {
-    // TODO: Update damage text position
-    // TODO: Despawn damage on a timer (maybe reuse the bullet despawn timer for this?)
+    // TODO: Update damage text position, maybe fade out over time until disappearance
 }
