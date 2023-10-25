@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- UI damage indicators appear when a ship is hit
+
 ### Changed
 
 - Camera scaling to 1.5, more zoomed out, see enemies on screen for longer
