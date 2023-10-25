@@ -8,12 +8,15 @@ use crate::{
     },
 };
 
+#[derive(Component)]
+struct UiTextFadeOut;
+
 pub struct UiDamagePlugin;
 impl Plugin for UiDamagePlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (ui_spawn_damage, ui_update_damage)
+            (ui_spawn_damage, ui_text_fade_out)
                 .after(AttackSet)
                 .run_if(in_state(GameState::Active)),
         );
@@ -56,11 +59,20 @@ fn ui_spawn_damage(
                     ..default()
                 },
                 DespawnTimer(Timer::from_seconds(0.5, TimerMode::Once)),
+                UiTextFadeOut,
             ));
         }
     }
 }
 
-fn ui_update_damage() {
-    // TODO: Update damage text position, maybe fade out over time until disappearance
+fn ui_text_fade_out(time: Res<Time>, mut text: Query<&mut Text, With<UiTextFadeOut>>) {
+    for mut txt in text.iter_mut() {
+        for section in txt.sections.iter_mut() {
+            let current_alpha = section.style.color.a();
+            section
+                .style
+                .color
+                .set_a(current_alpha - (2.0 * time.delta_seconds()));
+        }
+    }
 }
