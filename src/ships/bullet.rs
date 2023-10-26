@@ -3,15 +3,14 @@ use bevy_rapier2d::prelude::*;
 
 use crate::core::resources::{
     assets::{AudioAssets, SpriteAssets},
+    despawn_timer::DespawnTimer,
     state::{ForState, GameState},
 };
 
 use super::ship::MovementSet;
 
 #[derive(Component)]
-pub struct Bullet {
-    pub despawn_timer: Timer,
-}
+pub struct Bullet;
 
 #[derive(Event)]
 pub struct BulletSpawnEvent {
@@ -34,8 +33,7 @@ impl Plugin for BulletPlugin {
             .add_event::<BulletShipContactEvent>()
             .add_systems(
                 Update,
-                (spawn_bullet.after(MovementSet), bullet_despawn_system)
-                    .run_if(in_state(GameState::Active)),
+                (spawn_bullet.after(MovementSet)).run_if(in_state(GameState::Active)),
             );
     }
 }
@@ -63,9 +61,8 @@ fn spawn_bullet(
                 texture: handles.bullet.clone(),
                 ..default()
             },
-            Bullet {
-                despawn_timer: Timer::from_seconds(2.0, TimerMode::Once),
-            },
+            Bullet,
+            DespawnTimer(Timer::from_seconds(2.0, TimerMode::Once)),
             ForState {
                 states: GameState::IN_GAME_STATE.to_vec(),
             },
@@ -79,18 +76,5 @@ fn spawn_bullet(
                 ..default()
             },
         ));
-    }
-}
-
-fn bullet_despawn_system(
-    mut commands: Commands,
-    time: Res<Time>,
-    mut query: Query<(Entity, &mut Bullet)>,
-) {
-    for (entity, mut bullet) in query.iter_mut() {
-        bullet.despawn_timer.tick(time.delta());
-        if bullet.despawn_timer.finished() {
-            commands.entity(entity).despawn();
-        }
     }
 }
