@@ -8,6 +8,8 @@ use crate::{
     },
 };
 
+use super::resources::top::Top;
+
 #[derive(Component)]
 struct UiTextFadeOut;
 
@@ -60,13 +62,22 @@ fn ui_spawn_damage(
                 },
                 DespawnTimer(Timer::from_seconds(0.5, TimerMode::Once)),
                 UiTextFadeOut,
+                Top(coords.y),
             ));
         }
     }
 }
 
-fn ui_text_fade_out(time: Res<Time>, mut text: Query<&mut Text, With<UiTextFadeOut>>) {
-    for mut txt in text.iter_mut() {
+fn ui_text_fade_out(
+    time: Res<Time>,
+    mut text: Query<(&mut Text, &mut Style, &mut Top), With<UiTextFadeOut>>,
+) {
+    for (mut txt, mut style, mut top) in text.iter_mut() {
+        // Moves the damage text upwards every frame
+        top.0 -= 100.0 * time.delta_seconds();
+        style.top = Val::Px(top.0);
+
+        // Fades the damage text out every frame
         for section in txt.sections.iter_mut() {
             let current_alpha = section.style.color.a();
             section

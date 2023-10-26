@@ -1,8 +1,11 @@
 use bevy::prelude::*;
 
-use crate::core::resources::{
-    assets::UiAssets,
-    state::{ForState, GameState},
+use crate::{
+    core::resources::{
+        assets::UiAssets,
+        state::{ForState, GameState},
+    },
+    ui::resources::top::Top,
 };
 
 pub struct CreditsPlugin;
@@ -15,9 +18,6 @@ impl Plugin for CreditsPlugin {
 
 #[derive(Component)]
 pub struct Credits;
-
-#[derive(Component)]
-pub struct Top(pub f32);
 
 fn setup(mut commands: Commands, ui: Res<UiAssets>) {
     commands
