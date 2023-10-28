@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Gravitable component added allowing dynamic_orbit system to be applied to any entity
+
 ### Fixed
 
 - follow_player camera system now constrained to .after() player movement

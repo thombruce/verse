@@ -9,6 +9,7 @@ use crate::{
 
 use super::{
     bullet::BulletSpawnEvent,
+    dynamic_orbit::Gravitable,
     ship::{dampening, ship_rotation, ship_thrust, AttackSet, Health, MovementSet, Ship},
 };
 
@@ -43,6 +44,7 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
             rotation: f32::to_radians(360.0), // Ship manoeuvrability (rad)
             bullet_timer: Timer::from_seconds(0.1, TimerMode::Once),
         },
+        Gravitable,
         Health(10000.0), // TODO: Game balancing
         SpriteBundle {
             texture: sprites.player_ship.clone(),

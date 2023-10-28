@@ -4,6 +4,7 @@ use bevy_rapier2d::prelude::*;
 use crate::core::resources::{assets::SpriteAssets, state::GameState};
 use crate::ui::hud::indicator::Indicated;
 
+use super::dynamic_orbit::Gravitable;
 use super::{
     bullet::BulletSpawnEvent,
     player::Player,
@@ -57,6 +58,7 @@ fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
                 rotation: f32::to_radians(360.0), // Ship manoeuvrability (rad)
                 bullet_timer: Timer::from_seconds(0.1, TimerMode::Once),
             },
+            Gravitable,
             Health(1000.0),
             Indicated { color: Color::RED },
             SpriteBundle {

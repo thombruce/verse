@@ -7,7 +7,8 @@ use crate::{
     world::{astronomy::orbit::Mass, spatial::KDNode},
 };
 
-use super::ship::Ship;
+#[derive(Component)]
+pub struct Gravitable;
 
 pub struct DynamicOrbitPlugin;
 impl Plugin for DynamicOrbitPlugin {
@@ -21,7 +22,7 @@ impl Plugin for DynamicOrbitPlugin {
 
 pub fn dynamic_orbital_positioning_system(
     tree: Res<KDTree2<KDNode>>,
-    mut query: Query<(&Transform, &mut ExternalImpulse), With<Ship>>,
+    mut query: Query<(&Transform, &mut ExternalImpulse), With<Gravitable>>,
     masses: Query<&Mass, With<KDNode>>,
 ) {
     for (transform, mut impulse) in query.iter_mut() {

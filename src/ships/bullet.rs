@@ -7,7 +7,8 @@ use crate::core::resources::{
     state::{ForState, GameState},
 };
 
-use super::ship::MovementSet;
+#[allow(unused_imports)]
+use super::{dynamic_orbit::Gravitable, ship::MovementSet};
 
 #[derive(Component)]
 pub struct Bullet;
@@ -62,6 +63,21 @@ fn spawn_bullet(
                 ..default()
             },
             Bullet,
+            // TODO: Should bullets be affected by gravity?
+            //       If so, set their initial velocity higher and consider
+            //       despawning them either based on distance or a longer
+            //       timer. Systems as they are, it's far too ridiculous and
+            //       highly unpredictable.
+            //       A bullet speed of around 5000.0 is a reasonable demo of the effect.
+            //       But think again about despawning based on distance - this would mean
+            //       the player could spawn millions of bullets inside of a gravitational
+            //       well and never have them despawn. There has to be a limit to either
+            //       the entity lifetime or the entity count.
+            //       Also consider an alternative to adjusting bullet's speed:
+            //       - introduce a gravitational scaling factor that may be unique per entity
+            //       This might be unrealistic, but it might make for better gameplay.
+            // Gravitable,
+            // ExternalImpulse::default(),
             DespawnTimer(Timer::from_seconds(2.0, TimerMode::Once)),
             ForState {
                 states: GameState::IN_GAME_STATE.to_vec(),
