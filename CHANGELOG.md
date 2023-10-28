@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- follow_player camera system now constrained to .after() player movement
+
 ## [0.0.18] - 2023-10-26
 
 ### Added

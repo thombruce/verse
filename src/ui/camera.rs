@@ -6,7 +6,10 @@ use crate::shaders::{
     pixelate::{PixelatePlugin, PixelateSettings},
 };
 
-use crate::{core::resources::state::GameState, ships::player::Player};
+use crate::{
+    core::resources::state::GameState,
+    ships::player::{player_flight_system, Player},
+};
 
 pub struct CameraPlugin;
 impl Plugin for CameraPlugin {
@@ -14,7 +17,16 @@ impl Plugin for CameraPlugin {
         // app.add_plugins(PixelatePlugin);
         // app.add_plugins(ChromaticAberrationPlugin);
         app.add_systems(Startup, setup);
-        app.add_systems(Update, follow_player.run_if(in_state(GameState::Active)));
+        app.add_systems(
+            Update,
+            follow_player
+                // TODO: player_flight_system won't always be the only player control system
+                //       Consider creating a SystemSet for the player control step (whatever
+                //       it may be for the given GameState) and executing the follow_player
+                //       system after that SystemSet.
+                .after(player_flight_system)
+                .run_if(in_state(GameState::Active)),
+        );
     }
 }
 
