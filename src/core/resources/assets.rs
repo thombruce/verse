@@ -1,12 +1,12 @@
 use bevy::prelude::*;
 use bevy_asset_loader::prelude::*;
 
-use super::config::Config;
+use super::config::GameConfig;
 
 #[derive(AssetCollection, Resource)]
 pub struct DataAssets {
     #[asset(path = "verse.config.ron")]
-    pub config: Handle<Config>,
+    pub config: Handle<GameConfig>,
 }
 
 #[derive(AssetCollection, Resource)]

@@ -6,13 +6,13 @@ use bevy_common_assets::ron::RonAssetPlugin;
 pub struct ConfigPlugin;
 impl Plugin for ConfigPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins(RonAssetPlugin::<Config>::new(&["config.ron"]));
+        app.add_plugins(RonAssetPlugin::<GameConfig>::new(&["config.ron"]));
     }
 }
 
 #[derive(serde::Deserialize, TypeUuid, TypePath)]
 #[uuid = "bdb624ed-62bc-447f-9f89-f361ed58748c"]
-pub struct Config {
+pub struct GameConfig {
     pub(crate) window_mode: WindowMode,
     pub(crate) master_volume: f32,
 }

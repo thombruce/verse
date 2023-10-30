@@ -21,7 +21,7 @@ mod world;
 use crate::{
     core::resources::{
         assets::{AudioAssets, DataAssets, SpriteAssets, UiAssets},
-        config::{Config, ConfigPlugin},
+        config::{ConfigPlugin, GameConfig},
         state::GameState,
     },
     core::CorePlugin,
@@ -89,7 +89,7 @@ fn main() {
 /// The setup function
 fn setup(
     data: Res<DataAssets>,
-    configs: ResMut<Assets<Config>>,
+    configs: ResMut<Assets<GameConfig>>,
     mut window: Query<&mut Window>,
     mut volume: ResMut<GlobalVolume>,
 ) {
