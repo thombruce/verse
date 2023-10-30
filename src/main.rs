@@ -88,6 +88,9 @@ fn main() {
 
 /// The setup function
 fn setup(
+    // TODO: Consider setting config as a resource, so that we
+    //       don't have to query it like this every time we want to
+    //       reference some value.
     data: Res<DataAssets>,
     configs: ResMut<Assets<GameConfig>>,
     mut window: Query<&mut Window>,
