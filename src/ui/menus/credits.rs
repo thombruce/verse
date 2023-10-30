@@ -23,18 +23,18 @@ impl Plugin for CreditsPlugin {
 
 #[derive(serde::Deserialize, TypeUuid, TypePath)]
 #[uuid = "6763db47-17ca-4530-b604-94492c3a4c58"]
-pub struct Credits {
-    developed_by: String,
-    title_font: Credit,
-    art: Vec<Credit>,
-    music: Vec<Credit>,
-    audio: Vec<Credit>,
+pub struct Credits(Vec<CreditSection>);
+
+#[derive(serde::Deserialize)]
+pub struct CreditSection {
+    section_title: String,
+    credits: Vec<Credit>,
 }
 
 #[derive(serde::Deserialize)]
 pub struct Credit {
     credit_title: String,
-    credit_meta: String,
+    credit_meta: Option<String>,
 }
 
 #[derive(Component)]
@@ -82,205 +82,57 @@ fn setup(
                         ..default()
                     },
                     Scrolling,
-                    // TODO: Initial value should be window Y + 25.0
+                    // TODO: Initial value should be window Y
                     Top(1000.0),
                 ))
                 .with_children(|parent| {
-                    parent.spawn((TextBundle {
-                        text: Text::from_section(
-                            "Developed by".to_ascii_uppercase(),
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 24.0,
-                                color: Color::rgb_u8(0x00, 0x88, 0x88),
-                            },
-                        ),
-                        ..default()
-                    },));
-                    parent.spawn((TextBundle {
-                        style: Style {
-                            margin: UiRect::top(Val::Px(25.)),
-                            ..default()
-                        },
-                        text: Text::from_section(
-                            &credits.developed_by,
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 20.0,
-                                color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
-                            },
-                        ),
-                        ..default()
-                    },));
-                    parent.spawn((TextBundle {
-                        style: Style {
-                            margin: UiRect::top(Val::Px(50.)),
-                            ..default()
-                        },
-                        text: Text::from_section(
-                            "Title Font".to_ascii_uppercase(),
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 24.0,
-                                color: Color::rgb_u8(0x00, 0x88, 0x88),
-                            },
-                        ),
-                        ..default()
-                    },));
-                    parent.spawn((TextBundle {
-                        style: Style {
-                            margin: UiRect::top(Val::Px(25.)),
-                            ..default()
-                        },
-                        text: Text::from_section(
-                            &credits.title_font.credit_title,
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 20.0,
-                                color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
-                            },
-                        ),
-                        ..default()
-                    },));
-                    parent.spawn((TextBundle {
-                        text: Text::from_section(
-                            &credits.title_font.credit_meta,
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 14.0,
-                                color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
-                            },
-                        ),
-                        ..default()
-                    },));
-                    parent.spawn((TextBundle {
-                        style: Style {
-                            margin: UiRect::top(Val::Px(50.)),
-                            ..default()
-                        },
-                        text: Text::from_section(
-                            "Art".to_ascii_uppercase(),
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 24.0,
-                                color: Color::rgb_u8(0x00, 0x88, 0x88),
-                            },
-                        ),
-                        ..default()
-                    },));
-                    for credit in credits.art.iter() {
+                    for credit_section in credits.0.iter() {
                         parent.spawn((TextBundle {
                             style: Style {
-                                margin: UiRect::top(Val::Px(25.)),
+                                margin: UiRect::top(Val::Px(50.)),
                                 ..default()
                             },
                             text: Text::from_section(
-                                &credit.credit_title,
+                                &credit_section.section_title.to_ascii_uppercase(),
                                 TextStyle {
                                     font: ui.font.clone(),
-                                    font_size: 20.0,
-                                    color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
+                                    font_size: 24.0,
+                                    color: Color::rgb_u8(0x00, 0x88, 0x88),
                                 },
                             ),
                             ..default()
                         },));
-                        parent.spawn((TextBundle {
-                            text: Text::from_section(
-                                &credit.credit_meta,
-                                TextStyle {
-                                    font: ui.font.clone(),
-                                    font_size: 14.0,
-                                    color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
+
+                        for credit in credit_section.credits.iter() {
+                            parent.spawn((TextBundle {
+                                style: Style {
+                                    margin: UiRect::top(Val::Px(25.)),
+                                    ..default()
                                 },
-                            ),
-                            ..default()
-                        },));
-                    }
-                    parent.spawn((TextBundle {
-                        style: Style {
-                            margin: UiRect::top(Val::Px(50.)),
-                            ..default()
-                        },
-                        text: Text::from_section(
-                            "Music".to_ascii_uppercase(),
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 24.0,
-                                color: Color::rgb_u8(0x00, 0x88, 0x88),
-                            },
-                        ),
-                        ..default()
-                    },));
-                    for credit in credits.music.iter() {
-                        parent.spawn((TextBundle {
-                            style: Style {
-                                margin: UiRect::top(Val::Px(25.)),
+                                text: Text::from_section(
+                                    &credit.credit_title,
+                                    TextStyle {
+                                        font: ui.font.clone(),
+                                        font_size: 20.0,
+                                        color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
+                                    },
+                                ),
                                 ..default()
-                            },
-                            text: Text::from_section(
-                                &credit.credit_title,
-                                TextStyle {
-                                    font: ui.font.clone(),
-                                    font_size: 20.0,
-                                    color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
-                                },
-                            ),
-                            ..default()
-                        },));
-                        parent.spawn((TextBundle {
-                            text: Text::from_section(
-                                &credit.credit_meta,
-                                TextStyle {
-                                    font: ui.font.clone(),
-                                    font_size: 14.0,
-                                    color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
-                                },
-                            ),
-                            ..default()
-                        },));
-                    }
-                    parent.spawn((TextBundle {
-                        style: Style {
-                            margin: UiRect::top(Val::Px(50.)),
-                            ..default()
-                        },
-                        text: Text::from_section(
-                            "Audio".to_ascii_uppercase(),
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 24.0,
-                                color: Color::rgb_u8(0x00, 0x88, 0x88),
-                            },
-                        ),
-                        ..default()
-                    },));
-                    for credit in credits.audio.iter() {
-                        parent.spawn((TextBundle {
-                            style: Style {
-                                margin: UiRect::top(Val::Px(25.)),
-                                ..default()
-                            },
-                            text: Text::from_section(
-                                &credit.credit_title,
-                                TextStyle {
-                                    font: ui.font.clone(),
-                                    font_size: 20.0,
-                                    color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
-                                },
-                            ),
-                            ..default()
-                        },));
-                        parent.spawn((TextBundle {
-                            text: Text::from_section(
-                                &credit.credit_meta,
-                                TextStyle {
-                                    font: ui.font.clone(),
-                                    font_size: 14.0,
-                                    color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
-                                },
-                            ),
-                            ..default()
-                        },));
+                            },));
+                            if let Some(credit_meta) = &credit.credit_meta {
+                                parent.spawn((TextBundle {
+                                    text: Text::from_section(
+                                        credit_meta,
+                                        TextStyle {
+                                            font: ui.font.clone(),
+                                            font_size: 14.0,
+                                            color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
+                                        },
+                                    ),
+                                    ..default()
+                                },));
+                            }
+                        }
                     }
                 });
         });
