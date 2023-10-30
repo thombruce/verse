@@ -1,0 +1,41 @@
+Credits(
+    developed_by: "Thom Bruce",
+    title_font: (
+        credit_title: "Edge of the Galaxy by Quinn Davis Type",
+        credit_meta: "FontSpace, Public Domain"
+    ),
+    art: [
+        (
+            credit_title: "Space Shooter Redux by Kenney",
+            credit_meta: "kenney.nl, CC0"
+        ),
+        (
+            credit_title: "Ship Mixer by Kenney",
+            credit_meta: "kenney.nl"
+        ),
+        (
+            credit_title: "Pixel Planets by Deep-Fold",
+            credit_meta: "itch.io, MIT"
+        ),
+        (
+            credit_title: "Xolonium Typeface by Severin Meyer",
+            credit_meta: "Font Library, OFL (SIL Open Font License)"
+        ),
+    ],
+    music: [
+        (
+            credit_title: "Lightspeed by Beat Mekanik",
+            credit_meta: "Free Music Archive, CC BY"
+        ),
+        (
+            credit_title: "Space Dust by Kirk Osamayo",
+            credit_meta: "Free Music Archive, CC BY"
+        ),
+    ],
+    audio: [
+        (
+            credit_title: "Impact Sounds by Kenney",
+            credit_meta: "kenney.nl, CC0"
+        ),
+    ]
+)

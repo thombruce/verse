@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Gravitable component added allowing dynamic_orbit system to be applied to any entity
+- Load credits from asset file
 
 ### Fixed
 

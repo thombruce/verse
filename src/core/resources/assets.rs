@@ -1,12 +1,17 @@
 use bevy::prelude::*;
 use bevy_asset_loader::prelude::*;
 
+use crate::ui::menus::credits::Credits;
+
 use super::config::GameConfig;
 
 #[derive(AssetCollection, Resource)]
 pub struct DataAssets {
     #[asset(path = "verse.config.ron")]
     pub config: Handle<GameConfig>,
+
+    #[asset(path = "verse.credits.ron")]
+    pub credits: Handle<Credits>,
 }
 
 #[derive(AssetCollection, Resource)]

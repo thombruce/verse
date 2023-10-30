@@ -1,8 +1,12 @@
-use bevy::prelude::*;
+use bevy::{
+    prelude::*,
+    reflect::{TypePath, TypeUuid},
+};
+use bevy_common_assets::ron::RonAssetPlugin;
 
 use crate::{
     core::resources::{
-        assets::UiAssets,
+        assets::{DataAssets, UiAssets},
         state::{ForState, GameState},
     },
     ui::resources::top::Top,
@@ -11,15 +15,39 @@ use crate::{
 pub struct CreditsPlugin;
 impl Plugin for CreditsPlugin {
     fn build(&self, app: &mut App) {
+        app.add_plugins(RonAssetPlugin::<Credits>::new(&["credits.ron"]));
         app.add_systems(OnEnter(GameState::Credits), setup);
         app.add_systems(Update, credits_system.run_if(in_state(GameState::Credits)));
     }
 }
 
-#[derive(Component)]
-pub struct Credits;
+#[derive(serde::Deserialize, TypeUuid, TypePath)]
+#[uuid = "6763db47-17ca-4530-b604-94492c3a4c58"]
+pub struct Credits {
+    developed_by: String,
+    title_font: Credit,
+    art: Vec<Credit>,
+    music: Vec<Credit>,
+    audio: Vec<Credit>,
+}
 
-fn setup(mut commands: Commands, ui: Res<UiAssets>) {
+#[derive(serde::Deserialize)]
+pub struct Credit {
+    credit_title: String,
+    credit_meta: String,
+}
+
+#[derive(Component)]
+pub struct Scrolling;
+
+fn setup(
+    mut commands: Commands,
+    ui: Res<UiAssets>,
+    data: Res<DataAssets>,
+    credits: ResMut<Assets<Credits>>,
+) {
+    let credits = credits.get(&data.credits.clone()).unwrap();
+
     commands
         .spawn((
             NodeBundle {
@@ -53,7 +81,7 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                         },
                         ..default()
                     },
-                    Credits,
+                    Scrolling,
                     // TODO: Initial value should be window Y + 25.0
                     Top(1000.0),
                 ))
@@ -75,7 +103,7 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                             ..default()
                         },
                         text: Text::from_section(
-                            "Thom Bruce",
+                            &credits.developed_by,
                             TextStyle {
                                 font: ui.font.clone(),
                                 font_size: 20.0,
@@ -105,7 +133,7 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                             ..default()
                         },
                         text: Text::from_section(
-                            "Edge of the Galaxy by Quinn Davis Type",
+                            &credits.title_font.credit_title,
                             TextStyle {
                                 font: ui.font.clone(),
                                 font_size: 20.0,
@@ -116,7 +144,7 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                     },));
                     parent.spawn((TextBundle {
                         text: Text::from_section(
-                            "FontSpace, Public Domain",
+                            &credits.title_font.credit_meta,
                             TextStyle {
                                 font: ui.font.clone(),
                                 font_size: 14.0,
@@ -140,110 +168,34 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                         ),
                         ..default()
                     },));
-                    parent.spawn((TextBundle {
-                        style: Style {
-                            margin: UiRect::top(Val::Px(25.)),
+                    for credit in credits.art.iter() {
+                        parent.spawn((TextBundle {
+                            style: Style {
+                                margin: UiRect::top(Val::Px(25.)),
+                                ..default()
+                            },
+                            text: Text::from_section(
+                                &credit.credit_title,
+                                TextStyle {
+                                    font: ui.font.clone(),
+                                    font_size: 20.0,
+                                    color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
+                                },
+                            ),
                             ..default()
-                        },
-                        text: Text::from_section(
-                            "Space Shooter Redux by Kenney",
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 20.0,
-                                color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
-                            },
-                        ),
-                        ..default()
-                    },));
-                    parent.spawn((TextBundle {
-                        text: Text::from_section(
-                            "kenney.nl, CC0",
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 14.0,
-                                color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
-                            },
-                        ),
-                        ..default()
-                    },));
-                    parent.spawn((TextBundle {
-                        style: Style {
-                            margin: UiRect::top(Val::Px(25.)),
+                        },));
+                        parent.spawn((TextBundle {
+                            text: Text::from_section(
+                                &credit.credit_meta,
+                                TextStyle {
+                                    font: ui.font.clone(),
+                                    font_size: 14.0,
+                                    color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
+                                },
+                            ),
                             ..default()
-                        },
-                        text: Text::from_section(
-                            "Ship Mixer by Kenney",
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 20.0,
-                                color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
-                            },
-                        ),
-                        ..default()
-                    },));
-                    parent.spawn((TextBundle {
-                        text: Text::from_section(
-                            "kenney.nl",
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 14.0,
-                                color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
-                            },
-                        ),
-                        ..default()
-                    },));
-                    parent.spawn((TextBundle {
-                        style: Style {
-                            margin: UiRect::top(Val::Px(25.)),
-                            ..default()
-                        },
-                        text: Text::from_section(
-                            "Pixel Planets by Deep-Fold",
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 20.0,
-                                color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
-                            },
-                        ),
-                        ..default()
-                    },));
-                    parent.spawn((TextBundle {
-                        text: Text::from_section(
-                            "itch.io, MIT",
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 14.0,
-                                color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
-                            },
-                        ),
-                        ..default()
-                    },));
-                    parent.spawn((TextBundle {
-                        style: Style {
-                            margin: UiRect::top(Val::Px(25.)),
-                            ..default()
-                        },
-                        text: Text::from_section(
-                            "Xolonium Typeface by Severin Meyer",
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 20.0,
-                                color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
-                            },
-                        ),
-                        ..default()
-                    },));
-                    parent.spawn((TextBundle {
-                        text: Text::from_section(
-                            "Font Library, OFL (SIL Open Font License)",
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 14.0,
-                                color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
-                            },
-                        ),
-                        ..default()
-                    },));
+                        },));
+                    }
                     parent.spawn((TextBundle {
                         style: Style {
                             margin: UiRect::top(Val::Px(50.)),
@@ -259,58 +211,34 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                         ),
                         ..default()
                     },));
-                    parent.spawn((TextBundle {
-                        style: Style {
-                            margin: UiRect::top(Val::Px(25.)),
+                    for credit in credits.music.iter() {
+                        parent.spawn((TextBundle {
+                            style: Style {
+                                margin: UiRect::top(Val::Px(25.)),
+                                ..default()
+                            },
+                            text: Text::from_section(
+                                &credit.credit_title,
+                                TextStyle {
+                                    font: ui.font.clone(),
+                                    font_size: 20.0,
+                                    color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
+                                },
+                            ),
                             ..default()
-                        },
-                        text: Text::from_section(
-                            "Lightspeed by Beat Mekanik",
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 20.0,
-                                color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
-                            },
-                        ),
-                        ..default()
-                    },));
-                    parent.spawn((TextBundle {
-                        text: Text::from_section(
-                            "Free Music Archive, CC BY",
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 14.0,
-                                color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
-                            },
-                        ),
-                        ..default()
-                    },));
-                    parent.spawn((TextBundle {
-                        style: Style {
-                            margin: UiRect::top(Val::Px(25.)),
+                        },));
+                        parent.spawn((TextBundle {
+                            text: Text::from_section(
+                                &credit.credit_meta,
+                                TextStyle {
+                                    font: ui.font.clone(),
+                                    font_size: 14.0,
+                                    color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
+                                },
+                            ),
                             ..default()
-                        },
-                        text: Text::from_section(
-                            "Space Dust by Kirk Osamayo",
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 20.0,
-                                color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
-                            },
-                        ),
-                        ..default()
-                    },));
-                    parent.spawn((TextBundle {
-                        text: Text::from_section(
-                            "Free Music Archive, CC BY",
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 14.0,
-                                color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
-                            },
-                        ),
-                        ..default()
-                    },));
+                        },));
+                    }
                     parent.spawn((TextBundle {
                         style: Style {
                             margin: UiRect::top(Val::Px(50.)),
@@ -326,39 +254,41 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
                         ),
                         ..default()
                     },));
-                    parent.spawn((TextBundle {
-                        style: Style {
-                            margin: UiRect::top(Val::Px(25.)),
+                    for credit in credits.audio.iter() {
+                        parent.spawn((TextBundle {
+                            style: Style {
+                                margin: UiRect::top(Val::Px(25.)),
+                                ..default()
+                            },
+                            text: Text::from_section(
+                                &credit.credit_title,
+                                TextStyle {
+                                    font: ui.font.clone(),
+                                    font_size: 20.0,
+                                    color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
+                                },
+                            ),
                             ..default()
-                        },
-                        text: Text::from_section(
-                            "Impact Sounds by Kenney",
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 20.0,
-                                color: Color::rgb_u8(0xCC, 0xCC, 0xCC),
-                            },
-                        ),
-                        ..default()
-                    },));
-                    parent.spawn((TextBundle {
-                        text: Text::from_section(
-                            "kenney.nl, CC0",
-                            TextStyle {
-                                font: ui.font.clone(),
-                                font_size: 14.0,
-                                color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
-                            },
-                        ),
-                        ..default()
-                    },));
+                        },));
+                        parent.spawn((TextBundle {
+                            text: Text::from_section(
+                                &credit.credit_meta,
+                                TextStyle {
+                                    font: ui.font.clone(),
+                                    font_size: 14.0,
+                                    color: Color::rgb_u8(0xAA, 0xAA, 0xAA),
+                                },
+                            ),
+                            ..default()
+                        },));
+                    }
                 });
         });
 }
 
 fn credits_system(
     time: Res<Time>,
-    mut query: Query<(&mut Style, &mut Top, &Node), With<Credits>>,
+    mut query: Query<(&mut Style, &mut Top, &Node), With<Scrolling>>,
     mut next_state: ResMut<NextState<GameState>>,
 ) {
     for (mut style, mut top, node) in query.iter_mut() {
