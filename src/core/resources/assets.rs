@@ -80,6 +80,6 @@ pub struct UiAssets {
     #[asset(path = "fonts/Xolonium/Xolonium-Bold.ttf")]
     pub font: Handle<Font>,
 
-    #[asset(path = "verse.png")]
+    #[asset(path = "images/verse.png")]
     pub title: Handle<Image>,
 }
