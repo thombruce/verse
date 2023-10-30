@@ -2,32 +2,22 @@ use bevy::prelude::*;
 use bevy::reflect::{TypePath, TypeUuid};
 use bevy_common_assets::ron::RonAssetPlugin;
 
-use crate::core::resources::state::GameState;
+use crate::core::resources::{assets::DataAssets, state::GameState};
 
 pub struct CommonAssetsDemoPlugin;
 impl Plugin for CommonAssetsDemoPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins(RonAssetPlugin::<Level>::new(&["config.ron"]))
-            .add_systems(Startup, setup)
+        app.add_plugins(RonAssetPlugin::<Config>::new(&["config.ron"]))
             .add_systems(
                 Update,
-                (spawn_level, spawn_level_again).run_if(in_state(GameState::StartMenu)),
+                (spawn_config, spawn_config_again).run_if(in_state(GameState::StartMenu)),
             );
     }
 }
 
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    let level = LevelHandle(asset_server.load("verse.config.ron"));
-    commands.insert_resource(level);
-}
-
-fn spawn_level(
-    // mut commands: Commands,
-    level: Res<LevelHandle>,
-    mut levels: ResMut<Assets<Level>>,
-) {
-    if let Some(level) = levels.remove(level.0.id()) {
-        for position in level.positions {
+fn spawn_config(data: Res<DataAssets>, mut configs: ResMut<Assets<Config>>) {
+    if let Some(config) = configs.remove(data.config.clone()) {
+        for position in config.positions {
             println!("{}", position[0]);
         }
     }
@@ -35,13 +25,9 @@ fn spawn_level(
 
 // It only works the FIRST time. I think because .remove() removes
 // the data, it cannot be found again by a later system.
-fn spawn_level_again(
-    // mut commands: Commands,
-    level: Res<LevelHandle>,
-    mut levels: ResMut<Assets<Level>>,
-) {
-    if let Some(level) = levels.remove(level.0.id()) {
-        for position in level.positions {
+fn spawn_config_again(data: Res<DataAssets>, mut configs: ResMut<Assets<Config>>) {
+    if let Some(config) = configs.remove(data.config.clone()) {
+        for position in config.positions {
             println!("{}", position[0]);
         }
     }
@@ -49,9 +35,6 @@ fn spawn_level_again(
 
 #[derive(serde::Deserialize, TypeUuid, TypePath)]
 #[uuid = "bdb624ed-62bc-447f-9f89-f361ed58748c"]
-struct Level {
+pub struct Config {
     positions: Vec<[f32; 3]>,
 }
-
-#[derive(Resource)]
-struct LevelHandle(Handle<Level>);

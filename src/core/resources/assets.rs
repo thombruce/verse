@@ -1,6 +1,14 @@
 use bevy::prelude::*;
 use bevy_asset_loader::prelude::*;
 
+use crate::common_assets_demo::Config;
+
+#[derive(AssetCollection, Resource)]
+pub struct DataAssets {
+    #[asset(path = "verse.config.ron")]
+    pub config: Handle<Config>,
+}
+
 #[derive(AssetCollection, Resource)]
 pub struct SpriteAssets {
     #[asset(path = "space/ships/player.png")]

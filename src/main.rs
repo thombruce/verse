@@ -21,7 +21,7 @@ mod world;
 use crate::{
     common_assets_demo::CommonAssetsDemoPlugin,
     core::resources::{
-        assets::{AudioAssets, SpriteAssets, UiAssets},
+        assets::{AudioAssets, DataAssets, SpriteAssets, UiAssets},
         state::GameState,
     },
     core::CorePlugin,
@@ -74,7 +74,8 @@ fn main() {
     )
     .add_collection_to_loading_state::<_, SpriteAssets>(GameState::Loading)
     .add_collection_to_loading_state::<_, AudioAssets>(GameState::Loading)
-    .add_collection_to_loading_state::<_, UiAssets>(GameState::Loading);
+    .add_collection_to_loading_state::<_, UiAssets>(GameState::Loading)
+    .add_collection_to_loading_state::<_, DataAssets>(GameState::Loading);
 
     app.insert_resource(ClearColor(Color::rgb(0., 0., 0.)));
 
