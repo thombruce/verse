@@ -10,6 +10,7 @@ use winit::window::Icon;
 #[cfg(debug_assertions)]
 use {bevy_inspector_egui::quick::WorldInspectorPlugin, bevy_rapier2d::prelude::*};
 
+mod common_assets_demo;
 mod core;
 mod inputs;
 mod shaders;
@@ -18,6 +19,7 @@ mod ui;
 mod world;
 
 use crate::{
+    common_assets_demo::CommonAssetsDemoPlugin,
     core::resources::{
         assets::{AudioAssets, SpriteAssets, UiAssets},
         state::GameState,
@@ -53,7 +55,13 @@ fn main() {
             .set(ImagePlugin::default_nearest()),
     );
 
-    app.add_plugins((CorePlugin, ShipsPlugin, WorldPlugin, UiPlugin));
+    app.add_plugins((
+        CommonAssetsDemoPlugin,
+        CorePlugin,
+        ShipsPlugin,
+        WorldPlugin,
+        UiPlugin,
+    ));
 
     #[cfg(debug_assertions)]
     app.add_plugins((
