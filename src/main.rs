@@ -1,5 +1,6 @@
 #[allow(unused_imports)]
 use bevy::{
+    audio::{AudioPlugin, VolumeLevel},
     prelude::*,
     window::{Cursor, PrimaryWindow, WindowMode},
     winit::WinitWindows,
@@ -86,11 +87,15 @@ fn main() {
 }
 
 /// The setup function
-fn setup(data: Res<DataAssets>, configs: ResMut<Assets<Config>>, mut window: Query<&mut Window>) {
-    // Good place to put window setup configs, like whether or not
-    // the player has suggested the game be played fullscreen.
+fn setup(
+    data: Res<DataAssets>,
+    configs: ResMut<Assets<Config>>,
+    mut window: Query<&mut Window>,
+    mut volume: ResMut<GlobalVolume>,
+) {
     if let Some(config) = configs.get(&data.config.clone()) {
         window.single_mut().mode = config.window_mode;
+        volume.volume = VolumeLevel::new(config.master_volume);
     }
 }
 

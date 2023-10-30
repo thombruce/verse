@@ -14,4 +14,5 @@ impl Plugin for ConfigPlugin {
 #[uuid = "bdb624ed-62bc-447f-9f89-f361ed58748c"]
 pub struct Config {
     pub(crate) window_mode: WindowMode,
+    pub(crate) master_volume: f32,
 }

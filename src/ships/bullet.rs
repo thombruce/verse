@@ -1,4 +1,7 @@
-use bevy::prelude::*;
+use bevy::{
+    audio::{PlaybackMode, Volume},
+    prelude::*,
+};
 use bevy_rapier2d::prelude::*;
 
 use crate::core::resources::{
@@ -89,7 +92,11 @@ fn spawn_bullet(
             ActiveEvents::COLLISION_EVENTS,
             AudioBundle {
                 source: audios.gun.clone(),
-                ..default()
+                settings: PlaybackSettings {
+                    mode: PlaybackMode::Remove,
+                    volume: Volume::new_relative(1.0),
+                    ..default()
+                },
             },
         ));
     }

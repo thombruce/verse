@@ -55,7 +55,7 @@ fn game_setup(
             source: audios.ambience.clone(),
             settings: PlaybackSettings {
                 mode: PlaybackMode::Loop,
-                volume: Volume::new_absolute(0.5),
+                volume: Volume::new_relative(0.5),
                 ..default()
             },
         },
