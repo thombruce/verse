@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_asset_loader::prelude::*;
 
-use crate::common_assets_demo::Config;
+use super::config::Config;
 
 #[derive(AssetCollection, Resource)]
 pub struct DataAssets {

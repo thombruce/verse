@@ -10,7 +10,6 @@ use winit::window::Icon;
 #[cfg(debug_assertions)]
 use {bevy_inspector_egui::quick::WorldInspectorPlugin, bevy_rapier2d::prelude::*};
 
-mod common_assets_demo;
 mod core;
 mod inputs;
 mod shaders;
@@ -19,9 +18,9 @@ mod ui;
 mod world;
 
 use crate::{
-    common_assets_demo::CommonAssetsDemoPlugin,
     core::resources::{
         assets::{AudioAssets, DataAssets, SpriteAssets, UiAssets},
+        config::{Config, ConfigPlugin},
         state::GameState,
     },
     core::CorePlugin,
@@ -55,13 +54,7 @@ fn main() {
             .set(ImagePlugin::default_nearest()),
     );
 
-    app.add_plugins((
-        CommonAssetsDemoPlugin,
-        CorePlugin,
-        ShipsPlugin,
-        WorldPlugin,
-        UiPlugin,
-    ));
+    app.add_plugins((ConfigPlugin, CorePlugin, ShipsPlugin, WorldPlugin, UiPlugin));
 
     #[cfg(debug_assertions)]
     app.add_plugins((
@@ -93,9 +86,12 @@ fn main() {
 }
 
 /// The setup function
-fn setup() {
+fn setup(data: Res<DataAssets>, configs: ResMut<Assets<Config>>, mut window: Query<&mut Window>) {
     // Good place to put window setup configs, like whether or not
     // the player has suggested the game be played fullscreen.
+    if let Some(config) = configs.get(&data.config.clone()) {
+        window.single_mut().mode = config.window_mode;
+    }
 }
 
 // Documented:
