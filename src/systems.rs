@@ -28,7 +28,6 @@ impl Plugin for SystemsPlugin {
 
         // Startup
         app.add_systems(Startup, camera::spawn_camera);
-        app.add_systems(Startup, ships::configure_physics_engine);
 
         // PostStartup
         // app.add_systems(PostStartup, _);
@@ -55,6 +54,10 @@ impl Plugin for SystemsPlugin {
         // - GameCreate
         app.add_systems(OnEnter(GameState::GameCreate), state::game_setup);
         app.add_systems(OnEnter(GameState::GameCreate), pause::setup_pause_systems);
+        app.add_systems(
+            OnEnter(GameState::GameCreate),
+            ships::configure_physics_engine,
+        );
         app.add_systems(
             OnEnter(GameState::GameCreate),
             (
