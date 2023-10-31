@@ -1,19 +1,12 @@
 use bevy::{prelude::*, window::PrimaryWindow, winit::WinitWindows};
 use winit::window::Icon;
 
-pub struct SetWindowIconPlugin;
-impl Plugin for SetWindowIconPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_systems(Startup, set_window_icon);
-    }
-}
-
 // Documented:
 // - https://bevy-cheatbook.github.io/window/icon.html
 // - https://stackoverflow.com/a/76729516/2225649
 // Open issue: https://github.com/bevyengine/bevy/issues/1031
 // TODO: Change to official approach when issue is closed and released
-pub fn set_window_icon(
+pub(crate) fn set_window_icon(
     main_window: Query<Entity, With<PrimaryWindow>>,
     // we have to use `NonSend` here
     windows: NonSend<WinitWindows>,

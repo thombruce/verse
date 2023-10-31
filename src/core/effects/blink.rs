@@ -1,16 +1,9 @@
 use bevy::prelude::*;
 
-pub struct EffectsPlugin;
-impl Plugin for EffectsPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_systems(Update, menu_blink_system);
-    }
-}
-
 #[derive(Component)]
 pub struct DrawBlinkTimer(pub Timer);
 
-fn menu_blink_system(
+pub(crate) fn menu_blink_system(
     mut commands: Commands,
     time: Res<Time>,
     mut query: Query<(Entity, &mut DrawBlinkTimer, &ComputedVisibility)>,

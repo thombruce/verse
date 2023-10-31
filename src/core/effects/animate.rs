@@ -1,14 +1,5 @@
 use bevy::prelude::*;
 
-use super::super::resources::state::GameState;
-
-pub struct AnimatePlugin;
-impl Plugin for AnimatePlugin {
-    fn build(&self, app: &mut App) {
-        app.add_systems(Update, animate_sprite.run_if(in_state(GameState::Active)));
-    }
-}
-
 #[derive(Component, Clone, Copy)]
 pub struct AnimationIndices {
     pub first: usize,
@@ -24,7 +15,7 @@ pub struct AnimationBundle {
     pub timer: AnimationTimer,
 }
 
-fn animate_sprite(
+pub(crate) fn animate_sprite(
     time: Res<Time>,
     mut query: Query<(
         &AnimationIndices,

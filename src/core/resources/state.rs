@@ -35,17 +35,7 @@ pub struct ForState<T> {
     pub states: Vec<T>,
 }
 
-pub struct StatePlugin;
-impl Plugin for StatePlugin {
-    fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(GameState::GameCreate), game_setup);
-        for state in GameState::variants() {
-            app.add_systems(OnEnter(state), state_enter_despawn::<GameState>);
-        }
-    }
-}
-
-fn game_setup(
+pub(crate) fn game_setup(
     mut commands: Commands,
     audios: Res<AudioAssets>,
     mut next_state: ResMut<NextState<GameState>>,
@@ -65,7 +55,7 @@ fn game_setup(
     next_state.set(GameState::Active);
 }
 
-fn state_enter_despawn<T: States>(
+pub(crate) fn state_enter_despawn<T: States>(
     mut commands: Commands,
     state: ResMut<State<T>>,
     query: Query<(Entity, &ForState<T>)>,
