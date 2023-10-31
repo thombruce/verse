@@ -1,14 +1,12 @@
 use bevy::prelude::*;
 
+pub mod states;
 pub mod system_sets;
 
 use crate::{
     core::{
         effects::{animate, blink},
-        resources::{
-            config, despawn_timer, game_time,
-            state::{self, is_in_game_state, is_in_menu_state, GameState},
-        },
+        resources::{config, despawn_timer, game_time},
     },
     ships::{self, bullet, contact, dynamic_orbit, enemy, player, ship},
     temp,
@@ -19,7 +17,10 @@ use crate::{
     world::astronomy::{orbit, planetary_system, starfield},
 };
 
-use self::system_sets::{AttackSet, MovementSet};
+use self::{
+    states::{is_in_game_state, is_in_menu_state, GameState},
+    system_sets::{AttackSet, MovementSet},
+};
 
 pub struct SystemsPlugin;
 impl Plugin for SystemsPlugin {
@@ -42,7 +43,10 @@ impl Plugin for SystemsPlugin {
         // OnEnter
         // - Any
         for state in GameState::variants() {
-            app.add_systems(OnEnter(state), state::state_enter_despawn::<GameState>);
+            app.add_systems(
+                OnEnter(state),
+                states::transitions::state_enter_despawn::<GameState>,
+            );
         }
 
         // - StartMenu
@@ -53,7 +57,10 @@ impl Plugin for SystemsPlugin {
         app.add_systems(OnEnter(GameState::Credits), credits::spawn_credits);
 
         // - GameCreate
-        app.add_systems(OnEnter(GameState::GameCreate), state::game_setup);
+        app.add_systems(
+            OnEnter(GameState::GameCreate),
+            states::transitions::game_setup,
+        );
         app.add_systems(OnEnter(GameState::GameCreate), pause::setup_pause_systems);
         app.add_systems(
             OnEnter(GameState::GameCreate),

@@ -5,10 +5,8 @@ use bevy::{
 use bevy_common_assets::ron::RonAssetPlugin;
 
 use crate::{
-    core::resources::{
-        assets::{DataAssets, UiAssets},
-        state::{ForState, GameState},
-    },
+    core::resources::assets::{DataAssets, UiAssets},
+    systems::states::{ForState, GameState},
     ui::resources::top::Top,
 };
 

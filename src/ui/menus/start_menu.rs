@@ -7,12 +7,10 @@ use leafwing_input_manager::prelude::{ActionState, InputManagerPlugin};
 use crate::{
     core::{
         effects::blink::DrawBlinkTimer,
-        resources::{
-            assets::{AudioAssets, UiAssets},
-            state::{ForState, GameState},
-        },
+        resources::assets::{AudioAssets, UiAssets},
     },
     inputs::menu::{menu_input_map, MenuAction},
+    systems::states::{ForState, GameState},
 };
 
 pub struct MenuPlugin;

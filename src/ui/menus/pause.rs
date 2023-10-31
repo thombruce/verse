@@ -3,14 +3,9 @@ use bevy_rapier2d::prelude::RapierConfiguration;
 use leafwing_input_manager::prelude::{ActionState, InputManagerPlugin};
 
 use crate::{
-    core::{
-        effects::blink::DrawBlinkTimer,
-        resources::{
-            assets::UiAssets,
-            state::{ForState, GameState},
-        },
-    },
+    core::{effects::blink::DrawBlinkTimer, resources::assets::UiAssets},
     inputs::pause::{pause_input_map, PauseAction},
+    systems::states::{ForState, GameState},
 };
 
 pub struct PausePlugin;

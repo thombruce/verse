@@ -7,8 +7,9 @@ use bevy_rapier2d::prelude::*;
 use crate::core::resources::{
     assets::{AudioAssets, SpriteAssets},
     despawn_timer::DespawnTimer,
-    state::{ForState, GameState},
 };
+
+use crate::systems::states::{ForState, GameState};
 
 #[allow(unused_imports)]
 use super::dynamic_orbit::Gravitable;

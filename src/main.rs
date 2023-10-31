@@ -17,10 +17,10 @@ use crate::{
     core::resources::{
         assets::{AudioAssets, DataAssets, SpriteAssets, UiAssets},
         config::ConfigPlugin,
-        state::GameState,
     },
     core::CorePlugin,
     ships::ShipsPlugin,
+    systems::states::GameState,
     systems::SystemsPlugin,
     ui::UiPlugin,
     world::WorldPlugin,
