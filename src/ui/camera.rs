@@ -6,31 +6,17 @@ use crate::shaders::{
     pixelate::{PixelatePlugin, PixelateSettings},
 };
 
-use crate::{
-    core::resources::state::GameState,
-    ships::player::{player_flight_system, Player},
-};
+use crate::ships::player::Player;
 
 pub struct CameraPlugin;
 impl Plugin for CameraPlugin {
-    fn build(&self, app: &mut App) {
+    fn build(&self, _app: &mut App) {
         // app.add_plugins(PixelatePlugin);
         // app.add_plugins(ChromaticAberrationPlugin);
-        app.add_systems(Startup, setup);
-        app.add_systems(
-            Update,
-            follow_player
-                // TODO: player_flight_system won't always be the only player control system
-                //       Consider creating a SystemSet for the player control step (whatever
-                //       it may be for the given GameState) and executing the follow_player
-                //       system after that SystemSet.
-                .after(player_flight_system)
-                .run_if(in_state(GameState::Active)),
-        );
     }
 }
 
-fn setup(mut commands: Commands) {
+pub(crate) fn spawn_camera(mut commands: Commands) {
     commands.spawn((
         Camera2dBundle {
             // TODO: This should always be matched to the player position on load
@@ -58,7 +44,7 @@ fn setup(mut commands: Commands) {
     ));
 }
 
-pub fn follow_player(
+pub(crate) fn follow_player(
     mut camera: Query<&mut Transform, (With<Camera>, Without<Player>)>,
     player: Query<&Transform, (With<Player>, Without<Camera>)>,
 ) {

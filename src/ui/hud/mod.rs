@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::core::{resources::assets::UiAssets, resources::state::GameState};
+use crate::core::resources::assets::UiAssets;
 
 pub mod health;
 pub mod indicator;
@@ -8,32 +8,11 @@ pub mod nav;
 pub mod speedometer;
 pub mod time;
 
-use health::hud_health;
-use indicator::IndicatorPlugin;
-use nav::current_location;
-use speedometer::hud_speedometer;
-
 use self::{
-    health::HealthBundle,
-    nav::NavBundle,
-    speedometer::SpeedometerBundle,
-    time::{current_time, TimeBundle},
+    health::HealthBundle, nav::NavBundle, speedometer::SpeedometerBundle, time::TimeBundle,
 };
 
-pub struct HudPlugin;
-impl Plugin for HudPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_plugins(IndicatorPlugin);
-        app.add_systems(OnEnter(GameState::GameCreate), setup);
-        app.add_systems(
-            Update,
-            (hud_speedometer, hud_health, current_location, current_time)
-                .run_if(in_state(GameState::Active)),
-        );
-    }
-}
-
-fn setup(mut commands: Commands, ui: Res<UiAssets>) {
+pub(crate) fn spawn_hud(mut commands: Commands, ui: Res<UiAssets>) {
     commands
         .spawn((
             NodeBundle {

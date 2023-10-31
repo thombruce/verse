@@ -3,19 +3,17 @@ use bevy_tiling_background::{
     BackgroundImageBundle, BackgroundMaterial, SetImageRepeatingExt, TilingBackgroundPlugin,
 };
 
-use crate::core::resources::{assets::SpriteAssets, state::GameState};
+use crate::core::resources::assets::SpriteAssets;
 
 pub struct StarfieldPlugin;
 impl Plugin for StarfieldPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(TilingBackgroundPlugin::<BackgroundMaterial>::default());
-
-        app.add_systems(OnEnter(GameState::StartMenu), setup);
     }
 }
 
 /// The setup function
-fn setup(
+pub(crate) fn spawn_starfield(
     mut commands: Commands,
     sprites: Res<SpriteAssets>,
     mut materials: ResMut<Assets<BackgroundMaterial>>,

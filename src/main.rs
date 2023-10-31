@@ -8,6 +8,7 @@ mod core;
 mod inputs;
 mod shaders;
 mod ships;
+mod systems;
 mod temp;
 mod ui;
 mod world;
@@ -16,11 +17,10 @@ use crate::{
     core::resources::{
         assets::{AudioAssets, DataAssets, SpriteAssets, UiAssets},
         config::ConfigPlugin,
-        state::GameState,
     },
     core::CorePlugin,
     ships::ShipsPlugin,
-    temp::set_window_icon::SetWindowIconPlugin,
+    systems::{events::EventsPlugin, states::GameState, SystemsPlugin},
     ui::UiPlugin,
     world::WorldPlugin,
 };
@@ -51,12 +51,13 @@ fn main() {
     );
 
     app.add_plugins((
-        SetWindowIconPlugin,
         ConfigPlugin,
         CorePlugin,
         ShipsPlugin,
         WorldPlugin,
         UiPlugin,
+        SystemsPlugin,
+        EventsPlugin,
     ));
 
     #[cfg(debug_assertions)]

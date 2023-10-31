@@ -1,15 +1,7 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
-use crate::core::resources::state::GameState;
-
-use super::bullet::BulletShipContactEvent;
-
-#[derive(SystemSet, Clone, Hash, Debug, PartialEq, Eq)]
-pub struct MovementSet;
-
-#[derive(SystemSet, Clone, Hash, Debug, PartialEq, Eq)]
-pub struct AttackSet;
+use crate::systems::events::BulletShipContactEvent;
 
 /// Ship component
 #[derive(Component)]
@@ -24,17 +16,6 @@ pub struct Ship {
 
 #[derive(Component)]
 pub struct Health(pub f32);
-
-pub struct ShipPlugin;
-impl Plugin for ShipPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_systems(
-            Update,
-            (bullet_timers_system, (ship_damage).after(AttackSet))
-                .run_if(in_state(GameState::Active)),
-        );
-    }
-}
 
 /// Dampening
 pub fn dampening(time: &Res<Time>, velocity: &mut Velocity) {
@@ -61,13 +42,13 @@ pub fn ship_thrust(
     impulse.impulse += (transform.rotation * (Vec3::Y * thrust_factor * ship.thrust)).truncate();
 }
 
-fn bullet_timers_system(time: Res<Time>, mut ship: Query<&mut Ship>) {
+pub(crate) fn bullet_timers_system(time: Res<Time>, mut ship: Query<&mut Ship>) {
     for mut ship in ship.iter_mut() {
         ship.bullet_timer.tick(time.delta());
     }
 }
 
-fn ship_damage(
+pub(crate) fn ship_damage(
     mut commands: Commands,
     mut bullet_ship_contact_events: EventReader<BulletShipContactEvent>,
     mut ship_health: Query<&mut Health, With<Ship>>,

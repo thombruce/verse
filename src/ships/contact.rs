@@ -2,25 +2,12 @@ use bevy::ecs::query::Has;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
-use crate::core::resources::state::GameState;
+use crate::systems::events::BulletShipContactEvent;
 
-use super::bullet::{Bullet, BulletShipContactEvent};
-use super::ship::{AttackSet, Ship};
+use super::bullet::Bullet;
+use super::ship::Ship;
 
-pub struct ContactPlugin;
-
-impl Plugin for ContactPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_systems(
-            Update,
-            contact_system
-                .in_set(AttackSet)
-                .run_if(in_state(GameState::Active)),
-        );
-    }
-}
-
-fn contact_system(
+pub(crate) fn contact_system(
     mut collision_events: EventReader<CollisionEvent>,
     mut bullet_ship_contact_events: EventWriter<BulletShipContactEvent>,
     query: Query<(Has<Ship>, Has<Bullet>)>,

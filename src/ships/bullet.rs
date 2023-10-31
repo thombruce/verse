@@ -4,45 +4,23 @@ use bevy::{
 };
 use bevy_rapier2d::prelude::*;
 
-use crate::core::resources::{
-    assets::{AudioAssets, SpriteAssets},
-    despawn_timer::DespawnTimer,
-    state::{ForState, GameState},
+use crate::{
+    core::resources::{
+        assets::{AudioAssets, SpriteAssets},
+        despawn_timer::DespawnTimer,
+    },
+    systems::events::BulletSpawnEvent,
 };
 
+use crate::systems::states::{ForState, GameState};
+
 #[allow(unused_imports)]
-use super::{dynamic_orbit::Gravitable, ship::MovementSet};
+use super::dynamic_orbit::Gravitable;
 
 #[derive(Component)]
 pub struct Bullet;
 
-#[derive(Event)]
-pub struct BulletSpawnEvent {
-    // The full position (translation+rotation) of the bullet to spawn
-    pub transform: Transform,
-    // The velocity of the entity emitting the bullet
-    pub velocity: Velocity,
-}
-
-#[derive(Event)]
-pub struct BulletShipContactEvent {
-    pub bullet: Entity,
-    pub ship: Entity,
-}
-
-pub struct BulletPlugin;
-impl Plugin for BulletPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_event::<BulletSpawnEvent>()
-            .add_event::<BulletShipContactEvent>()
-            .add_systems(
-                Update,
-                (spawn_bullet.after(MovementSet)).run_if(in_state(GameState::Active)),
-            );
-    }
-}
-
-fn spawn_bullet(
+pub(crate) fn spawn_bullet(
     mut commands: Commands,
     mut bullet_spawn_events: EventReader<BulletSpawnEvent>,
     handles: Res<SpriteAssets>,

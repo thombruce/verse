@@ -5,10 +5,8 @@ use bevy::{
 use bevy_common_assets::ron::RonAssetPlugin;
 
 use crate::{
-    core::resources::{
-        assets::{DataAssets, UiAssets},
-        state::{ForState, GameState},
-    },
+    core::resources::assets::{DataAssets, UiAssets},
+    systems::states::{ForState, GameState},
     ui::resources::top::Top,
 };
 
@@ -16,8 +14,6 @@ pub struct CreditsPlugin;
 impl Plugin for CreditsPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(RonAssetPlugin::<Credits>::new(&["credits.ron"]));
-        app.add_systems(OnEnter(GameState::Credits), setup);
-        app.add_systems(Update, credits_system.run_if(in_state(GameState::Credits)));
     }
 }
 
@@ -40,7 +36,7 @@ pub struct Credit {
 #[derive(Component)]
 pub struct Scrolling;
 
-fn setup(
+pub(crate) fn spawn_credits(
     mut commands: Commands,
     ui: Res<UiAssets>,
     data: Res<DataAssets>,
@@ -138,7 +134,7 @@ fn setup(
         });
 }
 
-fn credits_system(
+pub(crate) fn credits_system(
     time: Res<Time>,
     mut query: Query<(&mut Style, &mut Top, &Node), With<Scrolling>>,
     mut next_state: ResMut<NextState<GameState>>,

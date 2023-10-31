@@ -4,7 +4,7 @@ use bevy::reflect::{TypePath, TypeUuid};
 use bevy::window::WindowMode;
 use bevy_common_assets::ron::RonAssetPlugin;
 
-use super::{assets::DataAssets, state::GameState};
+use super::assets::DataAssets;
 
 pub struct ConfigPlugin;
 impl Plugin for ConfigPlugin {
@@ -15,16 +15,6 @@ impl Plugin for ConfigPlugin {
             window_mode: WindowMode::Fullscreen,
             master_volume: 1.0,
         });
-
-        app.add_systems(OnExit(GameState::Loading), load_config);
-
-        app.add_systems(
-            OnTransition {
-                from: GameState::Loading,
-                to: GameState::StartMenu,
-            },
-            apply_config,
-        );
     }
 }
 
@@ -35,7 +25,7 @@ pub struct GameConfig {
     pub(crate) master_volume: f32,
 }
 
-fn load_config(
+pub(crate) fn load_config(
     data: Res<DataAssets>,
     mut configs: ResMut<Assets<GameConfig>>,
     mut game_config: ResMut<GameConfig>,
@@ -46,7 +36,7 @@ fn load_config(
     }
 }
 
-fn apply_config(
+pub(crate) fn apply_config(
     config: Res<GameConfig>,
     mut window: Query<&mut Window>,
     mut volume: ResMut<GlobalVolume>,

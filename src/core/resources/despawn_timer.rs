@@ -1,18 +1,9 @@
 use bevy::prelude::*;
 
-use crate::core::resources::state::GameState;
-
 #[derive(Component)]
 pub struct DespawnTimer(pub Timer);
 
-pub struct DespawnTimerPlugin;
-impl Plugin for DespawnTimerPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_systems(Update, despawn_system.run_if(in_state(GameState::Active)));
-    }
-}
-
-fn despawn_system(
+pub(crate) fn despawn_system(
     mut commands: Commands,
     time: Res<Time>,
     mut query: Query<(Entity, &mut DespawnTimer)>,
