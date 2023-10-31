@@ -1,14 +1,14 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
-use crate::core::resources::{assets::SpriteAssets, state::GameState};
+use crate::core::resources::assets::SpriteAssets;
 use crate::ui::hud::indicator::Indicated;
 
 use super::dynamic_orbit::Gravitable;
 use super::{
     bullet::BulletSpawnEvent,
     player::Player,
-    ship::{dampening, ship_rotation, ship_thrust, AttackSet, Health, MovementSet, Ship},
+    ship::{dampening, ship_rotation, ship_thrust, Health, Ship},
 };
 
 /// Enemy component
@@ -21,24 +21,8 @@ pub struct Targeting {
     pub angle: f32,
 }
 
-pub struct EnemyPlugin;
-impl Plugin for EnemyPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(GameState::GameCreate), setup);
-        app.add_systems(
-            Update,
-            (
-                enemy_targeting_system.before(MovementSet),
-                enemy_flight_system.in_set(MovementSet),
-                enemy_weapons_system.in_set(AttackSet),
-            )
-                .run_if(in_state(GameState::Active)),
-        );
-    }
-}
-
 /// The setup function
-fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
+pub(crate) fn spawn_enemies(mut commands: Commands, sprites: Res<SpriteAssets>) {
     // Spawns enemy ships
     for (_i, pos) in [
         (250.0 as f32, 250.0 as f32),

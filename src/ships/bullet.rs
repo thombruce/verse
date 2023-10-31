@@ -34,15 +34,11 @@ pub struct BulletPlugin;
 impl Plugin for BulletPlugin {
     fn build(&self, app: &mut App) {
         app.add_event::<BulletSpawnEvent>()
-            .add_event::<BulletShipContactEvent>()
-            .add_systems(
-                Update,
-                (spawn_bullet.after(MovementSet)).run_if(in_state(GameState::Active)),
-            );
+            .add_event::<BulletShipContactEvent>();
     }
 }
 
-fn spawn_bullet(
+pub(crate) fn spawn_bullet(
     mut commands: Commands,
     mut bullet_spawn_events: EventReader<BulletSpawnEvent>,
     handles: Res<SpriteAssets>,

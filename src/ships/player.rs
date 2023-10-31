@@ -3,14 +3,14 @@ use bevy_rapier2d::prelude::*;
 use leafwing_input_manager::prelude::*;
 
 use crate::{
-    core::resources::{assets::SpriteAssets, state::GameState},
+    core::resources::assets::SpriteAssets,
     inputs::ship::{ship_input_map, ShipAction},
 };
 
 use super::{
     bullet::BulletSpawnEvent,
     dynamic_orbit::Gravitable,
-    ship::{dampening, ship_rotation, ship_thrust, AttackSet, Health, MovementSet, Ship},
+    ship::{dampening, ship_rotation, ship_thrust, Health, Ship},
 };
 
 /// Player component
@@ -21,21 +21,11 @@ pub struct PlayerPlugin;
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(InputManagerPlugin::<ShipAction>::default());
-
-        app.add_systems(OnEnter(GameState::GameCreate), setup);
-        app.add_systems(
-            Update,
-            (
-                player_flight_system.in_set(MovementSet),
-                player_weapons_system.in_set(AttackSet),
-            )
-                .run_if(in_state(GameState::Active)),
-        );
     }
 }
 
 /// The setup function
-fn setup(mut commands: Commands, sprites: Res<SpriteAssets>) {
+pub(crate) fn spawn_player(mut commands: Commands, sprites: Res<SpriteAssets>) {
     // Spawns player ship
     commands.spawn((
         Player,

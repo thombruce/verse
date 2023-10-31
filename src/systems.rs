@@ -8,7 +8,10 @@ use crate::{
             state::{self, is_in_game_state, is_in_menu_state, GameState},
         },
     },
-    ships::{player, ship},
+    ships::{
+        self, bullet, contact, dynamic_orbit, enemy, player,
+        ship::{self, AttackSet, MovementSet},
+    },
     temp,
     ui::{
         camera, damage, hud,
@@ -26,6 +29,7 @@ impl Plugin for SystemsPlugin {
         // Startup
         app.add_systems(Startup, temp::set_window_icon::set_window_icon);
         app.add_systems(Startup, camera::spawn_camera);
+        app.add_systems(Startup, ships::configure_physics_engine);
 
         // PostStartup
         // app.add_systems(PostStartup, _);
@@ -64,6 +68,8 @@ impl Plugin for SystemsPlugin {
                 .chain(),
         );
         app.add_systems(OnEnter(GameState::GameCreate), hud::spawn_hud);
+        app.add_systems(OnEnter(GameState::GameCreate), enemy::spawn_enemies);
+        app.add_systems(OnEnter(GameState::GameCreate), player::spawn_player);
 
         // - Paused
         app.add_systems(OnEnter(GameState::Paused), pause::pause_screen);
@@ -154,6 +160,51 @@ impl Plugin for SystemsPlugin {
         app.add_systems(
             Update,
             hud::indicator::indicators_system.run_if(in_state(GameState::Active)),
+        );
+
+        app.add_systems(
+            Update,
+            (bullet::spawn_bullet.after(MovementSet)).run_if(in_state(GameState::Active)),
+        );
+
+        app.add_systems(
+            Update,
+            contact::contact_system
+                .in_set(AttackSet)
+                .run_if(in_state(GameState::Active)),
+        );
+
+        app.add_systems(
+            Update,
+            dynamic_orbit::dynamic_orbital_positioning_system.run_if(in_state(GameState::Active)),
+        );
+
+        app.add_systems(
+            Update,
+            (
+                ship::bullet_timers_system,
+                (ship::ship_damage).after(AttackSet),
+            )
+                .run_if(in_state(GameState::Active)),
+        );
+
+        app.add_systems(
+            Update,
+            (
+                player::player_flight_system.in_set(MovementSet),
+                player::player_weapons_system.in_set(AttackSet),
+            )
+                .run_if(in_state(GameState::Active)),
+        );
+
+        app.add_systems(
+            Update,
+            (
+                enemy::enemy_targeting_system.before(MovementSet),
+                enemy::enemy_flight_system.in_set(MovementSet),
+                enemy::enemy_weapons_system.in_set(AttackSet),
+            )
+                .run_if(in_state(GameState::Active)),
         );
 
         // PostUpdate
