@@ -8,6 +8,7 @@ mod core;
 mod inputs;
 mod shaders;
 mod ships;
+mod systems;
 mod temp;
 mod ui;
 mod world;
@@ -20,6 +21,7 @@ use crate::{
     },
     core::CorePlugin,
     ships::ShipsPlugin,
+    systems::SystemsPlugin,
     temp::set_window_icon::SetWindowIconPlugin,
     ui::UiPlugin,
     world::WorldPlugin,
@@ -57,6 +59,7 @@ fn main() {
         ShipsPlugin,
         WorldPlugin,
         UiPlugin,
+        SystemsPlugin,
     ));
 
     #[cfg(debug_assertions)]
