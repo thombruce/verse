@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- bevy_common_assets allowing certain data to be loaded from asset files
+- bevy_common_assets allows certain data to be loaded from asset files
 - Allow window mode and master volume to be set via config file
 
 ### Changed
