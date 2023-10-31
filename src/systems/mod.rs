@@ -25,6 +25,11 @@ use self::{
 pub struct SystemsPlugin;
 impl Plugin for SystemsPlugin {
     fn build(&self, app: &mut App) {
+        // TODO: Configure system set ordering:
+        // app.configure_sets(Update, (MovementSet, AttackSet).chain());
+        // app.configure_sets(Update, MovementSet.before(AttackSet));
+        // app.configure_sets(Update, AttackSet.after(MovementSet));
+
         // PreStartup
         app.add_systems(PreStartup, temp::set_window_icon::set_window_icon);
 
@@ -132,7 +137,11 @@ impl Plugin for SystemsPlugin {
                 game_time::tick_game_time,
                 orbit::orbitable_update_system,
                 orbit::orbital_positioning_system,
-                enemy::enemy_targeting_system.before(MovementSet),
+                // TODO: This clumsily resolves a crash to desktop where enemy_targeting_system
+                //       was happening after ship_damage some of the time.
+                //       The SystemSets aren't aware of one another, they need to be configured.
+                //       Reassess and order systems appropriately.
+                enemy::enemy_targeting_system.before(ship::ship_damage),
                 (player::player_flight_system, enemy::enemy_flight_system).in_set(MovementSet),
                 (bullet::spawn_bullet, camera::follow_player).after(MovementSet),
                 (
