@@ -9,7 +9,7 @@ use crate::{
         effects::blink::DrawBlinkTimer,
         resources::{
             assets::{AudioAssets, UiAssets},
-            state::{is_in_menu_state, ForState, GameState},
+            state::{ForState, GameState},
         },
     },
     inputs::menu::{menu_input_map, MenuAction},
@@ -19,19 +19,10 @@ pub struct MenuPlugin;
 impl Plugin for MenuPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(InputManagerPlugin::<MenuAction>::default());
-        app.add_systems(
-            OnTransition {
-                from: GameState::Loading,
-                to: GameState::StartMenu,
-            },
-            init,
-        )
-        .add_systems(OnEnter(GameState::StartMenu), setup)
-        .add_systems(Update, menu_input_system.run_if(is_in_menu_state));
     }
 }
 
-fn init(mut commands: Commands, audios: Res<AudioAssets>) {
+pub(crate) fn init_start_menu(mut commands: Commands, audios: Res<AudioAssets>) {
     commands.insert_resource(menu_input_map());
     commands.insert_resource(ActionState::<MenuAction>::default());
 
@@ -51,7 +42,7 @@ fn init(mut commands: Commands, audios: Res<AudioAssets>) {
     ));
 }
 
-fn setup(mut commands: Commands, ui: Res<UiAssets>) {
+pub(crate) fn spawn_start_menu(mut commands: Commands, ui: Res<UiAssets>) {
     commands
         .spawn((
             NodeBundle {
@@ -154,7 +145,7 @@ fn setup(mut commands: Commands, ui: Res<UiAssets>) {
         });
 }
 
-fn menu_input_system(
+pub(crate) fn menu_input_system(
     state: Res<State<GameState>>,
     mut next_state: ResMut<NextState<GameState>>,
     inputs: Res<ActionState<MenuAction>>,

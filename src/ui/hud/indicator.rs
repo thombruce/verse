@@ -1,21 +1,6 @@
 use bevy::{math::Vec3Swizzles, prelude::*};
 
-use crate::{core::resources::state::GameState, ships::player::Player};
-
-pub struct IndicatorPlugin;
-impl Plugin for IndicatorPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_systems(OnExit(GameState::GameCreate), setup);
-        app.add_systems(
-            Update,
-            indicators_system.run_if(in_state(GameState::Active)),
-        );
-        app.add_systems(
-            PostUpdate,
-            despawn_indicators_system.run_if(in_state(GameState::Active)),
-        );
-    }
-}
+use crate::ships::player::Player;
 
 #[derive(Component, Clone, Debug)]
 pub struct Indicated {
@@ -23,14 +8,14 @@ pub struct Indicated {
 }
 
 #[derive(Component, Clone, Debug)]
-struct Indicator {
+pub struct Indicator {
     entity: Entity,
 }
 
 #[derive(Component, Clone, Debug)]
-struct Bounds {}
+pub struct Bounds {}
 
-fn setup(
+pub(crate) fn spawn_indicators(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     entities_query: Query<(Entity, &Indicated)>,
@@ -69,7 +54,7 @@ fn setup(
         });
 }
 
-fn indicators_system(
+pub(crate) fn indicators_system(
     mut query: Query<(&mut Transform, &mut Style, &Indicator, &mut BackgroundColor)>,
     player_query: Query<&Transform, (With<Player>, Without<Indicator>)>,
     entity_query: Query<(&Transform, &ComputedVisibility, &Indicated), Without<Indicator>>,
@@ -147,7 +132,7 @@ fn indicators_system(
     }
 }
 
-fn despawn_indicators_system(
+pub(crate) fn despawn_indicators_system(
     mut commands: Commands,
     mut query: Query<(Entity, &Indicator)>,
     entity_query: Query<(&Transform, &ComputedVisibility), (With<Indicated>, Without<Indicator>)>,

@@ -1,31 +1,16 @@
 use bevy::prelude::*;
 
 use crate::{
-    core::resources::{assets::UiAssets, despawn_timer::DespawnTimer, state::GameState},
-    ships::{
-        bullet::BulletShipContactEvent,
-        ship::{AttackSet, Ship},
-    },
+    core::resources::{assets::UiAssets, despawn_timer::DespawnTimer},
+    ships::{bullet::BulletShipContactEvent, ship::Ship},
 };
 
 use super::resources::top::Top;
 
 #[derive(Component)]
-struct UiTextFadeOut;
+pub struct UiTextFadeOut;
 
-pub struct UiDamagePlugin;
-impl Plugin for UiDamagePlugin {
-    fn build(&self, app: &mut App) {
-        app.add_systems(
-            Update,
-            (ui_spawn_damage, ui_text_fade_out)
-                .after(AttackSet)
-                .run_if(in_state(GameState::Active)),
-        );
-    }
-}
-
-fn ui_spawn_damage(
+pub(crate) fn ui_spawn_damage(
     mut commands: Commands,
     mut bullet_ship_contact_events: EventReader<BulletShipContactEvent>,
     ship_transform: Query<&Transform, With<Ship>>,
@@ -68,7 +53,7 @@ fn ui_spawn_damage(
     }
 }
 
-fn ui_text_fade_out(
+pub(crate) fn ui_text_fade_out(
     time: Res<Time>,
     mut text: Query<(&mut Text, &mut Style, &mut Top), With<UiTextFadeOut>>,
 ) {

@@ -7,7 +7,7 @@ use crate::{
         effects::blink::DrawBlinkTimer,
         resources::{
             assets::UiAssets,
-            state::{is_in_game_state, ForState, GameState},
+            state::{ForState, GameState},
         },
     },
     inputs::pause::{pause_input_map, PauseAction},
@@ -17,19 +17,15 @@ pub struct PausePlugin;
 impl Plugin for PausePlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(InputManagerPlugin::<PauseAction>::default());
-
-        app.add_systems(OnEnter(GameState::GameCreate), setup)
-            .add_systems(Update, pause_system.run_if(is_in_game_state))
-            .add_systems(OnEnter(GameState::Paused), pause_screen);
     }
 }
 
-fn setup(mut commands: Commands) {
+pub(crate) fn setup_pause_systems(mut commands: Commands) {
     commands.insert_resource(pause_input_map());
     commands.insert_resource(ActionState::<PauseAction>::default());
 }
 
-fn pause_system(
+pub(crate) fn pause_system(
     state: Res<State<GameState>>,
     mut next_state: ResMut<NextState<GameState>>,
     pause_action_state: Res<ActionState<PauseAction>>,
@@ -50,7 +46,7 @@ fn pause_system(
     }
 }
 
-fn pause_screen(mut commands: Commands, ui: Res<UiAssets>) {
+pub(crate) fn pause_screen(mut commands: Commands, ui: Res<UiAssets>) {
     commands
         .spawn((
             NodeBundle {

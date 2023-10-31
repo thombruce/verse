@@ -3,13 +3,13 @@ use bevy::prelude::*;
 use crate::{
     core::{
         effects::animate::{AnimationBundle, AnimationTimer},
-        resources::{assets::SpriteAssets, state::GameState},
+        resources::assets::SpriteAssets,
     },
     ui::hud::indicator::Indicated,
 };
 
 use super::{
-    orbit::{Mass, Orbit, OrbitPlugin},
+    orbit::{Mass, Orbit},
     planet::{PlanetBundle, PLANET_ANIMATION_INDICES},
     star::{Star, StarBundle},
 };
@@ -17,25 +17,7 @@ use super::{
 #[derive(Component)]
 pub struct EarthLike;
 
-pub struct PlanetarySystemPlugin;
-impl Plugin for PlanetarySystemPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_plugins(OrbitPlugin);
-        app.add_systems(
-            OnEnter(GameState::GameCreate),
-            (
-                spawn_star,
-                apply_deferred,
-                spawn_planets,
-                apply_deferred,
-                spawn_demo_orbital,
-            )
-                .chain(),
-        );
-    }
-}
-
-fn spawn_star(mut commands: Commands, sprites: Res<SpriteAssets>) {
+pub(crate) fn spawn_star(mut commands: Commands, sprites: Res<SpriteAssets>) {
     commands.spawn(StarBundle {
         name: Name::new("Sol"),
         sprite_sheet_bundle: SpriteSheetBundle {
@@ -49,7 +31,7 @@ fn spawn_star(mut commands: Commands, sprites: Res<SpriteAssets>) {
     });
 }
 
-fn spawn_planets(
+pub(crate) fn spawn_planets(
     mut commands: Commands,
     sprites: Res<SpriteAssets>,
     star_query: Query<Entity, With<Star>>,
@@ -232,7 +214,7 @@ fn spawn_planets(
     });
 }
 
-fn spawn_demo_orbital(
+pub(crate) fn spawn_demo_orbital(
     mut commands: Commands,
     sprites: Res<SpriteAssets>,
     planet_query: Query<Entity, With<EarthLike>>,
