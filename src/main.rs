@@ -88,18 +88,12 @@ fn main() {
 
 /// The setup function
 fn setup(
-    // TODO: Consider setting config as a resource, so that we
-    //       don't have to query it like this every time we want to
-    //       reference some value.
-    data: Res<DataAssets>,
-    configs: ResMut<Assets<GameConfig>>,
+    config: Res<GameConfig>,
     mut window: Query<&mut Window>,
     mut volume: ResMut<GlobalVolume>,
 ) {
-    if let Some(config) = configs.get(&data.config.clone()) {
-        window.single_mut().mode = config.window_mode;
-        volume.volume = VolumeLevel::new(config.master_volume);
-    }
+    window.single_mut().mode = config.window_mode;
+    volume.volume = VolumeLevel::new(config.master_volume);
 }
 
 // Documented:
