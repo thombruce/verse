@@ -3,12 +3,6 @@ use bevy_rapier2d::prelude::*;
 
 use super::bullet::BulletShipContactEvent;
 
-#[derive(SystemSet, Clone, Hash, Debug, PartialEq, Eq)]
-pub struct MovementSet;
-
-#[derive(SystemSet, Clone, Hash, Debug, PartialEq, Eq)]
-pub struct AttackSet;
-
 /// Ship component
 #[derive(Component)]
 pub struct Ship {

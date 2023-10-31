@@ -11,7 +11,7 @@ use crate::core::resources::{
 };
 
 #[allow(unused_imports)]
-use super::{dynamic_orbit::Gravitable, ship::MovementSet};
+use super::dynamic_orbit::Gravitable;
 
 #[derive(Component)]
 pub struct Bullet;

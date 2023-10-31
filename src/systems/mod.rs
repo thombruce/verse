@@ -1,5 +1,7 @@
 use bevy::prelude::*;
 
+pub mod system_sets;
+
 use crate::{
     core::{
         effects::{animate, blink},
@@ -8,10 +10,7 @@ use crate::{
             state::{self, is_in_game_state, is_in_menu_state, GameState},
         },
     },
-    ships::{
-        self, bullet, contact, dynamic_orbit, enemy, player,
-        ship::{self, AttackSet, MovementSet},
-    },
+    ships::{self, bullet, contact, dynamic_orbit, enemy, player, ship},
     temp,
     ui::{
         camera, damage, hud,
@@ -19,6 +18,8 @@ use crate::{
     },
     world::astronomy::{orbit, planetary_system, starfield},
 };
+
+use self::system_sets::{AttackSet, MovementSet};
 
 pub struct SystemsPlugin;
 impl Plugin for SystemsPlugin {
@@ -137,7 +138,7 @@ impl Plugin for SystemsPlugin {
         app.add_systems(
             Update,
             (damage::ui_spawn_damage, damage::ui_text_fade_out)
-                .after(ship::AttackSet)
+                .after(AttackSet)
                 .run_if(in_state(GameState::Active)),
         );
 
