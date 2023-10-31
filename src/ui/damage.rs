@@ -2,7 +2,8 @@ use bevy::prelude::*;
 
 use crate::{
     core::resources::{assets::UiAssets, despawn_timer::DespawnTimer},
-    ships::{bullet::BulletShipContactEvent, ship::Ship},
+    ships::ship::Ship,
+    systems::events::BulletShipContactEvent,
 };
 
 use super::resources::top::Top;

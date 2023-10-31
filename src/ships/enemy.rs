@@ -2,11 +2,11 @@ use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
 use crate::core::resources::assets::SpriteAssets;
+use crate::systems::events::BulletSpawnEvent;
 use crate::ui::hud::indicator::Indicated;
 
 use super::dynamic_orbit::Gravitable;
 use super::{
-    bullet::BulletSpawnEvent,
     player::Player,
     ship::{dampening, ship_rotation, ship_thrust, Health, Ship},
 };

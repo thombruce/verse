@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 
+pub mod events;
 pub mod states;
 pub mod system_sets;
 

@@ -5,10 +5,10 @@ use leafwing_input_manager::prelude::*;
 use crate::{
     core::resources::assets::SpriteAssets,
     inputs::ship::{ship_input_map, ShipAction},
+    systems::events::BulletSpawnEvent,
 };
 
 use super::{
-    bullet::BulletSpawnEvent,
     dynamic_orbit::Gravitable,
     ship::{dampening, ship_rotation, ship_thrust, Health, Ship},
 };

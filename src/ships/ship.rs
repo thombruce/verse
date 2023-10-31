@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
-use super::bullet::BulletShipContactEvent;
+use crate::systems::events::BulletShipContactEvent;
 
 /// Ship component
 #[derive(Component)]

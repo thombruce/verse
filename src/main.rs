@@ -20,8 +20,7 @@ use crate::{
     },
     core::CorePlugin,
     ships::ShipsPlugin,
-    systems::states::GameState,
-    systems::SystemsPlugin,
+    systems::{events::EventsPlugin, states::GameState, SystemsPlugin},
     ui::UiPlugin,
     world::WorldPlugin,
 };
@@ -58,6 +57,7 @@ fn main() {
         WorldPlugin,
         UiPlugin,
         SystemsPlugin,
+        EventsPlugin,
     ));
 
     #[cfg(debug_assertions)]

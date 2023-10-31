@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Move configure_physics_engine to GameCreate state
 - Move system sets to new systems module
 - Move state structs and transitions to new systems module
+- Move spawn and contact events to systems::events submodule
 
 ### Fixed
 

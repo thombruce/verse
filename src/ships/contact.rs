@@ -2,7 +2,9 @@ use bevy::ecs::query::Has;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
-use super::bullet::{Bullet, BulletShipContactEvent};
+use crate::systems::events::BulletShipContactEvent;
+
+use super::bullet::Bullet;
 use super::ship::Ship;
 
 pub(crate) fn contact_system(
