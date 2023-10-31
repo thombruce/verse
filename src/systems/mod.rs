@@ -50,8 +50,10 @@ impl Plugin for SystemsPlugin {
         }
 
         // - StartMenu
-        app.add_systems(OnEnter(GameState::StartMenu), starfield::spawn_starfield);
-        app.add_systems(OnEnter(GameState::StartMenu), start_menu::spawn_start_menu);
+        app.add_systems(
+            OnEnter(GameState::StartMenu),
+            (starfield::spawn_starfield, start_menu::spawn_start_menu),
+        );
 
         // - Credits
         app.add_systems(OnEnter(GameState::Credits), credits::spawn_credits);
@@ -59,27 +61,24 @@ impl Plugin for SystemsPlugin {
         // - GameCreate
         app.add_systems(
             OnEnter(GameState::GameCreate),
-            states::transitions::game_setup,
-        );
-        app.add_systems(OnEnter(GameState::GameCreate), pause::setup_pause_systems);
-        app.add_systems(
-            OnEnter(GameState::GameCreate),
-            ships::configure_physics_engine,
-        );
-        app.add_systems(
-            OnEnter(GameState::GameCreate),
             (
-                planetary_system::spawn_star,
-                apply_deferred,
-                planetary_system::spawn_planets,
-                apply_deferred,
-                planetary_system::spawn_demo_orbital,
-            )
-                .chain(),
+                states::transitions::game_setup,
+                pause::setup_pause_systems,
+                ships::configure_physics_engine,
+                hud::spawn_hud,
+                enemy::spawn_enemies,
+                player::spawn_player,
+                // Planetary system spawning, chained
+                (
+                    planetary_system::spawn_star,
+                    apply_deferred,
+                    planetary_system::spawn_planets,
+                    apply_deferred,
+                    planetary_system::spawn_demo_orbital,
+                )
+                    .chain(),
+            ),
         );
-        app.add_systems(OnEnter(GameState::GameCreate), hud::spawn_hud);
-        app.add_systems(OnEnter(GameState::GameCreate), enemy::spawn_enemies);
-        app.add_systems(OnEnter(GameState::GameCreate), player::spawn_player);
 
         // - Paused
         app.add_systems(OnEnter(GameState::Paused), pause::pause_screen);
@@ -90,15 +89,7 @@ impl Plugin for SystemsPlugin {
                 from: GameState::Loading,
                 to: GameState::StartMenu,
             },
-            config::apply_config,
-        );
-
-        app.add_systems(
-            OnTransition {
-                from: GameState::Loading,
-                to: GameState::StartMenu,
-            },
-            start_menu::init_start_menu,
+            (config::apply_config, start_menu::init_start_menu),
         );
 
         // OnExit
@@ -112,45 +103,6 @@ impl Plugin for SystemsPlugin {
         // app.add_systems(FixedUpdate, _);
 
         // Update
-        app.add_systems(Update, blink::menu_blink_system);
-
-        app.add_systems(
-            Update,
-            credits::credits_system.run_if(in_state(GameState::Credits)),
-        );
-
-        app.add_systems(
-            Update,
-            (
-                animate::animate_sprite,
-                despawn_timer::despawn_system,
-                game_time::tick_game_time,
-                orbit::orbitable_update_system,
-                orbit::orbital_positioning_system,
-            )
-                .run_if(in_state(GameState::Active)),
-        );
-
-        app.add_systems(
-            Update,
-            camera::follow_player
-                // TODO: player_flight_system won't always be the only player control system
-                //       Consider creating a SystemSet for the player control step (whatever
-                //       it may be for the given GameState) and executing the follow_player
-                //       system after that SystemSet.
-                .after(player::player_flight_system)
-                .run_if(in_state(GameState::Active)),
-        );
-
-        app.add_systems(
-            Update,
-            (damage::ui_spawn_damage, damage::ui_text_fade_out)
-                .after(AttackSet)
-                .run_if(in_state(GameState::Active)),
-        );
-
-        app.add_systems(Update, pause::pause_system.run_if(is_in_game_state));
-
         app.add_systems(
             Update,
             start_menu::menu_input_system.run_if(is_in_menu_state),
@@ -158,61 +110,43 @@ impl Plugin for SystemsPlugin {
 
         app.add_systems(
             Update,
+            credits::credits_system.run_if(in_state(GameState::Credits)),
+        );
+
+        app.add_systems(Update, pause::pause_system.run_if(is_in_game_state));
+
+        app.add_systems(
+            Update,
             (
+                // NOTE: Maximum of 20 entries
+                blink::menu_blink_system,
+                ship::bullet_timers_system,
+                dynamic_orbit::dynamic_orbital_positioning_system,
+                hud::indicator::indicators_system,
                 hud::speedometer::hud_speedometer,
                 hud::health::hud_health,
                 hud::nav::current_location,
                 hud::time::current_time,
-            )
-                .run_if(in_state(GameState::Active)),
-        );
-
-        app.add_systems(
-            Update,
-            hud::indicator::indicators_system.run_if(in_state(GameState::Active)),
-        );
-
-        app.add_systems(
-            Update,
-            (bullet::spawn_bullet.after(MovementSet)).run_if(in_state(GameState::Active)),
-        );
-
-        app.add_systems(
-            Update,
-            contact::contact_system
-                .in_set(AttackSet)
-                .run_if(in_state(GameState::Active)),
-        );
-
-        app.add_systems(
-            Update,
-            dynamic_orbit::dynamic_orbital_positioning_system.run_if(in_state(GameState::Active)),
-        );
-
-        app.add_systems(
-            Update,
-            (
-                ship::bullet_timers_system,
-                (ship::ship_damage).after(AttackSet),
-            )
-                .run_if(in_state(GameState::Active)),
-        );
-
-        app.add_systems(
-            Update,
-            (
-                player::player_flight_system.in_set(MovementSet),
-                player::player_weapons_system.in_set(AttackSet),
-            )
-                .run_if(in_state(GameState::Active)),
-        );
-
-        app.add_systems(
-            Update,
-            (
+                animate::animate_sprite,
+                despawn_timer::despawn_system,
+                game_time::tick_game_time,
+                orbit::orbitable_update_system,
+                orbit::orbital_positioning_system,
                 enemy::enemy_targeting_system.before(MovementSet),
-                enemy::enemy_flight_system.in_set(MovementSet),
-                enemy::enemy_weapons_system.in_set(AttackSet),
+                (player::player_flight_system, enemy::enemy_flight_system).in_set(MovementSet),
+                (bullet::spawn_bullet, camera::follow_player).after(MovementSet),
+                (
+                    enemy::enemy_weapons_system,
+                    player::player_weapons_system,
+                    contact::contact_system,
+                )
+                    .in_set(AttackSet),
+                (
+                    ship::ship_damage,
+                    damage::ui_spawn_damage,
+                    damage::ui_text_fade_out,
+                )
+                    .after(AttackSet),
             )
                 .run_if(in_state(GameState::Active)),
         );
