@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.19] - 2023-10-31
+
 ### Added
 
 - bevy_common_assets allows certain data to be loaded from asset files
@@ -276,7 +278,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CHANGELOG.md matching Keep a Changelog formatting
 - README with link to license doc and changelog
 
-[unreleased]: https://github.com/thombruce/verse/compare/v0.0.18...HEAD
+[unreleased]: https://github.com/thombruce/verse/compare/v0.0.19...HEAD
+[0.0.19]: https://github.com/thombruce/verse/compare/v0.0.18...v0.0.19
 [0.0.18]: https://github.com/thombruce/verse/compare/v0.0.17...v0.0.18
 [0.0.17]: https://github.com/thombruce/verse/compare/v0.0.16...v0.0.17
 [0.0.16]: https://github.com/thombruce/verse/compare/v0.0.15...v0.0.16
