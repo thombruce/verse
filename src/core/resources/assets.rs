@@ -1,6 +1,19 @@
 use bevy::prelude::*;
 use bevy_asset_loader::prelude::*;
 
+use crate::ui::menus::credits::Credits;
+
+use super::config::GameConfig;
+
+#[derive(AssetCollection, Resource)]
+pub struct DataAssets {
+    #[asset(path = "verse.config.ron")]
+    pub config: Handle<GameConfig>,
+
+    #[asset(path = "verse.credits.ron")]
+    pub credits: Handle<Credits>,
+}
+
 #[derive(AssetCollection, Resource)]
 pub struct SpriteAssets {
     #[asset(path = "space/ships/player.png")]
@@ -72,6 +85,6 @@ pub struct UiAssets {
     #[asset(path = "fonts/Xolonium/Xolonium-Bold.ttf")]
     pub font: Handle<Font>,
 
-    #[asset(path = "verse.png")]
+    #[asset(path = "images/verse.png")]
     pub title: Handle<Image>,
 }

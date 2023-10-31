@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- bevy_common_assets allowing certain data to be loaded from asset files
+- Allow window mode and master volume to be set via config file
+
 ### Changed
 
 - Gravitable component added allowing dynamic_orbit system to be applied to any entity
+- Load credits from asset file
 
 ### Fixed
 

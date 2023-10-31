@@ -1,5 +1,6 @@
 #[allow(unused_imports)]
 use bevy::{
+    audio::{AudioPlugin, VolumeLevel},
     prelude::*,
     window::{Cursor, PrimaryWindow, WindowMode},
     winit::WinitWindows,
@@ -19,7 +20,8 @@ mod world;
 
 use crate::{
     core::resources::{
-        assets::{AudioAssets, SpriteAssets, UiAssets},
+        assets::{AudioAssets, DataAssets, SpriteAssets, UiAssets},
+        config::{ConfigPlugin, GameConfig},
         state::GameState,
     },
     core::CorePlugin,
@@ -53,7 +55,7 @@ fn main() {
             .set(ImagePlugin::default_nearest()),
     );
 
-    app.add_plugins((CorePlugin, ShipsPlugin, WorldPlugin, UiPlugin));
+    app.add_plugins((ConfigPlugin, CorePlugin, ShipsPlugin, WorldPlugin, UiPlugin));
 
     #[cfg(debug_assertions)]
     app.add_plugins((
@@ -66,7 +68,8 @@ fn main() {
     )
     .add_collection_to_loading_state::<_, SpriteAssets>(GameState::Loading)
     .add_collection_to_loading_state::<_, AudioAssets>(GameState::Loading)
-    .add_collection_to_loading_state::<_, UiAssets>(GameState::Loading);
+    .add_collection_to_loading_state::<_, UiAssets>(GameState::Loading)
+    .add_collection_to_loading_state::<_, DataAssets>(GameState::Loading);
 
     app.insert_resource(ClearColor(Color::rgb(0., 0., 0.)));
 
@@ -84,9 +87,13 @@ fn main() {
 }
 
 /// The setup function
-fn setup() {
-    // Good place to put window setup configs, like whether or not
-    // the player has suggested the game be played fullscreen.
+fn setup(
+    config: Res<GameConfig>,
+    mut window: Query<&mut Window>,
+    mut volume: ResMut<GlobalVolume>,
+) {
+    window.single_mut().mode = config.window_mode;
+    volume.volume = VolumeLevel::new(config.master_volume);
 }
 
 // Documented:
@@ -104,7 +111,7 @@ fn set_window_icon(
     // here we use the `image` crate to load our icon data from a png file
     // this is not a very bevy-native solution, but it will do
     let (icon_rgba, icon_width, icon_height) = {
-        let image = image::open("assets/VerseSquircle-256.png")
+        let image = image::open("assets/images/VerseSquircle-256.png")
             .expect("Failed to open icon path")
             .into_rgba8();
         let (width, height) = image.dimensions();

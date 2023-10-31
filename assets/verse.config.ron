@@ -1,0 +1,4 @@
+GameConfig(
+    window_mode: Windowed, // Windowed, Fullscreen, BorderlessFullscreen, SizedFullscreen
+    master_volume: 1.0,
+)

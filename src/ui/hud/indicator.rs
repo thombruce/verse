@@ -53,7 +53,7 @@ fn setup(
             for (entity, indicated) in entities_query.iter() {
                 parent.spawn((
                     ImageBundle {
-                        image: UiImage::new(asset_server.load("grey_arrowUpWhite.png")),
+                        image: UiImage::new(asset_server.load("images/grey_arrowUpWhite.png")),
                         style: Style {
                             position_type: PositionType::Absolute,
                             width: Val::Px(15.0),

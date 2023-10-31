@@ -1,4 +1,7 @@
-use bevy::prelude::*;
+use bevy::{
+    audio::{PlaybackMode, Volume},
+    prelude::*,
+};
 use bevy_rapier2d::prelude::*;
 
 use crate::core::resources::{
@@ -89,7 +92,15 @@ fn spawn_bullet(
             ActiveEvents::COLLISION_EVENTS,
             AudioBundle {
                 source: audios.gun.clone(),
-                ..default()
+                settings: PlaybackSettings {
+                    mode: PlaybackMode::Remove,
+                    // TODO: This should be relative to an SFX Volume setting
+                    //       which should in turn be relative to the master volume.
+                    //       Right now, this is just being set relative to the
+                    //       GlobalVolume (which is configurable as master_volume).
+                    volume: Volume::new_relative(1.0),
+                    ..default()
+                },
             },
         ));
     }

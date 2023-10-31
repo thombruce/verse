@@ -1,4 +1,7 @@
-use bevy::{audio::PlaybackMode, prelude::*};
+use bevy::{
+    audio::{PlaybackMode, Volume},
+    prelude::*,
+};
 use leafwing_input_manager::prelude::{ActionState, InputManagerPlugin};
 
 use crate::{
@@ -37,6 +40,7 @@ fn init(mut commands: Commands, audios: Res<AudioAssets>) {
             source: audios.title_music.clone(),
             settings: PlaybackSettings {
                 mode: PlaybackMode::Loop,
+                volume: Volume::new_relative(1.0),
                 ..default()
             },
         },
