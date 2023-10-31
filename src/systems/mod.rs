@@ -106,7 +106,14 @@ impl Plugin for SystemsPlugin {
         );
 
         // FixedUpdate
+        // app.insert_resource(FixedTime::new_from_secs(1.0 / 60.0));
         // app.add_systems(FixedUpdate, _);
+
+        // NOTE: Alternative approach for running arbitrary systems on a fixed timer:
+        // app.add_systems(
+        //     Update,
+        //     _.run_if(on_timer(Duration::from_secs(1.0 / 60.0))),
+        // );
 
         // Update
         app.add_systems(
