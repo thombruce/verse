@@ -1,3 +1,4 @@
+use bevy::audio::VolumeLevel;
 use bevy::prelude::*;
 use bevy::reflect::{TypePath, TypeUuid};
 use bevy::window::WindowMode;
@@ -16,6 +17,14 @@ impl Plugin for ConfigPlugin {
         });
 
         app.add_systems(OnExit(GameState::Loading), load_config);
+
+        app.add_systems(
+            OnTransition {
+                from: GameState::Loading,
+                to: GameState::StartMenu,
+            },
+            apply_config,
+        );
     }
 }
 
@@ -35,4 +44,13 @@ fn load_config(
         game_config.window_mode = config.window_mode;
         game_config.master_volume = config.master_volume;
     }
+}
+
+fn apply_config(
+    config: Res<GameConfig>,
+    mut window: Query<&mut Window>,
+    mut volume: ResMut<GlobalVolume>,
+) {
+    window.single_mut().mode = config.window_mode;
+    volume.volume = VolumeLevel::new(config.master_volume);
 }

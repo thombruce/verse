@@ -21,7 +21,7 @@ mod world;
 use crate::{
     core::resources::{
         assets::{AudioAssets, DataAssets, SpriteAssets, UiAssets},
-        config::{ConfigPlugin, GameConfig},
+        config::ConfigPlugin,
         state::GameState,
     },
     core::CorePlugin,
@@ -75,26 +75,10 @@ fn main() {
 
     app.add_systems(Startup, set_window_icon);
 
-    app.add_systems(
-        OnTransition {
-            from: GameState::Loading,
-            to: GameState::StartMenu,
-        },
-        setup,
-    );
-
     app.run();
 }
 
 /// The setup function
-fn setup(
-    config: Res<GameConfig>,
-    mut window: Query<&mut Window>,
-    mut volume: ResMut<GlobalVolume>,
-) {
-    window.single_mut().mode = config.window_mode;
-    volume.volume = VolumeLevel::new(config.master_volume);
-}
 
 // Documented:
 // - https://bevy-cheatbook.github.io/window/icon.html
