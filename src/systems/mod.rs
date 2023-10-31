@@ -6,8 +6,8 @@ pub mod system_sets;
 
 use crate::{
     core::{
-        effects::{animate, blink},
-        resources::{config, despawn_timer, game_time},
+        effects,
+        resources::{self, config},
     },
     ships::{self, bullet, contact, dynamic_orbit, enemy, player, ship},
     temp,
@@ -15,7 +15,7 @@ use crate::{
         camera, damage, hud,
         menus::{credits, pause, start_menu},
     },
-    world::astronomy::{orbit, planetary_system, starfield},
+    world::astronomy::{self, planetary_system, starfield},
 };
 
 use self::{
@@ -132,7 +132,12 @@ impl Plugin for SystemsPlugin {
             Update,
             (
                 // NOTE: Maximum of 20 entries
-                blink::menu_blink_system,
+                resources::game_time::tick_game_time,
+                resources::despawn_timer::despawn_system,
+                effects::blink::menu_blink_system,
+                effects::animate::animate_sprite,
+                astronomy::orbit::orbitable_update_system,
+                astronomy::orbit::orbital_positioning_system,
                 ship::bullet_timers_system,
                 dynamic_orbit::dynamic_orbital_positioning_system,
                 hud::indicator::indicators_system,
@@ -140,11 +145,6 @@ impl Plugin for SystemsPlugin {
                 hud::health::hud_health,
                 hud::nav::current_location,
                 hud::time::current_time,
-                animate::animate_sprite,
-                despawn_timer::despawn_system,
-                game_time::tick_game_time,
-                orbit::orbitable_update_system,
-                orbit::orbital_positioning_system,
                 // TODO: This clumsily resolves a crash to desktop where enemy_targeting_system
                 //       was happening after ship_damage some of the time.
                 //       The SystemSets aren't aware of one another, they need to be configured.
