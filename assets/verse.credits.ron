@@ -53,15 +53,31 @@
             ),
         ]
     ),
-    // (
-    //     section_title: "Become a Supporter",
-    //     credits: [
-    //         (
-    //             credit_title: "ko-fi.com/thombruce"
-    //         ),
-    //         (
-    //             credit_title: "patreon.com/thombruce"
-    //         ),
-    //     ]
-    // ),
+    (
+        section_title: "Source Code",
+        credits: [
+            (
+                credit_title: "github.com/thombruce/verse"
+            ),
+        ]
+    ),
+    (
+        section_title: "Devlogs",
+        credits: [
+            (
+                credit_title: "youtube.com/@thombruce"
+            ),
+        ]
+    ),
+    (
+        section_title: "Become a Supporter",
+        credits: [
+            (
+                credit_title: "ko-fi.com/thombruce"
+            ),
+            (
+                credit_title: "patreon.com/thombruce"
+            ),
+        ]
+    ),
 ])

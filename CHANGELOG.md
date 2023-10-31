@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - bevy_common_assets allows certain data to be loaded from asset files
 - Allow window mode and master volume to be set via config file
+- Game links (Devlogs, GitHub) and support options added to credits
 
 ### Changed
 
