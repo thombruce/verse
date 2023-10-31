@@ -6,11 +6,13 @@ pub mod transitions;
 pub enum GameState {
     #[default]
     Loading,
+    // Menu States
     StartMenu,
+    Credits,
+    // Game States
     GameCreate,
     Active,
     Paused,
-    Credits,
 }
 impl GameState {
     pub const IN_MENU_STATE: &[GameState; 2] = &[GameState::StartMenu, GameState::Credits];
