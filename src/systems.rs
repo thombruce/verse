@@ -24,10 +24,9 @@ pub struct SystemsPlugin;
 impl Plugin for SystemsPlugin {
     fn build(&self, app: &mut App) {
         // PreStartup
-        // app.add_systems(PreStartup, _);
+        app.add_systems(PreStartup, temp::set_window_icon::set_window_icon);
 
         // Startup
-        app.add_systems(Startup, temp::set_window_icon::set_window_icon);
         app.add_systems(Startup, camera::spawn_camera);
         app.add_systems(Startup, ships::configure_physics_engine);
 
