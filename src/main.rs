@@ -1,12 +1,5 @@
-#[allow(unused_imports)]
-use bevy::{
-    audio::{AudioPlugin, VolumeLevel},
-    prelude::*,
-    window::{Cursor, PrimaryWindow, WindowMode},
-    winit::WinitWindows,
-};
+use bevy::prelude::*;
 use bevy_asset_loader::prelude::*;
-use winit::window::Icon;
 
 #[cfg(debug_assertions)]
 use {bevy_inspector_egui::quick::WorldInspectorPlugin, bevy_rapier2d::prelude::*};
@@ -15,6 +8,7 @@ mod core;
 mod inputs;
 mod shaders;
 mod ships;
+mod temp;
 mod ui;
 mod world;
 
@@ -26,6 +20,7 @@ use crate::{
     },
     core::CorePlugin,
     ships::ShipsPlugin,
+    temp::set_window_icon::SetWindowIconPlugin,
     ui::UiPlugin,
     world::WorldPlugin,
 };
@@ -55,7 +50,14 @@ fn main() {
             .set(ImagePlugin::default_nearest()),
     );
 
-    app.add_plugins((ConfigPlugin, CorePlugin, ShipsPlugin, WorldPlugin, UiPlugin));
+    app.add_plugins((
+        SetWindowIconPlugin,
+        ConfigPlugin,
+        CorePlugin,
+        ShipsPlugin,
+        WorldPlugin,
+        UiPlugin,
+    ));
 
     #[cfg(debug_assertions)]
     app.add_plugins((
@@ -73,37 +75,5 @@ fn main() {
 
     app.insert_resource(ClearColor(Color::rgb(0., 0., 0.)));
 
-    app.add_systems(Startup, set_window_icon);
-
     app.run();
-}
-
-/// The setup function
-
-// Documented:
-// - https://bevy-cheatbook.github.io/window/icon.html
-// - https://stackoverflow.com/a/76729516/2225649
-// Open issue: https://github.com/bevyengine/bevy/issues/1031
-// TODO: Change to official approach when issue is closed and released
-fn set_window_icon(
-    main_window: Query<Entity, With<PrimaryWindow>>,
-    // we have to use `NonSend` here
-    windows: NonSend<WinitWindows>,
-) {
-    let primary = windows.get_window(main_window.single()).unwrap();
-
-    // here we use the `image` crate to load our icon data from a png file
-    // this is not a very bevy-native solution, but it will do
-    let (icon_rgba, icon_width, icon_height) = {
-        let image = image::open("assets/images/VerseSquircle-256.png")
-            .expect("Failed to open icon path")
-            .into_rgba8();
-        let (width, height) = image.dimensions();
-        let rgba = image.into_raw();
-        (rgba, width, height)
-    };
-
-    let icon = Icon::from_rgba(icon_rgba, icon_width, icon_height).unwrap();
-
-    primary.set_window_icon(Some(icon));
 }
