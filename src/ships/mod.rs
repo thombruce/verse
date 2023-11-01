@@ -2,7 +2,6 @@ use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
 pub mod bullet;
-pub mod contact;
 pub mod dynamic_orbit;
 pub mod enemy;
 pub mod player;
