@@ -2,12 +2,14 @@ use bevy::{
     audio::{PlaybackMode, Volume},
     prelude::*,
 };
+use bevy_fluent::BundleAsset;
+use fluent_content::Content;
 use leafwing_input_manager::prelude::{ActionState, InputManagerPlugin};
 
 use crate::{
     core::{
         effects::blink::DrawBlinkTimer,
-        resources::assets::{AudioAssets, UiAssets},
+        resources::assets::{AudioAssets, I18nAssets, UiAssets},
     },
     inputs::menu::{menu_input_map, MenuAction},
     systems::states::{ForState, GameState},
@@ -40,7 +42,15 @@ pub(crate) fn init_start_menu(mut commands: Commands, audios: Res<AudioAssets>) 
     ));
 }
 
-pub(crate) fn spawn_start_menu(mut commands: Commands, ui: Res<UiAssets>) {
+pub(crate) fn spawn_start_menu(
+    mut commands: Commands,
+    ui: Res<UiAssets>,
+    i18n_assets: Res<I18nAssets>,
+    assets: Res<Assets<BundleAsset>>,
+) {
+    let i18n_handle = &i18n_assets.en_us.clone();
+    let i18n = assets.get(i18n_handle).unwrap();
+
     commands
         .spawn((
             NodeBundle {
@@ -82,7 +92,7 @@ pub(crate) fn spawn_start_menu(mut commands: Commands, ui: Res<UiAssets>) {
                         ..default()
                     },
                     text: Text::from_section(
-                        "Press Start".to_ascii_uppercase(),
+                        i18n.content("press-start").unwrap().to_ascii_uppercase(),
                         TextStyle {
                             font: ui.font.clone(),
                             font_size: 35.0,
@@ -128,7 +138,7 @@ pub(crate) fn spawn_start_menu(mut commands: Commands, ui: Res<UiAssets>) {
                         ..default()
                     },
                     text: Text::from_section(
-                        "Press 'C' for Credits",
+                        i18n.content("credits-prompt").unwrap(),
                         TextStyle {
                             font: ui.font.clone(),
                             font_size: 25.0,

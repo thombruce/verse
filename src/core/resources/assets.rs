@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use bevy_asset_loader::prelude::*;
+use bevy_fluent::BundleAsset;
 
 use crate::ui::menus::credits::Credits;
 
@@ -12,6 +13,12 @@ pub struct DataAssets {
 
     #[asset(path = "verse.credits.ron")]
     pub credits: Handle<Credits>,
+}
+
+#[derive(AssetCollection, Resource)]
+pub struct I18nAssets {
+    #[asset(path = "locales/en-US/main.ftl.yml")]
+    pub en_us: Handle<BundleAsset>,
 }
 
 #[derive(AssetCollection, Resource)]
