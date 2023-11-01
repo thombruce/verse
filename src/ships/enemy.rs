@@ -127,9 +127,9 @@ pub fn enemy_flight_system(
 
 pub fn enemy_weapons_system(
     mut bullet_spawn_events: EventWriter<BulletSpawnEvent>,
-    mut query: Query<(&mut Ship, &Transform, &mut Velocity, &Targeting), With<Enemy>>,
+    mut query: Query<(&mut Ship, &Transform, &mut Velocity, &Targeting, Entity), With<Enemy>>,
 ) {
-    for (mut ship, transform, velocity, targeting) in query.iter_mut() {
+    for (mut ship, transform, velocity, targeting, entity) in query.iter_mut() {
         let steering = targeting.angle;
 
         if steering.abs() < 0.1
@@ -137,6 +137,7 @@ pub fn enemy_weapons_system(
             && ship.bullet_timer.finished()
         {
             bullet_spawn_events.send(BulletSpawnEvent {
+                spawner: entity,
                 transform: *transform,
                 velocity: *velocity,
             });

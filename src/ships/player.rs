@@ -111,13 +111,15 @@ pub fn player_weapons_system(
             &Transform,
             &mut Velocity,
             &ActionState<ShipAction>,
+            Entity,
         ),
         With<Player>,
     >,
 ) {
-    if let Ok((mut ship, transform, velocity, action_state)) = query.get_single_mut() {
+    if let Ok((mut ship, transform, velocity, action_state, entity)) = query.get_single_mut() {
         if action_state.pressed(ShipAction::Fire) && ship.bullet_timer.finished() {
             bullet_spawn_events.send(BulletSpawnEvent {
+                spawner: entity,
                 transform: *transform,
                 velocity: *velocity,
             });

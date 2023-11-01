@@ -9,7 +9,7 @@ use crate::{
         effects,
         resources::{self, config},
     },
-    ships::{self, bullet, contact, dynamic_orbit, enemy, player, ship},
+    ships::{self, bullet, dynamic_orbit, enemy, player, ship},
     temp,
     ui::{
         camera, damage, hud,
@@ -155,7 +155,7 @@ impl Plugin for SystemsPlugin {
                 (
                     enemy::enemy_weapons_system,
                     player::player_weapons_system,
-                    contact::contact_system,
+                    events::contact_system,
                 )
                     .in_set(AttackSet),
                 (

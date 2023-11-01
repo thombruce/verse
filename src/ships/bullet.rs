@@ -20,6 +20,9 @@ use super::dynamic_orbit::Gravitable;
 #[derive(Component)]
 pub struct Bullet;
 
+#[derive(Component)]
+pub struct SpawnedBy(pub Entity);
+
 pub(crate) fn spawn_bullet(
     mut commands: Commands,
     mut bullet_spawn_events: EventReader<BulletSpawnEvent>,
@@ -36,7 +39,7 @@ pub(crate) fn spawn_bullet(
             SpriteBundle {
                 transform: Transform {
                     translation: Vec3::new(transform.translation.x, transform.translation.y, 99.0)
-                        + transform.rotation * (Vec3::Y * 35.0), // Ships radius * scaling factor + 5px padding
+                        + transform.rotation * (Vec3::Y * 1.0),
                     rotation: transform.rotation,
                     ..default()
                 },
@@ -44,6 +47,7 @@ pub(crate) fn spawn_bullet(
                 ..default()
             },
             Bullet,
+            SpawnedBy(spawn_event.spawner),
             // TODO: Should bullets be affected by gravity?
             //       If so, set their initial velocity higher and consider
             //       despawning them either based on distance or a longer

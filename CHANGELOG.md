@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - enemy_targeting_system now happens before ship_damage, preventing crash to desktop
+- Own bullets can no longer hit self
 
 ## [0.0.19] - 2023-10-31
 
