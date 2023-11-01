@@ -1,11 +1,14 @@
 use bevy::prelude::*;
 use bevy_fluent::prelude::*;
-use unic_langid::langid;
+
+pub mod locales;
+
+use locales::*;
 
 pub struct I18nPlugin;
 impl Plugin for I18nPlugin {
     fn build(&self, app: &mut App) {
-        app.insert_resource(Locale::new(langid!("ru-RU")).with_default(langid!("en-US")))
+        app.insert_resource(Locale::new(ru::RU).with_default(en::US))
             .insert_resource(I18n(Localization::new()))
             .add_plugins(FluentPlugin);
     }
