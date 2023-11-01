@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Support for translations/internationalisation using bevy_fluent
+- Add basic English (US) translations
+- Add basic Russian (RU) translations
+- Add basic German (DE) translations
+
 ### Changed
 
 - Migrated core, temp, ui, world and ship systems to systems/mod.rs file for better overview

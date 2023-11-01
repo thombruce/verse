@@ -1,9 +1,11 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::RapierConfiguration;
+use fluent_content::Content;
 use leafwing_input_manager::prelude::{ActionState, InputManagerPlugin};
 
 use crate::{
     core::{effects::blink::DrawBlinkTimer, resources::assets::UiAssets},
+    i18n::I18n,
     inputs::pause::{pause_input_map, PauseAction},
     systems::states::{ForState, GameState},
 };
@@ -41,7 +43,7 @@ pub(crate) fn pause_system(
     }
 }
 
-pub(crate) fn pause_screen(mut commands: Commands, ui: Res<UiAssets>) {
+pub(crate) fn pause_screen(mut commands: Commands, ui: Res<UiAssets>, i18n: Res<I18n>) {
     commands
         .spawn((
             NodeBundle {
@@ -65,7 +67,7 @@ pub(crate) fn pause_screen(mut commands: Commands, ui: Res<UiAssets>) {
                 TextBundle {
                     style: Style { ..default() },
                     text: Text::from_section(
-                        "Pause".to_ascii_uppercase(),
+                        i18n.content("pause").unwrap().to_ascii_uppercase(),
                         TextStyle {
                             font: ui.font.clone(),
                             font_size: 50.0,

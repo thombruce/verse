@@ -6,6 +6,7 @@ pub mod transitions;
 pub enum GameState {
     #[default]
     Loading,
+    LoadingTranslations,
     // Menu States
     StartMenu,
     Credits,

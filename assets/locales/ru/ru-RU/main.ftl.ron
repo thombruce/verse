@@ -1,0 +1,7 @@
+(
+    locale: "ru-RU",
+    resources: [
+        "start_menu.ftl",
+        "game.ftl",
+    ]
+)

@@ -10,12 +10,16 @@ bevy = "0.11.3"
 bevy-inspector-egui = "0.20.0"
 bevy_asset_loader = { version = "0.17.0", features = ["2d"] }
 bevy_common_assets = { version = "0.7.0", features = ["ron"] }
+bevy_fluent = "0.7.0"
 bevy_rapier2d = "0.22.0"
 bevy_spatial = "0.6.0"
 bevy_tiling_background = { git = "https://github.com/rparrett/bevy_tiling_background.git", branch = "tex-typo" }
+fluent_content = "0.0.5"
 image = "0.24.7"
 leafwing-input-manager = "0.10.0"
+regex = "1.10.2"
 serde = "1.0.190"
+unic-langid = { version = "0.9.1", features = ["macros"] }
 winit = "0.28.7"
 
 # Enable a small amount of optimization in debug mode

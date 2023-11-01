@@ -5,6 +5,7 @@ use bevy_asset_loader::prelude::*;
 use {bevy_inspector_egui::quick::WorldInspectorPlugin, bevy_rapier2d::prelude::*};
 
 mod core;
+mod i18n;
 mod inputs;
 mod shaders;
 mod ships;
@@ -19,6 +20,7 @@ use crate::{
         config::ConfigPlugin,
     },
     core::CorePlugin,
+    i18n::I18nPlugin,
     ships::ShipsPlugin,
     systems::{events::EventsPlugin, states::GameState, SystemsPlugin},
     ui::UiPlugin,
@@ -58,6 +60,7 @@ fn main() {
         UiPlugin,
         SystemsPlugin,
         EventsPlugin,
+        I18nPlugin,
     ));
 
     #[cfg(debug_assertions)]
@@ -66,8 +69,10 @@ fn main() {
         WorldInspectorPlugin::new(),
     ));
 
+    // TODO: Assets should be separated according to where and when they are needed.
+    //       Right now, we're loading ALL assets at startup. This is unnecessary.
     app.add_loading_state(
-        LoadingState::new(GameState::Loading).continue_to_state(GameState::StartMenu),
+        LoadingState::new(GameState::Loading).continue_to_state(GameState::LoadingTranslations),
     )
     .add_collection_to_loading_state::<_, SpriteAssets>(GameState::Loading)
     .add_collection_to_loading_state::<_, AudioAssets>(GameState::Loading)

@@ -1,7 +1,10 @@
 use bevy::{
+    asset::LoadState,
     audio::{PlaybackMode, Volume},
     prelude::*,
 };
+use bevy_fluent::{AssetServerExt, BundleAsset, LocalizationBuilder};
+use fluent_content::Content;
 use leafwing_input_manager::prelude::{ActionState, InputManagerPlugin};
 
 use crate::{
@@ -9,6 +12,7 @@ use crate::{
         effects::blink::DrawBlinkTimer,
         resources::assets::{AudioAssets, UiAssets},
     },
+    i18n::I18n,
     inputs::menu::{menu_input_map, MenuAction},
     systems::states::{ForState, GameState},
 };
@@ -40,7 +44,24 @@ pub(crate) fn init_start_menu(mut commands: Commands, audios: Res<AudioAssets>) 
     ));
 }
 
-pub(crate) fn spawn_start_menu(mut commands: Commands, ui: Res<UiAssets>) {
+pub(crate) fn load_start_menu_translations(
+    localization_builder: LocalizationBuilder,
+    asset_server: Res<AssetServer>,
+    mut handles: Local<Option<Vec<Handle<BundleAsset>>>>,
+    mut i18n: ResMut<I18n>,
+    mut next_state: ResMut<NextState<GameState>>,
+) {
+    let handles =
+        handles.get_or_insert_with(|| asset_server.load_glob("locales/**/main.ftl.ron").unwrap());
+
+    let load_state = asset_server.get_group_load_state(handles.iter().map(Handle::id));
+    if let LoadState::Loaded = load_state {
+        i18n.0 = localization_builder.build(&*handles);
+        next_state.set(GameState::StartMenu);
+    }
+}
+
+pub(crate) fn spawn_start_menu(mut commands: Commands, ui: Res<UiAssets>, i18n: Res<I18n>) {
     commands
         .spawn((
             NodeBundle {
@@ -82,7 +103,7 @@ pub(crate) fn spawn_start_menu(mut commands: Commands, ui: Res<UiAssets>) {
                         ..default()
                     },
                     text: Text::from_section(
-                        "Press Start".to_ascii_uppercase(),
+                        i18n.content("press-start").unwrap().to_ascii_uppercase(),
                         TextStyle {
                             font: ui.font.clone(),
                             font_size: 35.0,
@@ -128,7 +149,7 @@ pub(crate) fn spawn_start_menu(mut commands: Commands, ui: Res<UiAssets>) {
                         ..default()
                     },
                     text: Text::from_section(
-                        "Press 'C' for Credits",
+                        i18n.content("credits-prompt").unwrap(),
                         TextStyle {
                             font: ui.font.clone(),
                             font_size: 25.0,
