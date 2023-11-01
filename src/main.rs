@@ -5,6 +5,7 @@ use bevy_asset_loader::prelude::*;
 use {bevy_inspector_egui::quick::WorldInspectorPlugin, bevy_rapier2d::prelude::*};
 
 mod core;
+mod i18n;
 mod inputs;
 mod shaders;
 mod ships;
@@ -19,6 +20,7 @@ use crate::{
         config::ConfigPlugin,
     },
     core::CorePlugin,
+    i18n::I18nPlugin,
     ships::ShipsPlugin,
     systems::{events::EventsPlugin, states::GameState, SystemsPlugin},
     ui::UiPlugin,
@@ -58,6 +60,7 @@ fn main() {
         UiPlugin,
         SystemsPlugin,
         EventsPlugin,
+        I18nPlugin,
     ));
 
     #[cfg(debug_assertions)]
