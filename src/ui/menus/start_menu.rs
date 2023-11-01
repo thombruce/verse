@@ -1,15 +1,19 @@
 use bevy::{
+    asset::LoadState,
     audio::{PlaybackMode, Volume},
     prelude::*,
 };
-use bevy_fluent::BundleAsset;
+use bevy_fluent::{AssetServerExt, BundleAsset, LocalizationBuilder};
 use fluent_content::Content;
 use leafwing_input_manager::prelude::{ActionState, InputManagerPlugin};
 
 use crate::{
     core::{
         effects::blink::DrawBlinkTimer,
-        resources::assets::{AudioAssets, I18nAssets, UiAssets},
+        resources::{
+            assets::{AudioAssets, UiAssets},
+            i18n::I18n,
+        },
     },
     inputs::menu::{menu_input_map, MenuAction},
     systems::states::{ForState, GameState},
@@ -42,15 +46,24 @@ pub(crate) fn init_start_menu(mut commands: Commands, audios: Res<AudioAssets>) 
     ));
 }
 
-pub(crate) fn spawn_start_menu(
-    mut commands: Commands,
-    ui: Res<UiAssets>,
-    i18n_assets: Res<I18nAssets>,
-    assets: Res<Assets<BundleAsset>>,
+pub(crate) fn load_start_menu_translations(
+    localization_builder: LocalizationBuilder,
+    asset_server: Res<AssetServer>,
+    mut handles: Local<Option<Vec<Handle<BundleAsset>>>>,
+    mut i18n: ResMut<I18n>,
+    mut next_state: ResMut<NextState<GameState>>,
 ) {
-    let i18n_handle = &i18n_assets.en_us.clone();
-    let i18n = assets.get(i18n_handle).unwrap();
+    let handles =
+        handles.get_or_insert_with(|| asset_server.load_glob("locales/**/main.ftl.ron").unwrap());
 
+    let load_state = asset_server.get_group_load_state(handles.iter().map(Handle::id));
+    if let LoadState::Loaded = load_state {
+        i18n.0 = localization_builder.build(&*handles);
+        next_state.set(GameState::StartMenu);
+    }
+}
+
+pub(crate) fn spawn_start_menu(mut commands: Commands, ui: Res<UiAssets>, i18n: Res<I18n>) {
     commands
         .spawn((
             NodeBundle {

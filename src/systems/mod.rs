@@ -92,7 +92,7 @@ impl Plugin for SystemsPlugin {
         // OnTransition
         app.add_systems(
             OnTransition {
-                from: GameState::Loading,
+                from: GameState::LoadingTranslations,
                 to: GameState::StartMenu,
             },
             (config::apply_config, start_menu::init_start_menu),
@@ -116,6 +116,12 @@ impl Plugin for SystemsPlugin {
         // );
 
         // Update
+        app.add_systems(
+            Update,
+            start_menu::load_start_menu_translations
+                .run_if(in_state(GameState::LoadingTranslations)),
+        );
+
         app.add_systems(
             Update,
             start_menu::menu_input_system.run_if(is_in_menu_state),
