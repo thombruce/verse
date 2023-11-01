@@ -134,13 +134,14 @@ impl Plugin for SystemsPlugin {
 
         app.add_systems(Update, pause::pause_system.run_if(is_in_game_state));
 
+        app.add_systems(Update, effects::blink::menu_blink_system);
+
         app.add_systems(
             Update,
             (
                 // NOTE: Maximum of 20 entries
                 resources::game_time::tick_game_time,
                 resources::despawn_timer::despawn_system,
-                effects::blink::menu_blink_system,
                 effects::animate::animate_sprite,
                 astronomy::orbit::orbitable_update_system,
                 astronomy::orbit::orbital_positioning_system,
