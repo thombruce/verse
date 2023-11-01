@@ -10,11 +10,9 @@ use leafwing_input_manager::prelude::{ActionState, InputManagerPlugin};
 use crate::{
     core::{
         effects::blink::DrawBlinkTimer,
-        resources::{
-            assets::{AudioAssets, UiAssets},
-            i18n::I18n,
-        },
+        resources::assets::{AudioAssets, UiAssets},
     },
+    i18n::I18n,
     inputs::menu::{menu_input_map, MenuAction},
     systems::states::{ForState, GameState},
 };
