@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Readded Cursor dependency and allow unused_imports macro for production builds
+
 ## [0.0.20] - 2023-11-01
 
 ### Added
