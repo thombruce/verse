@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Support for translations/internationalisation using bevy_fluent [WIP]
+
 ### Changed
 
 - Migrated core, temp, ui, world and ship systems to systems/mod.rs file for better overview
