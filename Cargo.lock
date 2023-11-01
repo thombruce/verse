@@ -4267,6 +4267,7 @@ dependencies = [
  "fluent_content",
  "image",
  "leafwing-input-manager",
+ "regex",
  "serde",
  "unic-langid",
  "winit",
