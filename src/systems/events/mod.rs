@@ -11,6 +11,8 @@ impl Plugin for EventsPlugin {
 
 #[derive(Event)]
 pub struct BulletSpawnEvent {
+    // The entity requesting a bullet spawn
+    pub spawner: Entity,
     // The full position (translation+rotation) of the bullet to spawn
     pub transform: Transform,
     // The velocity of the entity emitting the bullet
