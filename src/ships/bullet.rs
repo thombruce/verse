@@ -3,6 +3,7 @@ use bevy::{
     prelude::*,
 };
 use bevy_rapier2d::prelude::*;
+use rand::Rng;
 
 use crate::{
     core::resources::{
@@ -30,17 +31,25 @@ pub(crate) fn spawn_bullet(
     audios: Res<AudioAssets>,
 ) {
     for spawn_event in bullet_spawn_events.iter() {
+        // Change this random factor to alter accuracy (larger is less accurate).
+        const SPREAD: f32 = 0.05;
+        let random_factor: f32 = rand::thread_rng().gen_range(-SPREAD..SPREAD);
+
         let transform = spawn_event.transform;
+        let rand_rotation = transform
+            .rotation
+            .mul_quat(Quat::from_rotation_z(random_factor));
+
         let velocity = Velocity::linear(
-            (spawn_event.velocity.linvel * Vec2::Y)
-                + (transform.rotation * Vec3::Y * 2000.0).truncate(),
+            (spawn_event.velocity.linvel * Vec2::Y) + (rand_rotation * Vec3::Y * 2000.0).truncate(),
         );
+
         commands.spawn((
             SpriteBundle {
                 transform: Transform {
                     translation: Vec3::new(transform.translation.x, transform.translation.y, 99.0)
                         + transform.rotation * (Vec3::Y * 1.0),
-                    rotation: transform.rotation,
+                    rotation: rand_rotation,
                     ..default()
                 },
                 texture: handles.bullet.clone(),

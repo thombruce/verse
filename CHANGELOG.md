@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Bullet spread; bullets will now fire in a slightly random direction based on accuracy
+
 ## [0.0.21] - 2023-11-01
 
 ### Fixed
