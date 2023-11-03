@@ -25,6 +25,18 @@
 | Fire          | <kbd>Space</kbd>                | <kbd>A</kbd>/<kbd>X</kbd> |
 | Pause/unpause | <kbd>Esc</kbd>, <kbd>P</kbd>    | <kbd>Start</kbd>          |
 
+## Config
+
+When Verse first runs, it will create a config file at `verse.config.ron`. These values can be reconfigured to your liking:
+
+```rs
+(
+    window_mode: Windowed, // Windowed, Fullscreen, BorderlessFullscreen, SizedFullscreen
+    master_volume: 1.0, // 0.0..1.0
+    locale: "en-US", // "en-US", "ru-RU", "de-DE"
+)
+```
+
 ## Development
 
 ### Installation

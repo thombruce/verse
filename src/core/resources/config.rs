@@ -1,26 +1,26 @@
 use bevy::audio::VolumeLevel;
 use bevy::prelude::*;
-use bevy::reflect::{TypePath, TypeUuid};
 use bevy::window::WindowMode;
-use bevy_common_assets::ron::RonAssetPlugin;
 use bevy_fluent::Locale;
+use serde::{Deserialize, Serialize};
+use std::fs;
 use unic_langid::LanguageIdentifier;
 
 use crate::i18n::locales::en;
 
-use super::assets::DataAssets;
-
 pub struct ConfigPlugin;
 impl Plugin for ConfigPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins(RonAssetPlugin::<GameConfig>::new(&["config.ron"]));
-
         app.insert_resource(GameConfig::default());
     }
 }
 
-#[derive(serde::Deserialize, TypeUuid, TypePath, Resource)]
-#[uuid = "bdb624ed-62bc-447f-9f89-f361ed58748c"]
+// TODO: LanguageIdentifier does not implement the Copy trait and therefore
+//       cannot be copied/borrowed/referenced as we'd like when setting
+//       values in the GameConfig resource. Refactor usage of LanguageIdentifier
+//       to improve handling of locale loading.
+
+#[derive(Deserialize, Serialize, Resource)]
 pub struct GameConfig {
     pub(crate) window_mode: WindowMode,
     pub(crate) master_volume: f32,
@@ -36,17 +36,25 @@ impl Default for GameConfig {
     }
 }
 
-pub(crate) fn load_config(
-    data: Res<DataAssets>,
-    mut configs: ResMut<Assets<GameConfig>>,
-    mut game_config: ResMut<GameConfig>,
-    mut locale: ResMut<Locale>,
-) {
-    if let Some(config) = configs.remove(data.config.id()) {
+pub(crate) fn load_config(mut game_config: ResMut<GameConfig>, mut locale: ResMut<Locale>) {
+    if let Ok(file_contents) = fs::read_to_string("verse.config.ron") {
+        let config: GameConfig = ron::from_str(&file_contents).unwrap();
+
         game_config.window_mode = config.window_mode;
         game_config.master_volume = config.master_volume;
         // game_config.locale = config.locale;
         locale.requested = config.locale;
+    } else {
+        locale.requested = en::US;
+        // TODO: This saves the default config. It can be generalised to save the GameConfig resource
+        //       at any time, and reused whenever we need to save the config.
+        //       However, we must be able to update the GameConfig locale LanguageIdentifier value
+        //       before doing this; see above.
+        if let Ok(string) =
+            ron::ser::to_string_pretty(&GameConfig::default(), ron::ser::PrettyConfig::default())
+        {
+            let _ = fs::write("verse.config.ron", string);
+        }
     }
 }
 
