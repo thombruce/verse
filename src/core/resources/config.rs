@@ -15,11 +15,6 @@ impl Plugin for ConfigPlugin {
     }
 }
 
-// TODO: LanguageIdentifier does not implement the Copy trait and therefore
-//       cannot be copied/borrowed/referenced as we'd like when setting
-//       values in the GameConfig resource. Refactor usage of LanguageIdentifier
-//       to improve handling of locale loading.
-
 #[derive(Deserialize, Serialize, Resource)]
 pub struct GameConfig {
     pub(crate) window_mode: WindowMode,
@@ -36,16 +31,14 @@ impl Default for GameConfig {
     }
 }
 
-pub(crate) fn load_config(mut game_config: ResMut<GameConfig>, mut locale: ResMut<Locale>) {
+pub(crate) fn load_config(mut game_config: ResMut<GameConfig>) {
     if let Ok(file_contents) = fs::read_to_string("verse.config.ron") {
         let config: GameConfig = ron::from_str(&file_contents).unwrap();
 
         game_config.window_mode = config.window_mode;
         game_config.master_volume = config.master_volume;
-        // game_config.locale = config.locale;
-        locale.requested = config.locale;
+        game_config.locale = config.locale;
     } else {
-        locale.requested = en::US;
         // TODO: This saves the default config. It can be generalised to save the GameConfig resource
         //       at any time, and reused whenever we need to save the config.
         //       However, we must be able to update the GameConfig locale LanguageIdentifier value
@@ -62,7 +55,9 @@ pub(crate) fn apply_config(
     config: Res<GameConfig>,
     mut window: Query<&mut Window>,
     mut volume: ResMut<GlobalVolume>,
+    mut locale: ResMut<Locale>,
 ) {
     window.single_mut().mode = config.window_mode;
     volume.volume = VolumeLevel::new(config.master_volume);
+    locale.requested = config.locale.clone();
 }

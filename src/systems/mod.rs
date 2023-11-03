@@ -92,10 +92,17 @@ impl Plugin for SystemsPlugin {
         // OnTransition
         app.add_systems(
             OnTransition {
+                from: GameState::Loading,
+                to: GameState::LoadingTranslations,
+            },
+            config::apply_config,
+        );
+        app.add_systems(
+            OnTransition {
                 from: GameState::LoadingTranslations,
                 to: GameState::StartMenu,
             },
-            (config::apply_config, start_menu::init_start_menu),
+            start_menu::init_start_menu,
         );
 
         // OnExit
