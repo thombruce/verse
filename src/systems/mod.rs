@@ -9,6 +9,7 @@ use crate::{
         effects,
         resources::{self, config},
     },
+    i18n,
     ships::{self, bullet, dynamic_orbit, enemy, player, ship},
     temp,
     ui::{
@@ -125,8 +126,7 @@ impl Plugin for SystemsPlugin {
         // Update
         app.add_systems(
             Update,
-            start_menu::load_start_menu_translations
-                .run_if(in_state(GameState::LoadingTranslations)),
+            i18n::load_translations.run_if(in_state(GameState::LoadingTranslations)),
         );
 
         app.add_systems(
