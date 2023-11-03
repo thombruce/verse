@@ -10,7 +10,7 @@ pub struct DataAssets {
     #[asset(path = "verse.config.ron")]
     pub config: Handle<GameConfig>,
 
-    #[asset(path = "verse.credits.ron")]
+    #[asset(path = "data/verse.credits.ron")]
     pub credits: Handle<Credits>,
 }
 
