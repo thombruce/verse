@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.22] - 2023-11-03
+
 ### Added
 
 - Bullet spread; bullets will now fire in a slightly random direction based on accuracy
@@ -319,7 +321,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CHANGELOG.md matching Keep a Changelog formatting
 - README with link to license doc and changelog
 
-[unreleased]: https://github.com/thombruce/verse/compare/v0.0.21...HEAD
+[unreleased]: https://github.com/thombruce/verse/compare/v0.0.22...HEAD
+[0.0.22]: https://github.com/thombruce/verse/compare/v0.0.21...v0.0.22
 [0.0.21]: https://github.com/thombruce/verse/compare/v0.0.20...v0.0.21
 [0.0.20]: https://github.com/thombruce/verse/compare/v0.0.19...v0.0.20
 [0.0.19]: https://github.com/thombruce/verse/compare/v0.0.18...v0.0.19
