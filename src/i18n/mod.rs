@@ -12,8 +12,9 @@ use locales::*;
 pub struct I18nPlugin;
 impl Plugin for I18nPlugin {
     fn build(&self, app: &mut App) {
-        app.insert_resource(Locale::new(ru::RU).with_default(en::US))
+        app.insert_resource(Locale::new(en::US).with_default(en::US))
             .insert_resource(I18n(Localization::new()))
+            .insert_resource(Locales(vec![de::DE, en::US, ru::RU]))
             .add_plugins(FluentPlugin);
     }
 }

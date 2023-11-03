@@ -41,8 +41,6 @@ pub(crate) fn load_config(mut game_config: ResMut<GameConfig>) {
     } else {
         // TODO: This saves the default config. It can be generalised to save the GameConfig resource
         //       at any time, and reused whenever we need to save the config.
-        //       However, we must be able to update the GameConfig locale LanguageIdentifier value
-        //       before doing this; see above.
         if let Ok(string) =
             ron::ser::to_string_pretty(&GameConfig::default(), ron::ser::PrettyConfig::default())
         {
