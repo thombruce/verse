@@ -1,7 +1,9 @@
 use bevy::{
+    app::AppExit,
     audio::{PlaybackMode, Volume},
     prelude::*,
 };
+use bevy_ui_navigation::{prelude::*, systems::InputMapping};
 use fluent_content::Content;
 use leafwing_input_manager::prelude::{ActionState, InputManagerPlugin};
 
@@ -15,11 +17,30 @@ use crate::{
 pub struct MenuPlugin;
 impl Plugin for MenuPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins(InputManagerPlugin::<MenuAction>::default());
+        app.add_plugins((
+            InputManagerPlugin::<MenuAction>::default(),
+            DefaultNavigationPlugins,
+        ));
     }
 }
 
-pub(crate) fn init_start_menu(mut commands: Commands, audios: Res<AudioAssets>) {
+#[derive(Component)]
+pub enum MenuButton {
+    NewGame,
+    Settings,
+    Credits,
+    Quit,
+}
+
+pub(crate) fn init_start_menu(
+    mut commands: Commands,
+    audios: Res<AudioAssets>,
+    mut input_mapping: ResMut<InputMapping>,
+) {
+    // TODO: We might prefer to do this part ourselves... maybe.
+    input_mapping.keyboard_navigation = true;
+    // input_mapping.focus_follows_mouse = true;
+
     commands.insert_resource(menu_input_map());
     commands.insert_resource(ActionState::<MenuAction>::default());
 
@@ -76,35 +97,33 @@ pub(crate) fn spawn_start_menu(mut commands: Commands, ui: Res<UiAssets>, i18n: 
                 Name::new("Title"),
             ));
 
-            for string in ["new-game", "settings", "credits", "quit"] {
-                parent
-                    .spawn(ButtonBundle {
+            for (string, marker) in [
+                ("new-game", MenuButton::NewGame),
+                ("settings", MenuButton::Settings),
+                ("credits", MenuButton::Credits),
+                ("quit", MenuButton::Quit),
+            ] {
+                parent.spawn((
+                    TextBundle {
+                        text: Text::from_section(
+                            i18n.content(string).unwrap().to_ascii_uppercase(),
+                            TextStyle {
+                                font: ui.font.clone(),
+                                font_size: 25.0,
+                                color: Color::rgb_u8(0x00, 0x88, 0x88),
+                            },
+                        ),
                         style: Style {
                             margin: UiRect::top(Val::Px(25.)),
                             justify_content: JustifyContent::Center,
                             align_items: AlignItems::Center,
                             ..default()
                         },
-                        background_color: BackgroundColor(Color::Rgba {
-                            red: 0.,
-                            green: 0.,
-                            blue: 0.,
-                            alpha: 0.,
-                        }),
                         ..default()
-                    })
-                    .with_children(|parent| {
-                        parent.spawn(
-                            TextBundle::from_section(
-                                i18n.content(string).unwrap().to_ascii_uppercase(),
-                                TextStyle {
-                                    font: ui.font.clone(),
-                                    font_size: 25.0,
-                                    color: Color::rgb_u8(0x00, 0x88, 0x88),
-                                },
-                            ), // DrawBlinkTimer(Timer::from_seconds(0.65, TimerMode::Repeating)),
-                        );
-                    });
+                    }, // DrawBlinkTimer(Timer::from_seconds(0.65, TimerMode::Repeating)),
+                    Focusable::default(),
+                    marker,
+                ));
             }
         });
 }
@@ -113,7 +132,32 @@ pub(crate) fn menu_input_system(
     state: Res<State<GameState>>,
     mut next_state: ResMut<NextState<GameState>>,
     inputs: Res<ActionState<MenuAction>>,
+    mut requests: EventWriter<NavRequest>,
+    mut buttons: Query<&mut MenuButton>,
+    mut events: EventReader<NavEvent>,
+    mut exit: EventWriter<AppExit>,
 ) {
+    events.nav_iter().activated_in_query_foreach_mut(
+        &mut buttons,
+        |mut button| match &mut *button {
+            MenuButton::NewGame => {
+                next_state.set(GameState::GameCreate);
+            }
+            MenuButton::Settings => {
+                // start the game
+            }
+            MenuButton::Credits => {
+                next_state.set(GameState::Credits);
+            }
+            MenuButton::Quit => {
+                exit.send(AppExit);
+            }
+        },
+    );
+
+    if inputs.just_pressed(MenuAction::Select) {
+        requests.send(NavRequest::Action);
+    }
     if inputs.just_pressed(MenuAction::Start) {
         next_state.set(GameState::GameCreate);
     }
@@ -126,6 +170,19 @@ pub(crate) fn menu_input_system(
                 next_state.set(GameState::StartMenu);
             }
             _ => {}
+        }
+    }
+}
+
+// TODO: This is very general. It can be moved to a less specific location.
+pub(crate) fn menu_focus_system(
+    mut interaction_query: Query<(&Focusable, &mut Text), Changed<Focusable>>,
+) {
+    for (focusable, mut text) in interaction_query.iter_mut() {
+        if let FocusState::Focused = focusable.state() {
+            text.sections[0].style.color = Color::rgb_u8(0x00, 0x88, 0x88);
+        } else {
+            text.sections[0].style.color = Color::rgb_u8(0x00, 0x44, 0x44);
         }
     }
 }

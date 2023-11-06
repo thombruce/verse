@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- New start menu with "New Game", "Settings", "Credits" and "Quit" buttons
+
+### Changed
+
+- Changed basic English (US) translations for start menu
+- Changed basic Russian (RU) translations for start menu
+- Changed basic German (DE) translations for start menu
+
 ## [0.0.22] - 2023-11-03
 
 ### Added

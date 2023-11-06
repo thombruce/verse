@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy_ui_navigation::prelude::NavRequestSystem;
 
 pub mod events;
 pub mod states;
@@ -132,6 +133,12 @@ impl Plugin for SystemsPlugin {
         app.add_systems(
             Update,
             start_menu::menu_input_system.run_if(is_in_menu_state),
+        );
+        app.add_systems(
+            Update,
+            start_menu::menu_focus_system
+                .after(NavRequestSystem)
+                .run_if(is_in_menu_state),
         );
 
         app.add_systems(
