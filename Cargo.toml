@@ -17,7 +17,7 @@ bevy_spatial = "0.6.0"
 bevy_tiling_background = { git = "https://github.com/rparrett/bevy_tiling_background.git", branch = "tex-typo" }
 fluent_content = "0.0.5"
 image = "0.24.7"
-leafwing-input-manager = "0.10.0"
+leafwing-input-manager = "0.11.1"
 rand = "0.8.5"
 regex = "1.10.2"
 ron = "0.8.1"
