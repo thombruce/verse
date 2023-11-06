@@ -40,12 +40,6 @@ fn main() {
                 primary_window: Some(Window {
                     title: String::from("Verse"),
                     position: WindowPosition::Centered(MonitorSelection::Primary),
-                    #[cfg(not(debug_assertions))]
-                    cursor: Cursor {
-                        visible: false,
-                        ..default()
-                    },
-                    // mode: WindowMode::Fullscreen,
                     ..default()
                 }),
                 ..default()

@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Enable cursor use in StartMenu and disable on game start
 - Changed basic English (US) translations for start menu
 - Changed basic Russian (RU) translations for start menu
 - Changed basic German (DE) translations for start menu

@@ -38,7 +38,7 @@ pub(crate) fn init_start_menu(
 ) {
     // TODO: We might prefer to do this part ourselves... maybe.
     input_mapping.keyboard_navigation = true;
-    // input_mapping.focus_follows_mouse = true;
+    input_mapping.focus_follows_mouse = true;
 
     commands.insert_resource(menu_input_map());
     commands.insert_resource(ActionState::<MenuAction>::default());
