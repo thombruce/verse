@@ -1,2 +1,4 @@
-press-start = Press Start
-credits-prompt = Press 'C' for Credits
+new-game = New Game
+settings = Settings
+credits = Credits
+quit = Quit

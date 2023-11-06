@@ -1,2 +1,4 @@
-press-start = Drücke Start
-credits-prompt = Drücken Sie „C“ für Credits
+new-game = Neues Spiel
+settings = Einstellungen
+credits = Credits
+quit = Aufhören
