@@ -7,7 +7,7 @@ edition = "2021"
 
 [dependencies]
 bevy = "0.11.3"
-bevy-inspector-egui = "0.20.0"
+bevy-inspector-egui = "0.21.0"
 bevy-ui-navigation = "0.32.0"
 bevy_asset_loader = { version = "0.17.0", features = ["2d"] }
 bevy_common_assets = { version = "0.7.0", features = ["ron"] }
