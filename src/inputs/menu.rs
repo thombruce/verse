@@ -5,7 +5,6 @@ use leafwing_input_manager::prelude::*;
 pub enum MenuAction {
     Select,
     Start,
-    Settings,
     Credits,
     Quit,
 }
@@ -16,7 +15,6 @@ pub fn menu_input_map() -> InputMap<MenuAction> {
         (KeyCode::Return, MenuAction::Select),
         // Hotkeys
         (KeyCode::N, MenuAction::Start),
-        (KeyCode::S, MenuAction::Settings),
         (KeyCode::C, MenuAction::Credits),
         (KeyCode::Q, MenuAction::Quit),
     ]);

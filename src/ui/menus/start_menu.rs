@@ -27,7 +27,6 @@ impl Plugin for MenuPlugin {
 #[derive(Component)]
 pub enum MenuButton {
     NewGame,
-    Settings,
     Credits,
     Quit,
 }
@@ -99,7 +98,6 @@ pub(crate) fn spawn_start_menu(mut commands: Commands, ui: Res<UiAssets>, i18n: 
 
             for (string, marker) in [
                 ("new-game", MenuButton::NewGame),
-                ("settings", MenuButton::Settings),
                 ("credits", MenuButton::Credits),
                 ("quit", MenuButton::Quit),
             ] {
@@ -142,9 +140,6 @@ pub(crate) fn menu_input_system(
         |mut button| match &mut *button {
             MenuButton::NewGame => {
                 next_state.set(GameState::GameCreate);
-            }
-            MenuButton::Settings => {
-                // start the game
             }
             MenuButton::Credits => {
                 next_state.set(GameState::Credits);
