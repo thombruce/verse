@@ -6,18 +6,18 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bevy = "0.11.3"
-bevy-inspector-egui = "0.20.0"
+bevy = "0.12.0"
+bevy-inspector-egui = "0.21.0"
 bevy-ui-navigation = "0.32.0"
 bevy_asset_loader = { version = "0.17.0", features = ["2d"] }
-bevy_common_assets = { version = "0.7.0", features = ["ron"] }
-bevy_fluent = "0.7.0"
+bevy_common_assets = { version = "0.8.0", features = ["ron"] }
+bevy_fluent = { git = "https://github.com/kgv/bevy_fluent.git", branch = "debug" } # Temporary Bevy 0.12 patch; TODO: Update
 bevy_rapier2d = "0.22.0"
-bevy_spatial = "0.6.0"
+bevy_spatial = "0.7.0"
 bevy_tiling_background = { git = "https://github.com/rparrett/bevy_tiling_background.git", branch = "tex-typo" }
 fluent_content = "0.0.5"
 image = "0.24.7"
-leafwing-input-manager = "0.10.0"
+leafwing-input-manager = "0.11.1"
 rand = "0.8.5"
 regex = "1.10.2"
 ron = "0.8.1"
