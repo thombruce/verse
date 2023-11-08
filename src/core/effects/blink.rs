@@ -6,7 +6,7 @@ pub struct DrawBlinkTimer(pub Timer);
 pub(crate) fn menu_blink_system(
     mut commands: Commands,
     time: Res<Time>,
-    mut query: Query<(Entity, &mut DrawBlinkTimer, &ComputedVisibility)>,
+    mut query: Query<(Entity, &mut DrawBlinkTimer, &InheritedVisibility)>,
 ) {
     for (entity, mut timer, visibility) in query.iter_mut() {
         timer.0.tick(time.delta());

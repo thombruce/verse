@@ -57,7 +57,7 @@ pub(crate) fn spawn_indicators(
 pub(crate) fn indicators_system(
     mut query: Query<(&mut Transform, &mut Style, &Indicator, &mut BackgroundColor)>,
     player_query: Query<&Transform, (With<Player>, Without<Indicator>)>,
-    entity_query: Query<(&Transform, &ComputedVisibility, &Indicated), Without<Indicator>>,
+    entity_query: Query<(&Transform, &InheritedVisibility, &Indicated), Without<Indicator>>,
     bounds_query: Query<&Node, (With<Bounds>, Without<Indicator>)>,
 ) {
     if let Ok(player_transform) = player_query.get_single() {
@@ -135,7 +135,7 @@ pub(crate) fn indicators_system(
 pub(crate) fn despawn_indicators_system(
     mut commands: Commands,
     mut query: Query<(Entity, &Indicator)>,
-    entity_query: Query<(&Transform, &ComputedVisibility), (With<Indicated>, Without<Indicator>)>,
+    entity_query: Query<(&Transform, &InheritedVisibility), (With<Indicated>, Without<Indicator>)>,
 ) {
     for (entity, indicator) in &mut query {
         if let Err(_) = entity_query.get(indicator.entity) {
