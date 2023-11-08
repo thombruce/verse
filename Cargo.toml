@@ -12,7 +12,7 @@ bevy-ui-navigation = "0.32.0" # TODO: Bump to "0.33.0"
 bevy_asset_loader = { version = "0.17.0", features = ["2d"] }
 bevy_common_assets = { version = "0.8.0", features = ["ron"] }
 bevy_fluent = "0.8.0"
-bevy_rapier2d = "0.22.0" # TODO: Bump to "0.23.0"
+bevy_rapier2d = "0.23.0"
 bevy_spatial = "0.7.0"
 bevy_tiling_background = "0.10.0"
 fluent_content = "0.0.5"
@@ -30,7 +30,6 @@ winit = "0.28.7"
 # bevy-ui-navigation = { git = "https://github.com/TristanCacqueray/ui-navigation.git", branch = "bevy-0.12" } # Temporary Bevy 0.12 patch; TODO: Update
 bevy_asset_loader = { git = "https://github.com/NiklasEi/bevy_asset_loader.git", branch = "bevy_main" } # Temporary Bevy 0.12 patch; TODO: Update
 bevy_fluent = { git = "https://github.com/kgv/bevy_fluent.git", branch = "debug" } # Temporary Bevy 0.12 patch; TODO: Update
-bevy_rapier2d = { git = "https://github.com/devil-ira/bevy_rapier.git", branch = "bevy-0.12" } # Temporary Bevy 0.12 patch; TODO: Update
 bevy_tiling_background = { git = "https://github.com/rparrett/bevy_tiling_background.git", branch = "tex-typo" }
 
 # Enable a small amount of optimization in debug mode
