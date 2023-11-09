@@ -1,1 +1,0 @@
-This folder contains potential spoilers and easter eggs for the game. I've kept some of these secret by not uploading them, but those files I have included may still give away things you'd rather discover for yourself.
