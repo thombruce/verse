@@ -16,6 +16,15 @@ pub enum GameState {
     Paused,
 }
 impl GameState {
+    pub const IN_ANY_STATE: &[GameState; 7] = &[
+        GameState::Loading,
+        GameState::LoadingTranslations,
+        GameState::StartMenu,
+        GameState::Credits,
+        GameState::GameCreate,
+        GameState::Active,
+        GameState::Paused,
+    ];
     pub const IN_MENU_STATE: &[GameState; 2] = &[GameState::StartMenu, GameState::Credits];
     pub const IN_GAME_STATE: &[GameState; 3] =
         &[GameState::GameCreate, GameState::Active, GameState::Paused];

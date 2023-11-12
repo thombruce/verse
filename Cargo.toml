@@ -14,7 +14,6 @@ bevy_common_assets = { version = "0.8.0", features = ["ron"] }
 bevy_fluent = "0.8.0"
 bevy_rapier2d = "0.23.0"
 bevy_spatial = "0.7.0"
-bevy_tiling_background = "0.10.0"
 fluent_content = "0.0.5"
 image = "0.24.7"
 leafwing-input-manager = "0.11.1"
@@ -28,7 +27,6 @@ winit = "0.28.7"
 # Override dependencies to patched versions
 [patch.crates-io]
 bevy_fluent = { git = "https://github.com/kgv/bevy_fluent.git", branch = "main" } # Temporary Bevy 0.12 patch; TODO: Update
-bevy_tiling_background = { git = "https://github.com/rparrett/bevy_tiling_background.git", branch = "tex-typo" }
 
 # Enable a small amount of optimization in debug mode
 [profile.dev]

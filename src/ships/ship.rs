@@ -53,7 +53,7 @@ pub(crate) fn ship_damage(
     mut bullet_ship_contact_events: EventReader<BulletShipContactEvent>,
     mut ship_health: Query<&mut Health, With<Ship>>,
 ) {
-    for event in bullet_ship_contact_events.iter() {
+    for event in bullet_ship_contact_events.read() {
         commands.entity(event.bullet).despawn();
 
         if let Ok(mut health) = ship_health.get_mut(event.ship) {

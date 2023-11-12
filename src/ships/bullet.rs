@@ -30,7 +30,7 @@ pub(crate) fn spawn_bullet(
     handles: Res<SpriteAssets>,
     audios: Res<AudioAssets>,
 ) {
-    for spawn_event in bullet_spawn_events.iter() {
+    for spawn_event in bullet_spawn_events.read() {
         // Change this random factor to alter accuracy (larger is less accurate).
         const SPREAD: f32 = 0.05;
         let random_factor: f32 = rand::thread_rng().gen_range(-SPREAD..SPREAD);

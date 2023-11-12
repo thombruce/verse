@@ -50,9 +50,9 @@ impl Plugin for SystemsPlugin {
 
         // OnEnter
         // - Any
-        for state in GameState::variants() {
+        for state in GameState::IN_ANY_STATE {
             app.add_systems(
-                OnEnter(state),
+                OnEnter(*state),
                 states::transitions::state_enter_despawn::<GameState>,
             );
         }

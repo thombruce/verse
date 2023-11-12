@@ -1,10 +1,10 @@
 use bevy::prelude::*;
 
-#[allow(unused_imports)]
-use crate::shaders::{
-    chromatic_aberration::{ChromaticAberrationPlugin, ChromaticAberrationSettings},
-    pixelate::{PixelatePlugin, PixelateSettings},
-};
+// #[allow(unused_imports)]
+// use crate::shaders::{
+//     chromatic_aberration::{ChromaticAberrationPlugin, ChromaticAberrationSettings},
+//     pixelate::{PixelatePlugin, PixelateSettings},
+// };
 
 use crate::ships::player::Player;
 
@@ -32,14 +32,14 @@ pub(crate) fn spawn_camera(mut commands: Commands) {
             },
             ..default()
         },
-        PixelateSettings {
-            block_size: 3.25,
-            ..default()
-        },
-        ChromaticAberrationSettings {
-            intensity: 0.001,
-            ..default()
-        },
+        // PixelateSettings {
+        //     block_size: 3.25,
+        //     ..default()
+        // },
+        // ChromaticAberrationSettings {
+        //     intensity: 0.001,
+        //     ..default()
+        // },
         Name::new("Main Camera"),
     ));
 }

@@ -56,9 +56,8 @@ pub struct SpriteAssets {
     #[asset(path = "space/celestials/neptune.png")]
     pub neptune: Handle<TextureAtlas>,
 
-    #[asset(path = "space/backgrounds/custom.png")]
-    pub background: Handle<Image>,
-
+    // #[asset(path = "space/backgrounds/custom.png")]
+    // pub background: Handle<Image>,
     #[asset(path = "space/meteors/meteorGrey_med1.png")]
     pub meteor: Handle<Image>,
 }
