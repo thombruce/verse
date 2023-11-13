@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Increase enemy weapons range
+- Increase orbital distance of Mercury and Venus
+- Reorder planetary system spawning by distance
+
 ## [0.0.23] - 2023-11-13
 
 ### Added
