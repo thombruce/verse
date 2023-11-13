@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.23] - 2023-11-13
+
 ### Added
 
 - New start menu with "New Game", "Credits" and "Quit" buttons
