@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="400px" src="docs/assets/verse-galaxy.png" />
+  <img width="400px" src="wiki/assets/verse-galaxy.png" />
 </p>
 
 # Verse
