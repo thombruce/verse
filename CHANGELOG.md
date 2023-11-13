@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- New dynamic gravity system unbound by distance from objects
 - Increase enemy weapons range
 - Increase orbital distance of Mercury and Venus
 - Reorder planetary system spawning by distance
