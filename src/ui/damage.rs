@@ -18,7 +18,7 @@ pub(crate) fn ui_spawn_damage(
     camera_query: Query<(&Camera, &GlobalTransform)>,
     ui: Res<UiAssets>,
 ) {
-    for event in bullet_ship_contact_events.iter() {
+    for event in bullet_ship_contact_events.read() {
         if let Ok(transform) = ship_transform.get(event.ship) {
             // Use camera.world_to_viewport() and camera GlobalTransform to translate
             // a world position into UI coordinates

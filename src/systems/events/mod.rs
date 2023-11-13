@@ -37,7 +37,7 @@ pub(crate) fn contact_system(
     query: Query<(Has<Ship>, Has<Bullet>)>,
     bullet_spawner: Query<&SpawnedBy, With<Bullet>>,
 ) {
-    for event in collision_events.iter() {
+    for event in collision_events.read() {
         if let CollisionEvent::Started(e1, e2, _flags) = event {
             let (e1_is_ship, e1_is_bullet) = query.get(*e1).unwrap();
             let (e2_is_ship, e2_is_bullet) = query.get(*e2).unwrap();

@@ -1,31 +1,41 @@
-use bevy::{prelude::*, render::view::NoFrustumCulling};
-use bevy_tiling_background::{
-    BackgroundImageBundle, BackgroundMaterial, SetImageRepeatingExt, TilingBackgroundPlugin,
+use bevy::{
+    prelude::*,
+    render::{
+        texture::{ImageAddressMode, ImageLoaderSettings, ImageSampler, ImageSamplerDescriptor},
+        view::NoFrustumCulling,
+    },
 };
 
-use crate::core::resources::assets::SpriteAssets;
-
-pub struct StarfieldPlugin;
-impl Plugin for StarfieldPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_plugins(TilingBackgroundPlugin::<BackgroundMaterial>::default());
-    }
-}
-
 /// The setup function
-pub(crate) fn spawn_starfield(
-    mut commands: Commands,
-    sprites: Res<SpriteAssets>,
-    mut materials: ResMut<Assets<BackgroundMaterial>>,
-) {
-    let image = sprites.background.clone();
-    // Queue a command to set the image to be repeating once the image is loaded.
-    commands.set_image_repeating(image.clone());
+pub(crate) fn spawn_starfield(mut commands: Commands, assets: Res<AssetServer>) {
+    let sampler_desc = ImageSamplerDescriptor {
+        address_mode_u: ImageAddressMode::Repeat,
+        address_mode_v: ImageAddressMode::Repeat,
+        ..Default::default()
+    };
 
+    let settings = move |s: &mut ImageLoaderSettings| {
+        s.sampler = ImageSampler::Descriptor(sampler_desc.clone());
+    };
+
+    let image = assets.load_with_settings("space/backgrounds/custom.png", settings);
+
+    // TODO: The Starfield no longer moves parallax to the foreground.
+    //       Find a way to reimplement this behaviour.
     commands.spawn((
-        BackgroundImageBundle::from_image(image, materials.as_mut())
-            .at_z_layer(-0.1)
-            .with_movement_scale(0.1),
+        SpriteBundle {
+            texture: image,
+            sprite: Sprite {
+                // TODO: Scale for a galaxy (change image, make procedural, etc.)
+                rect: Some(Rect::new(-1_000_000., -1_000_000., 1_000_000., 1_000_000.)),
+                ..default()
+            },
+            transform: Transform {
+                translation: Vec3::new(0., 0., -899.),
+                ..default()
+            },
+            ..default()
+        },
         NoFrustumCulling,
         Name::new("Background"),
     ));

@@ -17,7 +17,7 @@ impl Plugin for CreditsPlugin {
     }
 }
 
-#[derive(serde::Deserialize, TypeUuid, TypePath)]
+#[derive(serde::Deserialize, TypeUuid, TypePath, Asset)]
 #[uuid = "6763db47-17ca-4530-b604-94492c3a4c58"]
 pub struct Credits(Vec<CreditSection>);
 
