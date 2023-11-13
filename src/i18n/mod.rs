@@ -1,7 +1,7 @@
 use bevy::asset::{LoadState, LoadedFolder};
 use bevy::prelude::*;
 use bevy_fluent::prelude::*;
-use bevy_fluent::LocalizationBuilder; // AssetServerExt,
+use bevy_fluent::LocalizationBuilder;
 
 use crate::systems::states::GameState;
 
