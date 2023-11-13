@@ -13,10 +13,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Upgrade to Bevy v0.12.0
+- Rewrite starfield tiling background (see below: bevy_tiling_background removed)
 - Enable cursor use in StartMenu and disable on game start
 - Changed basic English (US) translations for start menu
 - Changed basic Russian (RU) translations for start menu
 - Changed basic German (DE) translations for start menu
+
+### Removed
+
+- bevy_tiling_background presently incompatible with Bevy 0.12
 
 ## [0.0.22] - 2023-11-03
 
