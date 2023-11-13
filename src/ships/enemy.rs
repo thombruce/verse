@@ -133,7 +133,7 @@ pub fn enemy_weapons_system(
         let steering = targeting.angle;
 
         if steering.abs() < 0.1
-            && transform.translation.distance(targeting.pos) < 400.0
+            && transform.translation.distance(targeting.pos) < 1_000.0 // TODO: This can probably scale with difficulty
             && ship.bullet_timer.finished()
         {
             bullet_spawn_events.send(BulletSpawnEvent {
