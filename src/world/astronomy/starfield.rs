@@ -20,6 +20,8 @@ pub(crate) fn spawn_starfield(mut commands: Commands, assets: Res<AssetServer>) 
 
     let image = assets.load_with_settings("space/backgrounds/custom.png", settings);
 
+    // TODO: The Starfield no longer moves parallax to the foreground.
+    //       Find a way to reimplement this behaviour.
     commands.spawn((
         SpriteBundle {
             texture: image,
