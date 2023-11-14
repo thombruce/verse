@@ -9,7 +9,7 @@ use crate::world::{
 #[derive(Component)]
 pub struct Gravitable;
 
-pub fn better_dynamic_orbital_positioning_system(
+pub fn dynamic_orbital_positioning_system(
     mut query: Query<(&Transform, &mut ExternalImpulse), With<Gravitable>>,
     masses: Query<(&Mass, &Transform), With<KDNode>>,
 ) {
