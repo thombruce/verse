@@ -4468,6 +4468,7 @@ dependencies = [
  "bevy_asset_loader",
  "bevy_common_assets",
  "bevy_fluent",
+ "bevy_picking_core",
  "bevy_rapier2d",
  "bevy_spatial",
  "fluent_content",

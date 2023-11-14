@@ -3,6 +3,7 @@ use bevy::{
     prelude::*,
     window::Cursor,
 };
+use bevy_picking_core::pointer::PointerId;
 
 use crate::core::resources::assets::AudioAssets;
 
@@ -36,6 +37,24 @@ pub(crate) fn game_setup(
     };
 
     next_state.set(GameState::Active);
+}
+
+pub(crate) fn game_reset(
+    mut commands: Commands,
+    entities: Query<Entity, (Without<Window>, Without<Camera>, Without<PointerId>)>,
+    mut next_state: ResMut<NextState<GameState>>,
+    mut window: Query<&mut Window>,
+) {
+    for entity in entities.iter() {
+        commands.entity(entity).despawn_recursive();
+    }
+
+    window.single_mut().cursor = Cursor {
+        visible: true,
+        ..default()
+    };
+
+    next_state.set(GameState::Loading);
 }
 
 pub(crate) fn state_enter_despawn<T: States>(

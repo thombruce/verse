@@ -156,6 +156,8 @@ pub(crate) fn menu_input_system(
     if inputs.just_pressed(MenuAction::Start) {
         next_state.set(GameState::GameCreate);
     }
+
+    // TODO: We shouldn't be able to access credits from pause state
     if inputs.just_released(MenuAction::Credits) {
         match state.get() {
             GameState::StartMenu => {

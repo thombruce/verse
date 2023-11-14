@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Actual values for semi-major axes of planetary orbits (scaled down after calculations)
+- Pause menu with Continue and Exit Game buttons
 
 ### Changed
 

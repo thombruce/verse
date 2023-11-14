@@ -14,9 +14,10 @@ pub enum GameState {
     GameCreate,
     Active,
     Paused,
+    Reset,
 }
 impl GameState {
-    pub const IN_ANY_STATE: &[GameState; 7] = &[
+    pub const IN_ANY_STATE: &[GameState; 8] = &[
         GameState::Loading,
         GameState::LoadingTranslations,
         GameState::StartMenu,
@@ -24,8 +25,10 @@ impl GameState {
         GameState::GameCreate,
         GameState::Active,
         GameState::Paused,
+        GameState::Reset,
     ];
-    pub const IN_MENU_STATE: &[GameState; 2] = &[GameState::StartMenu, GameState::Credits];
+    pub const IN_MENU_STATE: &[GameState; 3] =
+        &[GameState::StartMenu, GameState::Credits, GameState::Paused];
     pub const IN_GAME_STATE: &[GameState; 3] =
         &[GameState::GameCreate, GameState::Active, GameState::Paused];
 }

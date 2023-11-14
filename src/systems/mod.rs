@@ -88,8 +88,14 @@ impl Plugin for SystemsPlugin {
             ),
         );
 
+        // - Reset
+        app.add_systems(OnEnter(GameState::Reset), states::transitions::game_reset);
+
         // - Paused
-        app.add_systems(OnEnter(GameState::Paused), pause::pause_screen);
+        app.add_systems(
+            OnEnter(GameState::Paused),
+            (pause::pause_screen, pause::toggle_physics_off),
+        );
 
         // OnTransition
         app.add_systems(
@@ -113,6 +119,7 @@ impl Plugin for SystemsPlugin {
             OnExit(GameState::GameCreate),
             hud::indicator::spawn_indicators,
         );
+        app.add_systems(OnExit(GameState::Paused), pause::toggle_physics_on);
 
         // FixedUpdate
         // app.insert_resource(FixedTime::new_from_secs(1.0 / 60.0));
@@ -134,6 +141,12 @@ impl Plugin for SystemsPlugin {
             Update,
             start_menu::menu_input_system.run_if(is_in_menu_state),
         );
+
+        app.add_systems(
+            Update,
+            pause::pause_input_system.run_if(in_state(GameState::Paused)),
+        );
+
         app.add_systems(
             Update,
             start_menu::menu_focus_system
