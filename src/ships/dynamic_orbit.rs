@@ -58,11 +58,12 @@ pub fn better_dynamic_orbital_positioning_system(
                 //       maybe multiplied by some factor, e.g. 1.5
                 m = m.powf(1.0 / 1.5);
                 impulse.impulse += (mass_translation - ship_translation).normalize()
-                    * (GRAVITATIONAL_CONSTANT * m / r.powf(2.0)).min(7_500.0);
+                    * (GRAVITATIONAL_CONSTANT * m / r.powf(2.0)).min(10_000.0);
             } else if r > 0.0 {
                 impulse.impulse += (mass_translation - ship_translation).normalize()
-                    * (GRAVITATIONAL_CONSTANT * m / r.powf(2.0)).min(10_000.0);
+                    * (GRAVITATIONAL_CONSTANT * m / r.powf(2.0)).min(12_500.0);
             }
+            // TODO: Explore setting gravitation by kind (star, planet, moon).
         }
     }
 }

@@ -43,7 +43,7 @@ pub(crate) fn spawn_planets(
         },
         orbit: Orbit {
             parent: Some(star_query.single()),
-            semi_major_axis: 8_000.0,
+            semi_major_axis: 57_909_036_552.0,
             eccentricity: 0.205630,
             argument_of_periapsis: f32::to_radians(29.124),
             initial_mean_anomaly: f32::to_radians(0.), //TODO: Set me
@@ -64,7 +64,7 @@ pub(crate) fn spawn_planets(
         },
         orbit: Orbit {
             parent: Some(star_query.single()),
-            semi_major_axis: 12_000.0,
+            semi_major_axis: 1.08208927e11,
             eccentricity: 0.006772,
             argument_of_periapsis: f32::to_radians(54.884),
             initial_mean_anomaly: f32::to_radians(0.), //TODO: Set me
@@ -86,7 +86,7 @@ pub(crate) fn spawn_planets(
             },
             orbit: Orbit {
                 parent: Some(star_query.single()),
-                semi_major_axis: 20_000.0,
+                semi_major_axis: 149_598_022_960.713,
                 eccentricity: 0.0167086,
                 argument_of_periapsis: f32::to_radians(288.1),
                 initial_mean_anomaly: f32::to_radians(0.), // TODO: Set me
@@ -109,7 +109,7 @@ pub(crate) fn spawn_planets(
         },
         orbit: Orbit {
             parent: Some(star_query.single()),
-            semi_major_axis: 30_000.0,
+            semi_major_axis: 227_939_365_907.0,
             eccentricity: 0.0934,
             argument_of_periapsis: f32::to_radians(286.5),
             initial_mean_anomaly: f32::to_radians(0.), //TODO: Set me
@@ -130,7 +130,7 @@ pub(crate) fn spawn_planets(
         },
         orbit: Orbit {
             parent: Some(star_query.single()),
-            semi_major_axis: 50_000.0,
+            semi_major_axis: 7.784774e11,
             eccentricity: 0.0489,
             argument_of_periapsis: f32::to_radians(273.867),
             initial_mean_anomaly: f32::to_radians(0.), //TODO: Set me
@@ -155,7 +155,7 @@ pub(crate) fn spawn_planets(
         },
         orbit: Orbit {
             parent: Some(star_query.single()),
-            semi_major_axis: 60_000.0,
+            semi_major_axis: 1.433537e12,
             eccentricity: 0.0565,
             argument_of_periapsis: f32::to_radians(339.392),
             initial_mean_anomaly: f32::to_radians(0.), //TODO: Set me
@@ -176,7 +176,7 @@ pub(crate) fn spawn_planets(
         },
         orbit: Orbit {
             parent: Some(star_query.single()),
-            semi_major_axis: 70_000.0,
+            semi_major_axis: 2.87097163e12,
             eccentricity: 0.04717,
             argument_of_periapsis: f32::to_radians(96.998857),
             initial_mean_anomaly: f32::to_radians(0.), //TODO: Set me
@@ -197,7 +197,7 @@ pub(crate) fn spawn_planets(
         },
         orbit: Orbit {
             parent: Some(star_query.single()),
-            semi_major_axis: 80_000.0,
+            semi_major_axis: 4.49841e12,
             eccentricity: 0.008678,
             argument_of_periapsis: f32::to_radians(273.187),
             initial_mean_anomaly: f32::to_radians(0.), //TODO: Set me
@@ -229,7 +229,7 @@ pub(crate) fn spawn_demo_orbital(
         },
         Orbit {
             parent: planet_query.iter().min(),
-            semi_major_axis: 250.0,
+            semi_major_axis: 384_748_000.0,
             eccentricity: 0.0549,
             // argument_of_periapsis: f32::to_radians(0.), // Cannot be set - it rotates
             initial_mean_anomaly: f32::to_radians(0.), //TODO: Set me

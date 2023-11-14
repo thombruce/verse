@@ -72,7 +72,7 @@ pub fn orbital_positioning_system(
                 parent_mass * ORBITAL_PERIOD_SCALING_FACTOR,
                 game_time.elapsed_secs(),
             );
-            transform.translation = parent_translation + Vec3::from(pos);
+            transform.translation = parent_translation + (Vec3::from(pos) / 2_000_000.0);
         }
     }
 }

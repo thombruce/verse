@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Actual values for semi-major axes of planetary orbits (scaled down after calculations)
+
 ### Changed
 
+- Planets now orbit in real time
 - New dynamic gravity system unbound by distance from objects
+- Player speed increase accounting for greater distances and higher gravity
 - Increase enemy weapons range
 - Increase orbital distance of Mercury and Venus
 - Reorder planetary system spawning by distance
