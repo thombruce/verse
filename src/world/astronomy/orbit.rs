@@ -72,7 +72,12 @@ pub fn orbital_positioning_system(
                 parent_mass * ORBITAL_PERIOD_SCALING_FACTOR,
                 game_time.elapsed_secs(),
             );
-            transform.translation = parent_translation + Vec3::from(pos);
+            transform.translation = parent_translation + (Vec3::from(pos) / 2_000_000.0);
+            // TODO: Maybe use a different scaling factor depending on the _kind_ of
+            //       body being orbited (star, planet, etc.).
+            // NOTE: You can also .clamp_length() of a Vec3 so that it doesn't exceed
+            //       or fall below some value(s). Useful for ensuring an orbiting body
+            //       does not appear inside of another one.
         }
     }
 }
