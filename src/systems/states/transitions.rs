@@ -5,7 +5,7 @@ use bevy::{
 };
 use bevy_picking_core::pointer::PointerId;
 
-use crate::core::resources::assets::AudioAssets;
+use crate::core::resources::{assets::AudioAssets, game_time::GameTime};
 
 use super::{ForState, GameState};
 
@@ -44,6 +44,7 @@ pub(crate) fn game_reset(
     entities: Query<Entity, (Without<Window>, Without<Camera>, Without<PointerId>)>,
     mut next_state: ResMut<NextState<GameState>>,
     mut window: Query<&mut Window>,
+    mut game_time: ResMut<GameTime>,
 ) {
     for entity in entities.iter() {
         commands.entity(entity).despawn_recursive();
@@ -53,6 +54,8 @@ pub(crate) fn game_reset(
         visible: true,
         ..default()
     };
+
+    game_time.0.reset();
 
     next_state.set(GameState::Loading);
 }
