@@ -45,15 +45,7 @@ pub fn better_dynamic_orbital_positioning_system(
             let r = mass_translation.distance(ship_translation);
 
             // GM/r^2
-            if r > 3_000.0 {
-                m = m.powf(1.0 / 1.5);
-                impulse.impulse += (mass_translation - ship_translation).normalize()
-                    * (GRAVITATIONAL_CONSTANT * m / r.powf(2.0)).min(2_500.0);
-            } else if r > 1_500.0 {
-                m = m.powf(1.0 / 1.5);
-                impulse.impulse += (mass_translation - ship_translation).normalize()
-                    * (GRAVITATIONAL_CONSTANT * m / r.powf(2.0)).min(5_000.0);
-            } else if r > 500.0 {
+            if r > 1_500.0 {
                 // TODO: Set r according to actual visible radius of gravitational bodies
                 //       maybe multiplied by some factor, e.g. 1.5
                 m = m.powf(1.0 / 1.5);
