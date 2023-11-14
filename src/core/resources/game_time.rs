@@ -1,7 +1,7 @@
 use bevy::{prelude::*, time::Stopwatch};
 
 #[derive(Resource, Deref)]
-pub struct GameTime(Stopwatch);
+pub struct GameTime(pub Stopwatch);
 
 pub struct GameTimePlugin;
 impl Plugin for GameTimePlugin {
