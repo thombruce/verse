@@ -10,7 +10,7 @@ use crate::{
 
 use super::{
     dynamic_orbit::Gravitable,
-    ship::{dampening, ship_rotation, ship_thrust, Health, Ship},
+    ship::{ship_rotation, ship_thrust, Health, Ship},
 };
 
 /// Player component
@@ -59,6 +59,10 @@ pub(crate) fn spawn_player(mut commands: Commands, sprites: Res<SpriteAssets>) {
         // }),
         Velocity::linear(Vec2::ZERO),
         ExternalImpulse::default(),
+        Damping {
+            linear_damping: 0.3,
+            angular_damping: 2.0,
+        },
         InputManagerBundle::<ShipAction> {
             action_state: ActionState::default(),
             input_map: ship_input_map(),
@@ -81,8 +85,6 @@ pub fn player_flight_system(
     >,
 ) {
     if let Ok((ship, transform, mut velocity, mut impulse, action_state)) = query.get_single_mut() {
-        dampening(&time, &mut velocity);
-
         // Controls
         let mut rotation_factor = 0.0;
         let mut thrust_factor = 0.0;
