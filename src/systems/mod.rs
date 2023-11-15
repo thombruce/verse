@@ -21,7 +21,7 @@ use crate::{
 };
 
 use self::{
-    states::{is_in_game_state, is_in_menu_state, GameState},
+    states::{is_in_active_state, is_in_game_state, is_in_menu_state, GameState},
     system_sets::{AttackSet, MovementSet},
 };
 
@@ -207,7 +207,7 @@ impl Plugin for SystemsPlugin {
                 )
                     .after(AttackSet),
             )
-                .run_if(in_state(GameState::Active)),
+                .run_if(is_in_active_state),
         );
 
         // PostUpdate

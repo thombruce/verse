@@ -41,6 +41,7 @@ impl GameState {
         GameState::Paused,
         GameState::GameOver,
     ];
+    pub const IN_ACTIVE_STATE: &[GameState; 2] = &[GameState::Active, GameState::GameOver];
 }
 
 pub fn is_in_menu_state(state: Res<State<GameState>>) -> bool {
@@ -49,6 +50,10 @@ pub fn is_in_menu_state(state: Res<State<GameState>>) -> bool {
 
 pub fn is_in_game_state(state: Res<State<GameState>>) -> bool {
     GameState::IN_GAME_STATE.contains(state.get())
+}
+
+pub fn is_in_active_state(state: Res<State<GameState>>) -> bool {
+    GameState::IN_ACTIVE_STATE.contains(state.get())
 }
 
 /// Component to tag an entity as only needed in some of the states
