@@ -14,10 +14,11 @@ pub enum GameState {
     GameCreate,
     Active,
     Paused,
+    GameOver,
     Reset,
 }
 impl GameState {
-    pub const IN_ANY_STATE: &[GameState; 8] = &[
+    pub const IN_ANY_STATE: &[GameState; 9] = &[
         GameState::Loading,
         GameState::LoadingTranslations,
         GameState::StartMenu,
@@ -25,12 +26,21 @@ impl GameState {
         GameState::GameCreate,
         GameState::Active,
         GameState::Paused,
+        GameState::GameOver,
         GameState::Reset,
     ];
-    pub const IN_MENU_STATE: &[GameState; 3] =
-        &[GameState::StartMenu, GameState::Credits, GameState::Paused];
-    pub const IN_GAME_STATE: &[GameState; 3] =
-        &[GameState::GameCreate, GameState::Active, GameState::Paused];
+    pub const IN_MENU_STATE: &[GameState; 4] = &[
+        GameState::StartMenu,
+        GameState::Credits,
+        GameState::Paused,
+        GameState::GameOver,
+    ];
+    pub const IN_GAME_STATE: &[GameState; 4] = &[
+        GameState::GameCreate,
+        GameState::Active,
+        GameState::Paused,
+        GameState::GameOver,
+    ];
 }
 
 pub fn is_in_menu_state(state: Res<State<GameState>>) -> bool {

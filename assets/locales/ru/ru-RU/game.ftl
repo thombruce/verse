@@ -27,6 +27,9 @@ near = Рядом с { $celestial ->
 # Pause
 pause = Пауза
 
+# Game Over
+game-over = Игра закончена
+
 # Datetime
 # TODO: Pass date and time as a workable datetime value for translation
 # time = { DATETIME($datetime) }

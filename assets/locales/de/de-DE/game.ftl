@@ -28,6 +28,9 @@ near = In der Nähe von { $celestial ->
 # Pause
 pause = Pause
 
+# Game Over
+game-over = Spiel Vorbei
+
 # Datetime
 # TODO: Pass date and time as a workable datetime value for translation
 # time = { DATETIME($datetime) }

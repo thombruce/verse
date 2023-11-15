@@ -11,9 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Actual values for semi-major axes of planetary orbits (scaled down after calculations)
 - Pause menu with Continue and Exit Game buttons
-- Added basic English (US) translations for pause menu
-- Added basic Russian (RU) translations for pause menu
-- Added basic German (DE) translations for pause menu
+- Game Over screen on player death
+- Added basic English (US) translations for pause menu and game over screen
+- Added basic Russian (RU) translations for pause menu and game over screen
+- Added basic German (DE) translations for pause menu and game over screen
 
 ### Changed
 

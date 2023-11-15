@@ -15,7 +15,7 @@ use crate::{
     temp,
     ui::{
         camera, damage, hud,
-        menus::{credits, pause, start_menu},
+        menus::{credits, game_over, pause, start_menu},
     },
     world::astronomy::{self, planetary_system, starfield},
 };
@@ -97,6 +97,9 @@ impl Plugin for SystemsPlugin {
             (pause::pause_screen, pause::toggle_physics_off),
         );
 
+        // - Game Over
+        app.add_systems(OnEnter(GameState::GameOver), game_over::game_over_screen);
+
         // OnTransition
         app.add_systems(
             OnTransition {
@@ -145,6 +148,11 @@ impl Plugin for SystemsPlugin {
         app.add_systems(
             Update,
             pause::pause_input_system.run_if(in_state(GameState::Paused)),
+        );
+
+        app.add_systems(
+            Update,
+            game_over::game_over_input_system.run_if(in_state(GameState::GameOver)),
         );
 
         app.add_systems(
