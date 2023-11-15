@@ -690,7 +690,7 @@ dependencies = [
 [[package]]
 name = "bevy_fluent"
 version = "0.8.0"
-source = "git+https://github.com/kgv/bevy_fluent.git?branch=main#8c621124b0c648a79b135091cf8e140d00addae3"
+source = "git+https://github.com/kgv/bevy_fluent.git?rev=8c621124b0c648a79b135091cf8e140d00addae3#8c621124b0c648a79b135091cf8e140d00addae3"
 dependencies = [
  "bevy",
  "fluent",

@@ -27,7 +27,7 @@ winit = "0.28.7"
 
 # Override dependencies to patched versions
 [patch.crates-io]
-bevy_fluent = { git = "https://github.com/kgv/bevy_fluent.git", branch = "main" } # Temporary Bevy 0.12 patch; TODO: Update
+bevy_fluent = { git = "https://github.com/kgv/bevy_fluent.git", rev = "8c621124b0c648a79b135091cf8e140d00addae3" }
 
 # Enable a small amount of optimization in debug mode
 [profile.dev]
