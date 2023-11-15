@@ -8,7 +8,7 @@ use crate::ui::hud::indicator::Indicated;
 use super::dynamic_orbit::Gravitable;
 use super::{
     player::Player,
-    ship::{dampening, ship_rotation, ship_thrust, Health, Ship},
+    ship::{ship_rotation, ship_thrust, Health, Ship},
 };
 
 /// Enemy component
@@ -38,8 +38,8 @@ pub(crate) fn spawn_enemies(mut commands: Commands, sprites: Res<SpriteAssets>) 
         commands.spawn((
             Enemy,
             Ship {
-                thrust: 15_000.0,                 // Ship thrust (TODO: What unit is this?)
-                rotation: f32::to_radians(360.0), // Ship manoeuvrability (rad)
+                thrust: 1_800_000.0,              // Ship thrust (TODO: What unit is this?)
+                rotation: f32::to_radians(720.0), // Ship manoeuvrability (rad)
                 bullet_timer: Timer::from_seconds(0.1, TimerMode::Once),
             },
             Gravitable,
@@ -59,6 +59,10 @@ pub(crate) fn spawn_enemies(mut commands: Commands, sprites: Res<SpriteAssets>) 
             ColliderMassProperties::Mass(3926.99), // 3926.99 kilograms
             Velocity::linear(Vec2::ZERO),
             ExternalImpulse::default(),
+            Damping {
+                linear_damping: 0.3,
+                angular_damping: 2.0,
+            },
             Name::new("Enemy"),
         ));
     }
@@ -98,8 +102,6 @@ pub fn enemy_flight_system(
     >,
 ) {
     for (ship, transform, mut velocity, mut impulse, targeting) in query.iter_mut() {
-        dampening(&time, &mut velocity);
-
         let desired_velocity = (targeting.pos - transform.translation)
             .truncate()
             .normalize_or_zero();
@@ -119,9 +121,9 @@ pub fn enemy_flight_system(
             rotation_factor += 1.0;
         }
 
-        ship_rotation(rotation_factor, &mut velocity, ship);
+        ship_rotation(&time, rotation_factor, &mut velocity, ship);
 
-        ship_thrust(&mut impulse, transform, thrust_factor, ship);
+        ship_thrust(&time, &mut impulse, transform, thrust_factor, ship);
     }
 }
 

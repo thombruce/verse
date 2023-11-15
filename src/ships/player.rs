@@ -10,7 +10,7 @@ use crate::{
 
 use super::{
     dynamic_orbit::Gravitable,
-    ship::{dampening, ship_rotation, ship_thrust, Health, Ship},
+    ship::{ship_rotation, ship_thrust, Health, Ship},
 };
 
 /// Player component
@@ -30,8 +30,8 @@ pub(crate) fn spawn_player(mut commands: Commands, sprites: Res<SpriteAssets>) {
     commands.spawn((
         Player,
         Ship {
-            thrust: 15_000.0,                 // Ship thrust (TODO: What unit is this?)
-            rotation: f32::to_radians(360.0), // Ship manoeuvrability (rad)
+            thrust: 1_800_000.0,              // Ship thrust (TODO: What unit is this?)
+            rotation: f32::to_radians(720.0), // Ship manoeuvrability (rad)
             bullet_timer: Timer::from_seconds(0.1, TimerMode::Once),
         },
         Gravitable,
@@ -59,6 +59,10 @@ pub(crate) fn spawn_player(mut commands: Commands, sprites: Res<SpriteAssets>) {
         // }),
         Velocity::linear(Vec2::ZERO),
         ExternalImpulse::default(),
+        Damping {
+            linear_damping: 0.3,
+            angular_damping: 2.0,
+        },
         InputManagerBundle::<ShipAction> {
             action_state: ActionState::default(),
             input_map: ship_input_map(),
@@ -81,8 +85,6 @@ pub fn player_flight_system(
     >,
 ) {
     if let Ok((ship, transform, mut velocity, mut impulse, action_state)) = query.get_single_mut() {
-        dampening(&time, &mut velocity);
-
         // Controls
         let mut rotation_factor = 0.0;
         let mut thrust_factor = 0.0;
@@ -97,9 +99,9 @@ pub fn player_flight_system(
             rotation_factor += 1.0;
         }
 
-        ship_rotation(rotation_factor, &mut velocity, ship);
+        ship_rotation(&time, rotation_factor, &mut velocity, ship);
 
-        ship_thrust(&mut impulse, transform, thrust_factor, ship);
+        ship_thrust(&time, &mut impulse, transform, thrust_factor, ship);
     }
 }
 

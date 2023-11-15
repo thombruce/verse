@@ -19,29 +19,23 @@ pub struct Ship {
 #[derive(Component)]
 pub struct Health(pub f32);
 
-/// Dampening
-pub fn dampening(time: &Res<Time>, velocity: &mut Velocity) {
-    // TODO: Dampening should not affect gravitational attraction (dynamic_orbits.rs)
-    // TODO: Use Rapier Damping: https://rapier.rs/docs/user_guides/bevy_plugin/rigid_bodies#damping
-    let elapsed = time.delta_seconds();
-    velocity.angvel *= 0.1f32.powf(elapsed);
-    velocity.linvel *= 0.8f32.powf(elapsed);
-}
-
-pub fn ship_rotation(rotation_factor: f32, velocity: &mut Velocity, ship: &Ship) {
+pub fn ship_rotation(time: &Res<Time>, rotation_factor: f32, velocity: &mut Velocity, ship: &Ship) {
     // update the ship rotation around the Z axis (perpendicular to the 2D plane of the screen)
     if rotation_factor != 0.0 {
-        velocity.angvel += rotation_factor * ship.rotation / 60.0;
+        velocity.angvel += rotation_factor * ship.rotation * time.delta_seconds();
     }
 }
 
 pub fn ship_thrust(
+    time: &Res<Time>,
     impulse: &mut ExternalImpulse,
     transform: &Transform,
     thrust_factor: f32,
     ship: &Ship,
 ) {
-    impulse.impulse += (transform.rotation * (Vec3::Y * thrust_factor * ship.thrust)).truncate();
+    impulse.impulse +=
+        (transform.rotation * (Vec3::Y * thrust_factor * ship.thrust) * time.delta_seconds())
+            .truncate();
 }
 
 pub(crate) fn bullet_timers_system(time: Res<Time>, mut ship: Query<&mut Ship>) {
