@@ -15,13 +15,13 @@ use crate::{
     temp,
     ui::{
         camera, damage, hud,
-        menus::{credits, pause, start_menu},
+        menus::{credits, game_over, pause, start_menu},
     },
     world::astronomy::{self, planetary_system, starfield},
 };
 
 use self::{
-    states::{is_in_game_state, is_in_menu_state, GameState},
+    states::{is_in_active_state, is_in_game_state, is_in_menu_state, GameState},
     system_sets::{AttackSet, MovementSet},
 };
 
@@ -97,6 +97,9 @@ impl Plugin for SystemsPlugin {
             (pause::pause_screen, pause::toggle_physics_off),
         );
 
+        // - Game Over
+        app.add_systems(OnEnter(GameState::GameOver), game_over::game_over_screen);
+
         // OnTransition
         app.add_systems(
             OnTransition {
@@ -149,6 +152,11 @@ impl Plugin for SystemsPlugin {
 
         app.add_systems(
             Update,
+            game_over::game_over_input_system.run_if(in_state(GameState::GameOver)),
+        );
+
+        app.add_systems(
+            Update,
             start_menu::menu_focus_system
                 .after(NavRequestSystem)
                 .run_if(is_in_menu_state),
@@ -184,20 +192,25 @@ impl Plugin for SystemsPlugin {
                 //       The SystemSets aren't aware of one another, they need to be configured.
                 //       Reassess and order systems appropriately.
                 enemy::enemy_targeting_system.before(ship::ship_damage),
-                (player::player_flight_system, enemy::enemy_flight_system).in_set(MovementSet),
-                (bullet::spawn_bullet, camera::follow_player).after(MovementSet),
-                (
-                    enemy::enemy_weapons_system,
-                    player::player_weapons_system,
-                    events::contact_system,
-                )
-                    .in_set(AttackSet),
+                enemy::enemy_flight_system.in_set(MovementSet),
+                bullet::spawn_bullet.after(MovementSet),
+                (enemy::enemy_weapons_system, events::contact_system).in_set(AttackSet),
                 (
                     ship::ship_damage,
                     damage::ui_spawn_damage,
                     damage::ui_text_fade_out,
                 )
                     .after(AttackSet),
+            )
+                .run_if(is_in_active_state),
+        );
+
+        app.add_systems(
+            Update,
+            (
+                player::player_flight_system.in_set(MovementSet),
+                camera::follow_player.after(MovementSet),
+                player::player_weapons_system.in_set(AttackSet),
             )
                 .run_if(in_state(GameState::Active)),
         );
@@ -209,6 +222,6 @@ impl Plugin for SystemsPlugin {
         );
 
         // Last
-        // app.add_systems(Last, _);
+        app.add_systems(Last, ship::game_over.run_if(in_state(GameState::Active)));
     }
 }

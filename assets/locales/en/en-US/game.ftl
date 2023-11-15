@@ -27,6 +27,9 @@ near = Near { $celestial ->
 # Pause
 pause = Pause
 
+# Game Over
+game-over = Game Over
+
 # Datetime
 # TODO: Pass date and time as a workable datetime value for translation
 # time = { DATETIME($datetime) }

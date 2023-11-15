@@ -1,7 +1,9 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
-use crate::systems::events::BulletShipContactEvent;
+use crate::systems::{events::BulletShipContactEvent, states::GameState};
+
+use super::player::Player;
 
 /// Ship component
 #[derive(Component)]
@@ -62,5 +64,14 @@ pub(crate) fn ship_damage(
                 commands.entity(event.ship).despawn();
             }
         }
+    }
+}
+
+pub(crate) fn game_over(
+    player: Query<Entity, With<Player>>,
+    mut next_state: ResMut<NextState<GameState>>,
+) {
+    if player.is_empty() {
+        next_state.set(GameState::GameOver);
     }
 }
