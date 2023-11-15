@@ -38,8 +38,8 @@ pub(crate) fn spawn_enemies(mut commands: Commands, sprites: Res<SpriteAssets>) 
         commands.spawn((
             Enemy,
             Ship {
-                thrust: 15_000.0,                 // Ship thrust (TODO: What unit is this?)
-                rotation: f32::to_radians(360.0), // Ship manoeuvrability (rad)
+                thrust: 1_800_000.0,              // Ship thrust (TODO: What unit is this?)
+                rotation: f32::to_radians(720.0), // Ship manoeuvrability (rad)
                 bullet_timer: Timer::from_seconds(0.1, TimerMode::Once),
             },
             Gravitable,
@@ -121,9 +121,9 @@ pub fn enemy_flight_system(
             rotation_factor += 1.0;
         }
 
-        ship_rotation(rotation_factor, &mut velocity, ship);
+        ship_rotation(&time, rotation_factor, &mut velocity, ship);
 
-        ship_thrust(&mut impulse, transform, thrust_factor, ship);
+        ship_thrust(&time, &mut impulse, transform, thrust_factor, ship);
     }
 }
 

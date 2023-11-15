@@ -19,20 +19,23 @@ pub struct Ship {
 #[derive(Component)]
 pub struct Health(pub f32);
 
-pub fn ship_rotation(rotation_factor: f32, velocity: &mut Velocity, ship: &Ship) {
+pub fn ship_rotation(time: &Res<Time>, rotation_factor: f32, velocity: &mut Velocity, ship: &Ship) {
     // update the ship rotation around the Z axis (perpendicular to the 2D plane of the screen)
     if rotation_factor != 0.0 {
-        velocity.angvel += rotation_factor * ship.rotation / 60.0;
+        velocity.angvel += rotation_factor * ship.rotation * time.delta_seconds();
     }
 }
 
 pub fn ship_thrust(
+    time: &Res<Time>,
     impulse: &mut ExternalImpulse,
     transform: &Transform,
     thrust_factor: f32,
     ship: &Ship,
 ) {
-    impulse.impulse += (transform.rotation * (Vec3::Y * thrust_factor * ship.thrust)).truncate();
+    impulse.impulse +=
+        (transform.rotation * (Vec3::Y * thrust_factor * ship.thrust) * time.delta_seconds())
+            .truncate();
 }
 
 pub(crate) fn bullet_timers_system(time: Res<Time>, mut ship: Query<&mut Ship>) {
