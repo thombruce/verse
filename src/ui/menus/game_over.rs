@@ -1,4 +1,4 @@
-use bevy::prelude::*;
+use bevy::{app::AppExit, prelude::*};
 use bevy_ui_navigation::prelude::*;
 use fluent_content::Content;
 use leafwing_input_manager::prelude::ActionState;
@@ -13,6 +13,7 @@ use crate::{
 #[derive(Component)]
 pub enum MenuButton {
     ExitGame,
+    Quit,
 }
 
 pub(crate) fn game_over_screen(mut commands: Commands, ui: Res<UiAssets>, i18n: Res<I18n>) {
@@ -51,7 +52,10 @@ pub(crate) fn game_over_screen(mut commands: Commands, ui: Res<UiAssets>, i18n: 
                 DrawBlinkTimer(Timer::from_seconds(0.65, TimerMode::Repeating)),
             ));
 
-            for (string, marker) in [("exit-game", MenuButton::ExitGame)] {
+            for (string, marker) in [
+                ("exit-game", MenuButton::ExitGame),
+                ("quit", MenuButton::Quit),
+            ] {
                 parent.spawn((
                     TextBundle {
                         text: Text::from_section(
@@ -83,12 +87,16 @@ pub(crate) fn game_over_input_system(
     mut requests: EventWriter<NavRequest>,
     mut buttons: Query<&mut MenuButton>,
     mut events: EventReader<NavEvent>,
+    mut exit: EventWriter<AppExit>,
 ) {
     events.nav_iter().activated_in_query_foreach_mut(
         &mut buttons,
         |mut button| match &mut *button {
             MenuButton::ExitGame => {
                 next_state.set(GameState::Reset);
+            }
+            MenuButton::Quit => {
+                exit.send(AppExit);
             }
         },
     );
