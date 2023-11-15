@@ -65,9 +65,10 @@ pub(crate) fn ship_damage(
             if health.0 <= 0. {
                 commands.entity(event.ship).despawn();
             }
-            if player.is_empty() {
-                next_state.set(GameState::GameOver);
-            }
         }
+    }
+
+    if player.is_empty() {
+        next_state.set(GameState::GameOver);
     }
 }
