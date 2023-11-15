@@ -192,14 +192,9 @@ impl Plugin for SystemsPlugin {
                 //       The SystemSets aren't aware of one another, they need to be configured.
                 //       Reassess and order systems appropriately.
                 enemy::enemy_targeting_system.before(ship::ship_damage),
-                (player::player_flight_system, enemy::enemy_flight_system).in_set(MovementSet),
-                (bullet::spawn_bullet, camera::follow_player).after(MovementSet),
-                (
-                    enemy::enemy_weapons_system,
-                    player::player_weapons_system,
-                    events::contact_system,
-                )
-                    .in_set(AttackSet),
+                enemy::enemy_flight_system.in_set(MovementSet),
+                bullet::spawn_bullet.after(MovementSet),
+                (enemy::enemy_weapons_system, events::contact_system).in_set(AttackSet),
                 (
                     ship::ship_damage,
                     damage::ui_spawn_damage,
@@ -208,6 +203,16 @@ impl Plugin for SystemsPlugin {
                     .after(AttackSet),
             )
                 .run_if(is_in_active_state),
+        );
+
+        app.add_systems(
+            Update,
+            (
+                player::player_flight_system.in_set(MovementSet),
+                camera::follow_player.after(MovementSet),
+                player::player_weapons_system.in_set(AttackSet),
+            )
+                .run_if(in_state(GameState::Active)),
         );
 
         // PostUpdate
