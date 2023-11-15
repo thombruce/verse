@@ -222,6 +222,6 @@ impl Plugin for SystemsPlugin {
         );
 
         // Last
-        // app.add_systems(Last, _);
+        app.add_systems(Last, ship::game_over.run_if(in_state(GameState::Active)));
     }
 }

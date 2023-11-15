@@ -54,8 +54,6 @@ pub(crate) fn ship_damage(
     mut commands: Commands,
     mut bullet_ship_contact_events: EventReader<BulletShipContactEvent>,
     mut ship_health: Query<&mut Health, With<Ship>>,
-    player: Query<Entity, With<Player>>,
-    mut next_state: ResMut<NextState<GameState>>,
 ) {
     for event in bullet_ship_contact_events.read() {
         commands.entity(event.bullet).despawn();
@@ -67,7 +65,12 @@ pub(crate) fn ship_damage(
             }
         }
     }
+}
 
+pub(crate) fn game_over(
+    player: Query<Entity, With<Player>>,
+    mut next_state: ResMut<NextState<GameState>>,
+) {
     if player.is_empty() {
         next_state.set(GameState::GameOver);
     }
