@@ -11,5 +11,6 @@ impl Plugin for GameTimePlugin {
 }
 
 pub(crate) fn tick_game_time(time: Res<Time>, mut game_time: ResMut<GameTime>) {
-    game_time.0.tick(time.delta());
+    game_time.0.tick(20 * time.delta());
+    // 1 day = 72 minutes
 }

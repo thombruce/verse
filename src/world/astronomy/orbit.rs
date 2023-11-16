@@ -5,7 +5,6 @@ use bevy::prelude::*;
 use crate::core::resources::game_time::GameTime;
 
 pub const GRAVITATIONAL_CONSTANT: f32 = 6.67430e-11; // https://en.wikipedia.org/wiki/Gravitational_constant#Modern_value
-pub const ORBITAL_PERIOD_SCALING_FACTOR: f32 = 1.0e-13;
 
 #[derive(Component, Clone, Debug)]
 pub struct Orbit {
@@ -69,7 +68,7 @@ pub fn orbital_positioning_system(
                 orbit.eccentricity,
                 orbit.argument_of_periapsis,
                 orbit.initial_mean_anomaly,
-                parent_mass * ORBITAL_PERIOD_SCALING_FACTOR,
+                parent_mass,
                 game_time.elapsed_secs(),
             );
             transform.translation = parent_translation + (Vec3::from(pos) / 2_000_000.0);

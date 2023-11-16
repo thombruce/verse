@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bumped up camera scale (entities appear smaller - see more on screen)
 - Use Bevy Rapier's built-in Damping component for velocity dampening
 
+### Fixed
+
+- Removed old orbital period scaling factor which was slowing down realtime orbits
+
 ## [0.0.24] - 2023-11-15
 
 ### Added
