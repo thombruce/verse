@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Multiply ship velocities by delta time
 - Multiply dynamic orbit by delta time
+- Bumped up camera scale (entities appear smaller - see more on screen)
 - Use Bevy Rapier's built-in Damping component for velocity dampening
 
 ## [0.0.24] - 2023-11-15

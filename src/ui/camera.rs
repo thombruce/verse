@@ -27,7 +27,7 @@ pub(crate) fn spawn_camera(mut commands: Commands) {
                 ..default()
             },
             projection: OrthographicProjection {
-                scale: 1.5,
+                scale: 2.0, // Previous: 1.5
                 ..default()
             },
             ..default()
