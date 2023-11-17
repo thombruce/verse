@@ -1,9 +1,12 @@
 name: CI
 
 on:
-  pull_request_target:
-    branches:
-      - main
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
 
 env:
   rust: 1.73.0
@@ -12,6 +15,7 @@ jobs:
   # Build for Linux
   release-linux:
     runs-on: ubuntu-latest
+    if: ${{ !github.event.pull_request.draft }}
 
     steps:
       - uses: actions/checkout@v3
@@ -32,6 +36,7 @@ jobs:
   # Build for Windows
   release-windows:
     runs-on: windows-latest
+    if: ${{ !github.event.pull_request.draft }}
 
     steps:
       - uses: actions/checkout@v3
@@ -49,6 +54,7 @@ jobs:
   # Build for macOS
   release-macos:
     runs-on: macOS-latest
+    if: ${{ !github.event.pull_request.draft }}
 
     steps:
       - uses: actions/checkout@v3
