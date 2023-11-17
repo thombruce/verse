@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- CI test workflow for pull requests
+
 ### Changed
 
 - Multiply ship velocities by delta time
