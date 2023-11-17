@@ -14,8 +14,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: olegtarasov/get-tag@v2.1.2
-        id: get_version
       - uses: actions/checkout@v3
         with:
           lfs: 'true'
@@ -35,8 +33,6 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: olegtarasov/get-tag@v2.1.2
-        id: get_version
       - uses: actions/checkout@v3
         with:
           lfs: 'true'
@@ -53,8 +49,6 @@ jobs:
     runs-on: macOS-latest
 
     steps:
-      - uses: olegtarasov/get-tag@v2.1.2
-        id: get_version
       - uses: actions/checkout@v3
         with:
           lfs: 'true'
