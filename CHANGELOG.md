@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Decrease static orbit scale (planets are now closer)
+- Clamp orbit distance (prevents Moon orbiting inside of Earth sprite)
+
 ## [0.0.25] - 2023-11-17
 
 ### Added
