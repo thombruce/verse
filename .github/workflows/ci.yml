@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  binary: verse
+  rust: 1.73.0
 
 jobs:
   # Build for Linux
@@ -19,6 +19,7 @@ jobs:
           lfs: 'true'
       - uses: dtolnay/rust-toolchain@stable
         with:
+          toolchain: ${{ env.rust }}
           targets: x86_64-unknown-linux-gnu
       - name: install dependencies
         run: |
@@ -38,6 +39,7 @@ jobs:
           lfs: 'true'
       - uses: dtolnay/rust-toolchain@stable
         with:
+          toolchain: ${{ env.rust }}
           targets: x86_64-pc-windows-msvc
 
       - name: Build
@@ -54,6 +56,7 @@ jobs:
           lfs: 'true'
       - uses: dtolnay/rust-toolchain@stable
         with:
+          toolchain: ${{ env.rust }}
           targets: x86_64-apple-darwin
       - name: Environment Setup
         run: |
