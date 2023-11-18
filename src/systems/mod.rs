@@ -197,6 +197,7 @@ impl Plugin for SystemsPlugin {
                 bullet::spawn_bullet.after(MovementSet),
                 (enemy::enemy_weapons_system, events::contact_system).in_set(AttackSet),
                 (
+                    ship::adversary_system.before(ship::ship_damage),
                     ship::ship_damage,
                     damage::ui_spawn_damage,
                     damage::ui_text_fade_out,
