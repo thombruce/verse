@@ -93,6 +93,11 @@ pub(crate) fn ship_death_handling(
     };
 
     for event in death_events.read() {
+        if event.entity == player {
+            commands.entity(event.entity).despawn();
+            continue;
+        }
+
         let Ok(adversaries) = adversaries.get(event.entity) else {
             return;
         };
@@ -111,9 +116,7 @@ pub(crate) fn ship_death_handling(
 
         // If the destroyed ship is not the player, award XP to the player equal to
         // 10x the damage the player has dealt to the ship.
-        if event.entity != player {
-            score.0 += 10 * player_dealt_damage; // TODO: Make proportionate to player-dealt damage relative to MaxHealth
-        }
+        score.0 += 10 * player_dealt_damage; // TODO: Make proportionate to player-dealt damage relative to MaxHealth
 
         commands.entity(event.entity).despawn();
     }
