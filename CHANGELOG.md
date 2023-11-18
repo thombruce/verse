@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add game score that increases when player damages or destroys an enemy
+
 ### Changed
 
 - Decrease static orbit scale (planets are now closer)

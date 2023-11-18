@@ -5,11 +5,12 @@ use crate::core::resources::assets::UiAssets;
 pub mod health;
 pub mod indicator;
 pub mod nav;
+pub mod score;
 pub mod speedometer;
 pub mod time;
 
 use self::{
-    health::HealthBundle, nav::NavBundle, speedometer::SpeedometerBundle, time::TimeBundle,
+    health::HealthBundle, nav::NavBundle, score::ScoreBundle, speedometer::SpeedometerBundle,
 };
 
 pub(crate) fn spawn_hud(mut commands: Commands, ui: Res<UiAssets>) {
@@ -50,7 +51,7 @@ pub(crate) fn spawn_hud(mut commands: Commands, ui: Res<UiAssets>) {
             Name::new("HUD"),
         ))
         .with_children(|parent| {
-            parent.spawn(TimeBundle::use_font(ui.font.clone()));
+            parent.spawn(ScoreBundle::use_font(ui.font.clone()));
             parent.spawn(HealthBundle::use_font(ui.font.clone()));
         });
 }
