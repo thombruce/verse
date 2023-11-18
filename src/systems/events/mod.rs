@@ -29,6 +29,29 @@ pub struct BulletSpawnEvent {
 pub struct BulletShipContactEvent {
     pub bullet: Entity,
     pub ship: Entity,
+    pub bullet_spawner: Entity,
+    // The thinking is that if the BulletShipContactEvent
+    // can help identify the spawner as being the player,
+    // we can use this to award points when the player
+    // deals damage to an enemy...
+    //
+    // But what about enemy kills?
+    //
+    // The way I'd like to see kills handled in terms of
+    // XP rewards is... the kill should be worth a certain
+    // amount, but it should be proportionately awarded
+    // based on the percentage of the entity's total health
+    // that was taken away by the player. Which means...
+    //
+    // We need to record WHO did WHAT damage. This will
+    // also be handy later for advanced AI stuff.
+    //
+    // This would be best done, how? As a component on the
+    // Enemy which records Damage and Aggressor;
+    // e.g. { aggressor: Player, damage: 700 }
+    //
+    // So some kind of Attackers component that is a Vec
+    // of such objects?
 }
 
 pub(crate) fn contact_system(
@@ -51,6 +74,7 @@ pub(crate) fn contact_system(
                 bullet_ship_contact_events.send(BulletShipContactEvent {
                     ship: *e1,
                     bullet: *e2,
+                    bullet_spawner: spawner,
                 });
             }
             if e2_is_ship && e1_is_bullet {
@@ -63,6 +87,7 @@ pub(crate) fn contact_system(
                 bullet_ship_contact_events.send(BulletShipContactEvent {
                     ship: *e2,
                     bullet: *e1,
+                    bullet_spawner: spawner,
                 });
             }
         }

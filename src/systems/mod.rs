@@ -186,7 +186,8 @@ impl Plugin for SystemsPlugin {
                 hud::speedometer::hud_speedometer,
                 hud::health::hud_health,
                 hud::nav::current_location,
-                hud::time::current_time,
+                // hud::time::current_time,
+                hud::score::current_score,
                 // TODO: This clumsily resolves a crash to desktop where enemy_targeting_system
                 //       was happening after ship_damage some of the time.
                 //       The SystemSets aren't aware of one another, they need to be configured.

@@ -1,9 +1,15 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
-use crate::systems::{events::BulletShipContactEvent, states::GameState};
+use crate::{
+    core::resources::score::Score,
+    systems::{events::BulletShipContactEvent, states::GameState},
+};
 
-use super::player::Player;
+use super::{
+    enemy::{Adversaries, DamagedBy},
+    player::Player,
+};
 
 /// Ship component
 #[derive(Component)]
@@ -47,12 +53,25 @@ pub(crate) fn bullet_timers_system(time: Res<Time>, mut ship: Query<&mut Ship>) 
 pub(crate) fn ship_damage(
     mut commands: Commands,
     mut bullet_ship_contact_events: EventReader<BulletShipContactEvent>,
-    mut ship_health: Query<&mut Health, With<Ship>>,
+    mut ship: Query<(&mut Health, &mut Adversaries), With<Ship>>,
+    mut score: ResMut<Score>,
+    player: Query<Entity, (With<Player>, With<Ship>)>,
 ) {
     for event in bullet_ship_contact_events.read() {
         commands.entity(event.bullet).despawn();
 
-        if let Ok(mut health) = ship_health.get_mut(event.ship) {
+        if let Ok((mut health, mut adversaries)) = ship.get_mut(event.ship) {
+            adversaries.0.push(DamagedBy {
+                attacker: event.bullet_spawner,
+                damage: 100,
+            });
+
+            if let Ok(player) = player.get_single() {
+                if event.bullet_spawner == player {
+                    score.0 += 100;
+                }
+            }
+
             health.0 -= 100.0;
             if health.0 <= 0. {
                 commands.entity(event.ship).despawn();
