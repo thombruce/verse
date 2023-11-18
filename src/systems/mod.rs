@@ -182,6 +182,7 @@ impl Plugin for SystemsPlugin {
                 enemy::spawn_enemies,
                 ship::bullet_timers_system,
                 dynamic_orbit::dynamic_orbital_positioning_system,
+                hud::indicator::spawn_indicator_children.before(hud::indicator::indicators_system),
                 hud::indicator::indicators_system,
                 hud::speedometer::hud_speedometer,
                 hud::health::hud_health,
