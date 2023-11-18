@@ -3,7 +3,10 @@ use bevy_rapier2d::prelude::*;
 
 use crate::{
     core::resources::score::Score,
-    systems::{events::BulletShipContactEvent, states::GameState},
+    systems::{
+        events::{BulletShipContactEvent, DeathEvent},
+        states::GameState,
+    },
 };
 
 use super::{
@@ -56,29 +59,45 @@ pub(crate) fn ship_damage(
     mut ship: Query<&mut Health, With<Ship>>,
     mut score: ResMut<Score>,
     player: Query<Entity, (With<Player>, With<Ship>)>,
+    mut death_events: EventWriter<DeathEvent>,
 ) {
+    let Ok(player) = player.get_single() else {
+        return;
+    };
+
     for event in bullet_ship_contact_events.read() {
         commands.entity(event.bullet).despawn();
 
         if let Ok(mut health) = ship.get_mut(event.ship) {
-            let Ok(player) = player.get_single() else {
-                return;
-            };
-
             if event.bullet_spawner == player {
                 score.0 += 100;
             }
 
             health.0 -= 100.0;
             if health.0 <= 0. {
-                // If the destroyed ship is not the player, award XP to the player
-                if !(event.ship == player) {
-                    score.0 += 1000; // TODO: Make proportionate to player-dealt damage relative to MaxHealth
-                }
-
-                commands.entity(event.ship).despawn();
+                death_events.send(DeathEvent { entity: event.ship });
             }
         }
+    }
+}
+
+pub(crate) fn ship_death_handling(
+    mut commands: Commands,
+    mut death_events: EventReader<DeathEvent>,
+    player: Query<Entity, (With<Player>, With<Ship>)>,
+    mut score: ResMut<Score>,
+) {
+    let Ok(player) = player.get_single() else {
+        return;
+    };
+
+    for event in death_events.read() {
+        // If the destroyed ship is not the player, award XP to the player
+        if event.entity != player {
+            score.0 += 1000; // TODO: Make proportionate to player-dealt damage relative to MaxHealth
+        }
+
+        commands.entity(event.entity).despawn();
     }
 }
 

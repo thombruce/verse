@@ -199,6 +199,7 @@ impl Plugin for SystemsPlugin {
                 (
                     ship::adversary_system.before(ship::ship_damage),
                     ship::ship_damage,
+                    ship::ship_death_handling.after(ship::ship_damage),
                     damage::ui_spawn_damage,
                     damage::ui_text_fade_out,
                 )

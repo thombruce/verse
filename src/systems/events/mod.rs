@@ -11,8 +11,15 @@ pub struct EventsPlugin;
 impl Plugin for EventsPlugin {
     fn build(&self, app: &mut App) {
         app.add_event::<BulletSpawnEvent>()
-            .add_event::<BulletShipContactEvent>();
+            .add_event::<BulletShipContactEvent>()
+            .add_event::<DeathEvent>();
     }
+}
+
+#[derive(Event)]
+pub struct DeathEvent {
+    // The entity
+    pub entity: Entity,
 }
 
 #[derive(Event)]
