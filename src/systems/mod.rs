@@ -212,6 +212,7 @@ impl Plugin for SystemsPlugin {
         app.add_systems(
             Update,
             (
+                resources::game_time::tick_play_time,
                 player::player_flight_system.in_set(MovementSet),
                 camera::follow_player.after(MovementSet),
                 player::player_weapons_system.in_set(AttackSet),

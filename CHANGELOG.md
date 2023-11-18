@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- PlayTime resource records unpaused play time
+
 ## [0.0.26] - 2023-11-18
 
 ### Added
