@@ -61,14 +61,21 @@ pub(crate) fn ship_damage(
         commands.entity(event.bullet).despawn();
 
         if let Ok(mut health) = ship.get_mut(event.ship) {
-            if let Ok(player) = player.get_single() {
-                if event.bullet_spawner == player {
-                    score.0 += 100;
-                }
+            let Ok(player) = player.get_single() else {
+                return;
+            };
+
+            if event.bullet_spawner == player {
+                score.0 += 100;
             }
 
             health.0 -= 100.0;
             if health.0 <= 0. {
+                // If the destroyed ship is not the player, award XP to the player
+                if !(event.ship == player) {
+                    score.0 += 1000; // TODO: Make proportionate to player-dealt damage relative to MaxHealth
+                }
+
                 commands.entity(event.ship).despawn();
             }
         }
