@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Spawn enemies at random distance and direction from player
+- Limit total concurrent enemies to 10
 - Decrease static orbit scale (planets are now closer)
 - Clamp orbit distance (prevents Moon orbiting inside of Earth sprite)
 - Indicators spawn on update allowing new entities to be pointed to

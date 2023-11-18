@@ -86,11 +86,12 @@ pub(crate) fn spawn_enemies(
     sprites: Res<SpriteAssets>,
     mut spawn_timer: ResMut<SpawnTimer>,
     player_position: Query<&Transform, With<Player>>,
+    enemies: Query<&Enemy>,
 ) {
     // tick the timer
     spawn_timer.0.tick(time.delta());
 
-    if spawn_timer.0.finished() {
+    if spawn_timer.0.finished() && enemies.iter().count() < 10 {
         let Ok(from) = player_position.get_single() else {
             return;
         };
