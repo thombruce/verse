@@ -86,15 +86,33 @@ pub(crate) fn ship_death_handling(
     mut death_events: EventReader<DeathEvent>,
     player: Query<Entity, (With<Player>, With<Ship>)>,
     mut score: ResMut<Score>,
+    adversaries: Query<&Adversaries, With<Ship>>,
 ) {
     let Ok(player) = player.get_single() else {
         return;
     };
 
     for event in death_events.read() {
-        // If the destroyed ship is not the player, award XP to the player
+        let Ok(adversaries) = adversaries.get(event.entity) else {
+            return;
+        };
+
+        let player_dealt_damage: u32 = adversaries
+            .0
+            .iter()
+            .filter_map(|a| {
+                if a.attacker == player {
+                    Some(a.damage)
+                } else {
+                    None
+                }
+            })
+            .sum();
+
+        // If the destroyed ship is not the player, award XP to the player equal to
+        // 10x the damage the player has dealt to the ship.
         if event.entity != player {
-            score.0 += 1000; // TODO: Make proportionate to player-dealt damage relative to MaxHealth
+            score.0 += 10 * player_dealt_damage; // TODO: Make proportionate to player-dealt damage relative to MaxHealth
         }
 
         commands.entity(event.entity).despawn();
