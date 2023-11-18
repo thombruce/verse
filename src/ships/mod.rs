@@ -7,7 +7,7 @@ pub mod enemy;
 pub mod player;
 pub mod ship;
 
-use self::player::PlayerPlugin;
+use self::{enemy::SpawnTimerPlugin, player::PlayerPlugin};
 
 pub struct ShipsPlugin;
 impl Plugin for ShipsPlugin {
@@ -15,6 +15,7 @@ impl Plugin for ShipsPlugin {
         app.add_plugins((
             RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(1.0),
             PlayerPlugin,
+            SpawnTimerPlugin,
         ));
     }
 }

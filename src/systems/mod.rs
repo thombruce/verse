@@ -74,7 +74,6 @@ impl Plugin for SystemsPlugin {
                 pause::setup_pause_systems,
                 ships::configure_physics_engine,
                 hud::spawn_hud,
-                enemy::spawn_enemies,
                 player::spawn_player,
                 // Planetary system spawning, chained
                 (
@@ -180,6 +179,7 @@ impl Plugin for SystemsPlugin {
                 effects::animate::animate_sprite,
                 astronomy::orbit::orbitable_update_system,
                 astronomy::orbit::orbital_positioning_system,
+                enemy::spawn_enemies,
                 ship::bullet_timers_system,
                 dynamic_orbit::dynamic_orbital_positioning_system,
                 hud::indicator::indicators_system,

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add game score that increases when player damages or destroys an enemy
+- Spawn timer; enemies will now spawn continuously
 
 ### Changed
 

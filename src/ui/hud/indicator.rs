@@ -35,6 +35,8 @@ pub(crate) fn spawn_indicators(
             Bounds {},
         ))
         .with_children(|parent| {
+            // TODO: Spawn indicators when new enemies spawn
+            // TODO: Spawn indicators when in range, despawn when out of range
             for (entity, indicated) in entities_query.iter() {
                 parent.spawn((
                     ImageBundle {

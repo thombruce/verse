@@ -11,6 +11,16 @@ use super::{
     ship::{ship_rotation, ship_thrust, Health, Ship},
 };
 
+pub struct SpawnTimerPlugin;
+impl Plugin for SpawnTimerPlugin {
+    fn build(&self, app: &mut App) {
+        app.insert_resource(SpawnTimer(Timer::from_seconds(6.0, TimerMode::Repeating)));
+    }
+}
+
+#[derive(Resource)]
+pub struct SpawnTimer(pub Timer);
+
 /// Enemy component
 #[derive(Component)]
 pub struct Enemy;
@@ -69,19 +79,17 @@ pub struct Adversaries(pub Vec<DamagedBy>);
 //       retrieval/use at a later time.
 
 /// The setup function
-pub(crate) fn spawn_enemies(mut commands: Commands, sprites: Res<SpriteAssets>) {
-    // Spawns enemy ships
-    for (_i, pos) in [
-        (250.0 as f32, 250.0 as f32),
-        (-250.0 as f32, -250.0 as f32),
-        (-25000.0 as f32, 0.0 as f32),
-        (25000.0 as f32, 0.0 as f32),
-        (0.0 as f32, 25000.0 as f32),
-        (0.0 as f32, -25000.0 as f32),
-    ]
-    .iter()
-    .enumerate()
-    {
+pub(crate) fn spawn_enemies(
+    time: Res<Time>,
+    mut commands: Commands,
+    sprites: Res<SpriteAssets>,
+    mut spawn_timer: ResMut<SpawnTimer>,
+) {
+    // tick the timer
+    spawn_timer.0.tick(time.delta());
+
+    if spawn_timer.0.finished() {
+        // Spawns enemy ships
         commands.spawn((
             Enemy,
             Ship {
@@ -95,7 +103,8 @@ pub(crate) fn spawn_enemies(mut commands: Commands, sprites: Res<SpriteAssets>) 
             SpriteBundle {
                 texture: sprites.enemy_ship.clone(),
                 transform: Transform {
-                    translation: Vec3::new(pos.0, pos.1, 100.0),
+                    // TODO: Randomise spawn location
+                    translation: Vec3::new(25_000.0, 5_000.0, 100.0),
                     scale: Vec3::splat(0.5),
                     ..default()
                 },
