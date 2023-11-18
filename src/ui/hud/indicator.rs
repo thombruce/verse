@@ -15,27 +15,39 @@ pub struct Indicator {
 #[derive(Component, Clone, Debug)]
 pub struct Bounds {}
 
-pub(crate) fn spawn_indicators(
+#[derive(Component, Clone, Debug)]
+pub struct IndicatorsContainer;
+
+pub(crate) fn spawn_indicators(mut commands: Commands) {
+    commands.spawn((
+        NodeBundle {
+            style: Style {
+                position_type: PositionType::Absolute,
+                width: Val::Percent(100.0),
+                height: Val::Percent(100.0),
+                ..default()
+            },
+            ..default()
+        },
+        Name::new("Indicators"),
+        Bounds {},
+        IndicatorsContainer,
+    ));
+}
+
+pub(crate) fn spawn_indicator_children(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     entities_query: Query<(Entity, &Indicated)>,
+    parent: Query<Entity, With<IndicatorsContainer>>,
+    indicators: Query<&Indicator>,
 ) {
-    commands
-        .spawn((
-            NodeBundle {
-                style: Style {
-                    position_type: PositionType::Absolute,
-                    width: Val::Percent(100.0),
-                    height: Val::Percent(100.0),
-                    ..default()
-                },
-                ..default()
-            },
-            Name::new("Indicators"),
-            Bounds {},
-        ))
-        .with_children(|parent| {
-            for (entity, indicated) in entities_query.iter() {
+    let parent = parent.get_single().unwrap();
+
+    commands.entity(parent).with_children(|parent| {
+        // TODO: Spawn indicators when in range, despawn when out of range
+        for (entity, indicated) in entities_query.iter() {
+            if !indicators.iter().any(|i| i.entity == entity) {
                 parent.spawn((
                     ImageBundle {
                         image: UiImage::new(asset_server.load("images/grey_arrowUpWhite.png")),
@@ -51,7 +63,8 @@ pub(crate) fn spawn_indicators(
                     Indicator { entity: entity },
                 ));
             }
-        });
+        }
+    });
 }
 
 pub(crate) fn indicators_system(

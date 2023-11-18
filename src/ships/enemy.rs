@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
+use rand::Rng;
 
 use crate::core::resources::assets::SpriteAssets;
 use crate::systems::events::BulletSpawnEvent;
@@ -10,6 +11,16 @@ use super::{
     player::Player,
     ship::{ship_rotation, ship_thrust, Health, Ship},
 };
+
+pub struct SpawnTimerPlugin;
+impl Plugin for SpawnTimerPlugin {
+    fn build(&self, app: &mut App) {
+        app.insert_resource(SpawnTimer(Timer::from_seconds(6.0, TimerMode::Repeating)));
+    }
+}
+
+#[derive(Resource)]
+pub struct SpawnTimer(pub Timer);
 
 /// Enemy component
 #[derive(Component)]
@@ -69,19 +80,30 @@ pub struct Adversaries(pub Vec<DamagedBy>);
 //       retrieval/use at a later time.
 
 /// The setup function
-pub(crate) fn spawn_enemies(mut commands: Commands, sprites: Res<SpriteAssets>) {
-    // Spawns enemy ships
-    for (_i, pos) in [
-        (250.0 as f32, 250.0 as f32),
-        (-250.0 as f32, -250.0 as f32),
-        (-25000.0 as f32, 0.0 as f32),
-        (25000.0 as f32, 0.0 as f32),
-        (0.0 as f32, 25000.0 as f32),
-        (0.0 as f32, -25000.0 as f32),
-    ]
-    .iter()
-    .enumerate()
-    {
+pub(crate) fn spawn_enemies(
+    time: Res<Time>,
+    mut commands: Commands,
+    sprites: Res<SpriteAssets>,
+    mut spawn_timer: ResMut<SpawnTimer>,
+    player_position: Query<&Transform, With<Player>>,
+    enemies: Query<&Enemy>,
+) {
+    // tick the timer
+    spawn_timer.0.tick(time.delta());
+
+    if spawn_timer.0.finished() && enemies.iter().count() < 10 {
+        let Ok(from) = player_position.get_single() else {
+            return;
+        };
+
+        let random_x = rand::thread_rng().gen_range(-25_000.0..25_000.0);
+        let random_y = rand::thread_rng().gen_range(-25_000.0..25_000.0);
+
+        let new_pos = (from.translation.truncate()
+            + Vec2::new(random_x, random_y).clamp_length_min(5_000.0))
+        .extend(100.0);
+
+        // Spawns enemy ships
         commands.spawn((
             Enemy,
             Ship {
@@ -95,7 +117,7 @@ pub(crate) fn spawn_enemies(mut commands: Commands, sprites: Res<SpriteAssets>) 
             SpriteBundle {
                 texture: sprites.enemy_ship.clone(),
                 transform: Transform {
-                    translation: Vec3::new(pos.0, pos.1, 100.0),
+                    translation: new_pos,
                     scale: Vec3::splat(0.5),
                     ..default()
                 },
