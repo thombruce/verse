@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
+use rand::Rng;
 
 use crate::core::resources::assets::SpriteAssets;
 use crate::systems::events::BulletSpawnEvent;
@@ -84,11 +85,23 @@ pub(crate) fn spawn_enemies(
     mut commands: Commands,
     sprites: Res<SpriteAssets>,
     mut spawn_timer: ResMut<SpawnTimer>,
+    player_position: Query<&Transform, With<Player>>,
 ) {
     // tick the timer
     spawn_timer.0.tick(time.delta());
 
     if spawn_timer.0.finished() {
+        let Ok(from) = player_position.get_single() else {
+            return;
+        };
+
+        let random_x = rand::thread_rng().gen_range(-25_000.0..25_000.0);
+        let random_y = rand::thread_rng().gen_range(-25_000.0..25_000.0);
+
+        let new_pos = (from.translation.truncate()
+            + Vec2::new(random_x, random_y).clamp_length_min(5_000.0))
+        .extend(100.0);
+
         // Spawns enemy ships
         commands.spawn((
             Enemy,
@@ -103,8 +116,7 @@ pub(crate) fn spawn_enemies(
             SpriteBundle {
                 texture: sprites.enemy_ship.clone(),
                 transform: Transform {
-                    // TODO: Randomise spawn location
-                    translation: Vec3::new(25_000.0, 5_000.0, 100.0),
+                    translation: new_pos,
                     scale: Vec3::splat(0.5),
                     ..default()
                 },
