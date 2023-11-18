@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.26] - 2023-11-18
+
 ### Added
 
 - Add game score that increases when player damages or destroys an enemy
@@ -390,7 +392,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CHANGELOG.md matching Keep a Changelog formatting
 - README with link to license doc and changelog
 
-[unreleased]: https://github.com/thombruce/verse/compare/v0.0.25...HEAD
+[unreleased]: https://github.com/thombruce/verse/compare/v0.0.26...HEAD
+[0.0.26]: https://github.com/thombruce/verse/compare/v0.0.25...v0.0.26
 [0.0.25]: https://github.com/thombruce/verse/compare/v0.0.24...v0.0.25
 [0.0.24]: https://github.com/thombruce/verse/compare/v0.0.23...v0.0.24
 [0.0.23]: https://github.com/thombruce/verse/compare/v0.0.22...v0.0.23
