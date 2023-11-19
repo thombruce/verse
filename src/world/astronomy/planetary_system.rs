@@ -111,7 +111,6 @@ pub(crate) fn spawn_planets(
     ));
     commands.spawn((
         Name::new("Russell's Teapot"),
-        // TODO: Don't indicate unless very close.
         Indicated {
             color: Color::FUCHSIA,
             distance: 5_000.0,
