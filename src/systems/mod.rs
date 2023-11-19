@@ -177,6 +177,7 @@ impl Plugin for SystemsPlugin {
                 resources::game_time::tick_game_time,
                 resources::despawn_timer::despawn_system,
                 effects::animate::animate_sprite,
+                effects::rotate::rotate_system,
                 astronomy::orbit::orbitable_update_system,
                 astronomy::orbit::orbital_positioning_system,
                 enemy::spawn_enemies,

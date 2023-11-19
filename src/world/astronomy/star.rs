@@ -35,6 +35,7 @@ impl Default for StarBundle {
             marker: Star,
             indicated: Indicated {
                 color: Color::ANTIQUE_WHITE,
+                ..default()
             },
             orbitable: Orbitable::ZERO,
             animation_bundle: AnimationBundle {

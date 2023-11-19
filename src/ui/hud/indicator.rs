@@ -1,10 +1,19 @@
-use bevy::{math::Vec3Swizzles, prelude::*};
+use bevy::prelude::*;
 
 use crate::ships::player::Player;
 
 #[derive(Component, Clone, Debug)]
 pub struct Indicated {
     pub color: Color,
+    pub distance: f32,
+}
+impl Default for Indicated {
+    fn default() -> Self {
+        Self {
+            color: Color::WHITE,
+            distance: 1_000_000.0,
+        }
+    }
 }
 
 #[derive(Component, Clone, Debug)]
@@ -74,7 +83,7 @@ pub(crate) fn indicators_system(
     bounds_query: Query<&Node, (With<Bounds>, Without<Indicator>)>,
 ) {
     if let Ok(player_transform) = player_query.get_single() {
-        let player_translation = player_transform.translation.xy();
+        let player_translation = player_transform.translation.truncate();
 
         for (mut indicator_transform, mut indicator_style, indicator, mut indicator_color) in
             &mut query
@@ -82,14 +91,18 @@ pub(crate) fn indicators_system(
             if let Ok((entity_transform, entity_visibility, indicated)) =
                 entity_query.get(indicator.entity)
             {
-                if entity_visibility.get() {
+                let entity_translation = entity_transform.translation.truncate();
+
+                // If the entity is in view or its distance exceeds its Indicated::distance
+                // value, hide it and continue.
+                if entity_visibility.get()
+                    || (entity_translation.distance(player_translation) > indicated.distance)
+                {
                     indicator_style.display = Display::None;
                     continue;
                 }
 
                 indicator_style.display = Display::DEFAULT;
-
-                let entity_translation = entity_transform.translation.xy();
 
                 // get the vector from the entity to the player ship in 2D and normalize it.
                 let real_to_entity = entity_translation - player_translation;
