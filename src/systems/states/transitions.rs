@@ -5,7 +5,10 @@ use bevy::{
 };
 use bevy_picking_core::pointer::PointerId;
 
-use crate::core::resources::{assets::AudioAssets, game_time::GameTime};
+use crate::{
+    core::resources::{assets::AudioAssets, game_time::GameTime, score::Score},
+    ships::enemy::SpawnTimer,
+};
 
 use super::{ForState, GameState};
 
@@ -45,6 +48,8 @@ pub(crate) fn game_reset(
     mut next_state: ResMut<NextState<GameState>>,
     mut window: Query<&mut Window>,
     mut game_time: ResMut<GameTime>,
+    mut score: ResMut<Score>,
+    mut spawn_timer: ResMut<SpawnTimer>,
 ) {
     for entity in entities.iter() {
         commands.entity(entity).despawn_recursive();
@@ -55,7 +60,10 @@ pub(crate) fn game_reset(
         ..default()
     };
 
+    // TODO: Create a shared resource for game resources
     game_time.0.reset();
+    score.0 = 0;
+    spawn_timer.0.reset();
 
     next_state.set(GameState::Loading);
 }

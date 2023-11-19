@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - PlayTime resource records unpaused play time
 
+### Fixed
+
+- Reset score on game reset
+- Reset SpawnTimer on game reset
+
 ## [0.0.26] - 2023-11-18
 
 ### Added
