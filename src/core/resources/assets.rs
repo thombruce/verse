@@ -58,6 +58,9 @@ pub struct SpriteAssets {
 
     #[asset(path = "space/meteors/meteorGrey_med1.png")]
     pub meteor: Handle<Image>,
+
+    #[asset(path = "space/celestials/teapot_large.png")]
+    pub teapot: Handle<Image>,
 }
 
 #[derive(AssetCollection, Resource)]

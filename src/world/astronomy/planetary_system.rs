@@ -2,10 +2,14 @@ use bevy::prelude::*;
 
 use crate::{
     core::{
-        effects::animate::{AnimationBundle, AnimationTimer},
+        effects::{
+            animate::{AnimationBundle, AnimationTimer},
+            rotate::Rotation,
+        },
         resources::assets::SpriteAssets,
     },
     ui::hud::indicator::Indicated,
+    world::spatial::KDNode,
 };
 
 use super::{
@@ -40,6 +44,7 @@ pub(crate) fn spawn_planets(
         name: Name::new("Mercury"),
         indicated: Indicated {
             color: Color::ORANGE,
+            ..default()
         },
         orbit: Orbit {
             parent: Some(star_query.single()),
@@ -61,6 +66,7 @@ pub(crate) fn spawn_planets(
         name: Name::new("Venus"),
         indicated: Indicated {
             color: Color::ORANGE,
+            ..default()
         },
         orbit: Orbit {
             parent: Some(star_query.single()),
@@ -83,6 +89,7 @@ pub(crate) fn spawn_planets(
             name: Name::new("Earth"),
             indicated: Indicated {
                 color: Color::LIME_GREEN,
+                ..default()
             },
             orbit: Orbit {
                 parent: Some(star_query.single()),
@@ -102,10 +109,34 @@ pub(crate) fn spawn_planets(
         },
         EarthLike,
     ));
+    commands.spawn((
+        Name::new("Russell's Teapot"),
+        // TODO: Don't indicate unless very close.
+        Indicated {
+            color: Color::FUCHSIA,
+            distance: 5_000.0,
+        },
+        Orbit {
+            parent: Some(star_query.single()),
+            semi_major_axis: 188_768_694_434.0,
+            eccentricity: 0.1234,
+            argument_of_periapsis: f32::to_radians(89.0),
+            initial_mean_anomaly: f32::to_radians(0.), //TODO: Set me
+        },
+        SpriteBundle {
+            texture: sprites.teapot.clone(),
+            transform: Transform::from_scale(Vec3::splat(1.0)),
+            ..default()
+        },
+        Mass(1.0),
+        KDNode,
+        Rotation(f32::to_radians(45.0)),
+    ));
     commands.spawn(PlanetBundle {
         name: Name::new("Mars"),
         indicated: Indicated {
             color: Color::ORANGE,
+            ..default()
         },
         orbit: Orbit {
             parent: Some(star_query.single()),
@@ -127,6 +158,7 @@ pub(crate) fn spawn_planets(
         name: Name::new("Jupiter"),
         indicated: Indicated {
             color: Color::SALMON,
+            ..default()
         },
         orbit: Orbit {
             parent: Some(star_query.single()),
@@ -152,6 +184,7 @@ pub(crate) fn spawn_planets(
         name: Name::new("Saturn"),
         indicated: Indicated {
             color: Color::SALMON,
+            ..default()
         },
         orbit: Orbit {
             parent: Some(star_query.single()),
@@ -173,6 +206,7 @@ pub(crate) fn spawn_planets(
         name: Name::new("Uranus"),
         indicated: Indicated {
             color: Color::SALMON,
+            ..default()
         },
         orbit: Orbit {
             parent: Some(star_query.single()),
@@ -194,6 +228,7 @@ pub(crate) fn spawn_planets(
         name: Name::new("Neptune"),
         indicated: Indicated {
             color: Color::SALMON,
+            ..default()
         },
         orbit: Orbit {
             parent: Some(star_query.single()),

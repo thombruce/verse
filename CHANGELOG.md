@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - PlayTime resource records unpaused play time
+- Add rotation effect; will rotate entities with the Rotation component
+
+### Changed
+
+- Add distance value to Indicated entities, enabling some to be hidden from system when out of range
 
 ### Fixed
 

@@ -35,6 +35,7 @@ impl Default for PlanetBundle {
             marker: Planet,
             indicated: Indicated {
                 color: Color::ORANGE_RED,
+                ..default()
             },
             orbitable: Orbitable::default(),
             orbit: Orbit::default(),

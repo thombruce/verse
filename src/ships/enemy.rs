@@ -113,7 +113,10 @@ pub(crate) fn spawn_enemies(
             },
             Gravitable,
             Health(1000.0),
-            Indicated { color: Color::RED },
+            Indicated {
+                color: Color::RED,
+                ..default()
+            },
             SpriteBundle {
                 texture: sprites.enemy_ship.clone(),
                 transform: Transform {
