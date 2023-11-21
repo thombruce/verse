@@ -380,9 +380,9 @@ dependencies = [
 
 [[package]]
 name = "bevy-ui-navigation"
-version = "0.33.0"
+version = "0.33.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ce73fd4260a444dd5fef0cc2dcc6451acfeb9753ef520fafb250eeaa05396d5d"
+checksum = "5440b0e95d1bc8ada8bc5ca7ca1faff42ea701d0863175f1f4add03eab99aac5"
 dependencies = [
  "bevy",
  "bevy_mod_picking",
