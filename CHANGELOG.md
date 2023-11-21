@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Background parallax effect
 - PlayTime resource records unpaused play time
 - Add rotation effect; will rotate entities with the Rotation component
 

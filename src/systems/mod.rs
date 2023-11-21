@@ -216,6 +216,7 @@ impl Plugin for SystemsPlugin {
                 resources::game_time::tick_play_time,
                 player::player_flight_system.in_set(MovementSet),
                 camera::follow_player.after(MovementSet),
+                starfield::parallax_effect.after(camera::follow_player),
                 player::player_weapons_system.in_set(AttackSet),
             )
                 .run_if(in_state(GameState::Active)),
