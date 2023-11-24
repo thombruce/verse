@@ -26,12 +26,15 @@ pub(crate) fn spawn_background(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<BackgroundMaterial>>,
+    camera: Query<&Transform, (With<Camera>, Without<Parallax>)>,
 ) {
+    let camera_xy = camera.single().translation.truncate();
+
     commands.spawn((
         MaterialMesh2dBundle {
             mesh: meshes.add(Mesh::from(shape::Quad::default())).into(),
             transform: Transform {
-                translation: Vec3::new(0.0, -6000.0, -898.0),
+                translation: camera_xy.extend(-898.0),
                 scale: Vec3::new(5000.0, 5000.0, 1.0),
                 ..default()
             },
