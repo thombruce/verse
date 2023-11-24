@@ -12,9 +12,6 @@ use crate::systems::states::GameState;
 
 use super::starfield::Parallax;
 
-pub const ARENA_WIDTH: f32 = 5000.0; // TODO: Change me
-pub const ARENA_HEIGHT: f32 = 5000.0; // TODO: Change me
-
 // Plugin that will insert a background at Z = -10.0, use the custom 'Star Nest' shader
 pub struct BackgroundPlugin;
 impl Plugin for BackgroundPlugin {
@@ -35,8 +32,8 @@ fn spawn_background(
         MaterialMesh2dBundle {
             mesh: meshes.add(Mesh::from(shape::Quad::default())).into(),
             transform: Transform {
-                translation: Vec3::new(0.0, -6000.0, 0.0), // TODO: Probably follow player/camera??
-                scale: Vec3::new(ARENA_WIDTH, ARENA_HEIGHT, 1.0),
+                translation: Vec3::new(0.0, -6000.0, -898.0),
+                scale: Vec3::new(5000.0, 5000.0, 1.0),
                 ..default()
             },
             material: materials.add(BackgroundMaterial {

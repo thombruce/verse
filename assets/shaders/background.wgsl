@@ -18,11 +18,11 @@ const formuparam = 0.53;
 const volsteps = 20;
 const stepsize = 0.1;
 
-const zoom = 0.800;
+const zoom = 2.500;
 const tile = 0.850;
 const speed = 0.003;
 
-const brightness = 0.0015;
+const brightness = 0.001;
 const darkmatter = 0.600;
 const distfading = 0.730;
 const saturation = 0.850;
@@ -33,7 +33,7 @@ fn fragment(
 ) -> @location(0) vec4<f32> {
     let dir = vec3<f32>(in.uv * zoom, 1.0);
     // let time = background.time * speed + 0.25;
-    var from_ = vec3<f32>(background.position.x / 10000.0, -background.position.y / 10000.0, 0.5);
+    var from_ = vec3<f32>(background.position.x / 50000.0, -background.position.y / 50000.0, 0.5);
     
     // volumetric rendering
     var s = 0.1;
@@ -57,7 +57,7 @@ fn fragment(
             fade = fade * (1. - dm); // dark matter, don't render near
         }
         v = v + fade;
-        v = v + vec3<f32>(s, s * s, s * s * s * s) * a * brightness * fade; // coloring based on distance
+        v = v + vec3<f32>(s * s * s, s * s, s) * a * brightness * fade; // coloring based on distance
         fade = fade * distfading; // distance fading;
         s = s + stepsize;
     }
