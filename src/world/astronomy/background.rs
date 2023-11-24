@@ -2,6 +2,7 @@
 
 use bevy::prelude::*;
 use bevy::render::render_resource::{AsBindGroup, ShaderRef};
+use bevy::render::view::NoFrustumCulling;
 use bevy::sprite::{Material2dPlugin, Mesh2dHandle};
 use bevy::{
     reflect::TypeUuid,
@@ -39,6 +40,8 @@ pub(crate) fn spawn_background(
             }),
             ..default()
         },
+        NoFrustumCulling,
+        Name::new("Background"),
         Parallax(1.0),
     ));
 }

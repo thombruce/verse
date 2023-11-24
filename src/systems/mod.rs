@@ -61,10 +61,7 @@ impl Plugin for SystemsPlugin {
         }
 
         // - StartMenu
-        app.add_systems(
-            OnEnter(GameState::StartMenu),
-            (starfield::spawn_starfield, start_menu::spawn_start_menu),
-        );
+        app.add_systems(OnEnter(GameState::StartMenu), start_menu::spawn_start_menu);
 
         // - Credits
         app.add_systems(OnEnter(GameState::Credits), credits::spawn_credits);
