@@ -54,6 +54,19 @@
         ]
     ),
     (
+        section_title: "Special Thanks",
+        credits: [
+            (
+                credit_title: "Kataster by Boris Boutillier",
+                credit_meta: Some("GitHub, MIT")
+            ),
+            (
+                credit_title: "Star Nest by Pablo Roman Andrioli",
+                credit_meta: Some("Shadertoy, MIT")
+            ),
+        ]
+    ),
+    (
         section_title: "Source Code",
         credits: [
             (
