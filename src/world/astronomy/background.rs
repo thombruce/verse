@@ -16,14 +16,12 @@ use super::starfield::Parallax;
 pub struct BackgroundPlugin;
 impl Plugin for BackgroundPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins(Material2dPlugin::<BackgroundMaterial>::default())
-            .add_systems(Startup, spawn_background)
-            .add_systems(Update, update_background_time);
+        app.add_plugins(Material2dPlugin::<BackgroundMaterial>::default());
     }
 }
 
 // Spawn a simple stretched quad that will use of backgound shader
-fn spawn_background(
+pub(crate) fn spawn_background(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<BackgroundMaterial>>,
@@ -47,7 +45,7 @@ fn spawn_background(
 
 #[derive(Asset, AsBindGroup, Debug, Clone, TypeUuid, TypePath)]
 #[uuid = "d1776d38-712a-11ec-90d6-0242ac120003"]
-struct BackgroundMaterial {
+pub(crate) struct BackgroundMaterial {
     #[uniform(0)]
     position: Vec2,
 }
@@ -58,7 +56,7 @@ impl Material2d for BackgroundMaterial {
     }
 }
 
-fn update_background_time(
+pub(crate) fn update_background_position(
     state: Res<State<GameState>>,
     mut backgrounds: ResMut<Assets<BackgroundMaterial>>,
     mesh: Query<&Transform, (With<Mesh2dHandle>, With<Parallax>)>,
