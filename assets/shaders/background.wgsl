@@ -6,7 +6,7 @@
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
 
 struct BackgroundMaterial {
-    x: f32,
+    position: vec2<f32>,
 };
 
 @group(1) @binding(0)
@@ -33,7 +33,7 @@ fn fragment(
 ) -> @location(0) vec4<f32> {
     let dir = vec3<f32>(in.uv * zoom, 1.0);
     // let time = background.time * speed + 0.25;
-    var from_ = vec3<f32>(background.x / 10000.0, -6000.0 / 10000.0, 0.5);
+    var from_ = vec3<f32>(background.position.x / 10000.0, -background.position.y / 10000.0, 0.5);
     
     // volumetric rendering
     var s = 0.1;

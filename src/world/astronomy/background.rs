@@ -12,8 +12,8 @@ use crate::systems::states::GameState;
 
 use super::starfield::Parallax;
 
-pub const ARENA_WIDTH: f32 = 1500.0; // TODO: Change me
-pub const ARENA_HEIGHT: f32 = 750.0; // TODO: Change me
+pub const ARENA_WIDTH: f32 = 5000.0; // TODO: Change me
+pub const ARENA_HEIGHT: f32 = 5000.0; // TODO: Change me
 
 // Plugin that will insert a background at Z = -10.0, use the custom 'Star Nest' shader
 pub struct BackgroundPlugin;
@@ -39,7 +39,9 @@ fn spawn_background(
                 scale: Vec3::new(ARENA_WIDTH, ARENA_HEIGHT, 1.0),
                 ..default()
             },
-            material: materials.add(BackgroundMaterial { x: 0.0 }),
+            material: materials.add(BackgroundMaterial {
+                position: Vec2::new(0.0, 0.0),
+            }),
             ..default()
         },
         Parallax(1.0),
@@ -50,7 +52,7 @@ fn spawn_background(
 #[uuid = "d1776d38-712a-11ec-90d6-0242ac120003"]
 struct BackgroundMaterial {
     #[uniform(0)]
-    x: f32,
+    position: Vec2,
 }
 
 impl Material2d for BackgroundMaterial {
@@ -60,17 +62,14 @@ impl Material2d for BackgroundMaterial {
 }
 
 fn update_background_time(
-    time: Res<Time>,
     state: Res<State<GameState>>,
     mut backgrounds: ResMut<Assets<BackgroundMaterial>>,
     mesh: Query<&Transform, (With<Mesh2dHandle>, With<Parallax>)>,
 ) {
     if state.get() != &GameState::Paused {
         for (_, background) in backgrounds.iter_mut() {
-            // background.time += time.delta_seconds();
-
             let mesh = mesh.single();
-            background.x = mesh.translation.x;
+            background.position = mesh.translation.truncate();
         }
     }
 }
