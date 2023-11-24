@@ -37,10 +37,7 @@ impl Plugin for SystemsPlugin {
         app.add_systems(PreStartup, temp::set_window_icon::set_window_icon);
 
         // Startup
-        app.add_systems(
-            Startup,
-            (camera::spawn_camera, background::spawn_background),
-        );
+        app.add_systems(Startup, camera::spawn_camera);
 
         // PostStartup
         // app.add_systems(PostStartup, _);
@@ -61,7 +58,10 @@ impl Plugin for SystemsPlugin {
         }
 
         // - StartMenu
-        app.add_systems(OnEnter(GameState::StartMenu), start_menu::spawn_start_menu);
+        app.add_systems(
+            OnEnter(GameState::StartMenu),
+            (start_menu::spawn_start_menu, background::spawn_background),
+        );
 
         // - Credits
         app.add_systems(OnEnter(GameState::Credits), credits::spawn_credits);
