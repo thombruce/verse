@@ -22,7 +22,7 @@ const zoom = 2.500;
 const tile = 0.850;
 const speed = 0.003;
 
-const brightness = 0.001;
+const brightness = 0.0009; // Original: 0.001;
 const darkmatter = 0.600;
 const distfading = 0.730;
 const saturation = 0.850;
@@ -53,6 +53,14 @@ fn fragment(
 
         let dm = max(0.0, darkmatter - a * a * 0.001); // dark matter
         a = a * a * a; // add contrast
+
+        // THOM'S EDIT:
+        // Limits the brightness of some pesky stars on layer 6
+        if r == 6 {
+            a = a / 150.0;
+        }
+        // END
+
         if r > 6 {
             fade = fade * (1. - dm); // dark matter, don't render near
         }
