@@ -22,7 +22,7 @@ rand = "0.8.5"
 regex = "1.10.2"
 ron = "0.8.1"
 serde = "1.0.193"
-unic-langid = { version = "0.9.1", features = ["macros"] }
+unic-langid = { version = "0.9.3", features = ["macros"] }
 winit = "0.28.7"
 
 # Override dependencies to patched versions
