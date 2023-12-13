@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.28] - 2023-12-13
+
 ### Added
 
 - Background shader for space dust/nebula effect and procedural stars
@@ -413,7 +415,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CHANGELOG.md matching Keep a Changelog formatting
 - README with link to license doc and changelog
 
-[unreleased]: https://github.com/thombruce/verse/compare/v0.0.26...HEAD
+[unreleased]: https://github.com/thombruce/verse/compare/v0.0.28...HEAD
+[0.0.28]: https://github.com/thombruce/verse/compare/v0.0.27...v0.0.28
+[0.0.27]: https://github.com/thombruce/verse/compare/v0.0.26...v0.0.27
 [0.0.26]: https://github.com/thombruce/verse/compare/v0.0.25...v0.0.26
 [0.0.25]: https://github.com/thombruce/verse/compare/v0.0.24...v0.0.25
 [0.0.24]: https://github.com/thombruce/verse/compare/v0.0.23...v0.0.24
