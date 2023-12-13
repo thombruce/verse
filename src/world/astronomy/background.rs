@@ -3,7 +3,7 @@
 use bevy::prelude::*;
 use bevy::render::render_resource::{AsBindGroup, ShaderRef};
 use bevy::render::view::NoFrustumCulling;
-use bevy::sprite::{Material2dPlugin, Mesh2dHandle};
+use bevy::sprite::Material2dPlugin;
 use bevy::{
     reflect::TypeUuid,
     sprite::{Material2d, MaterialMesh2dBundle},
@@ -20,6 +20,9 @@ impl Plugin for BackgroundPlugin {
         app.add_plugins(Material2dPlugin::<BackgroundMaterial>::default());
     }
 }
+
+#[derive(Component, Clone, Debug)]
+pub struct Starfield;
 
 // Spawn a simple stretched quad that will use of backgound shader
 pub(crate) fn spawn_background(
@@ -46,6 +49,7 @@ pub(crate) fn spawn_background(
         NoFrustumCulling,
         Name::new("Background"),
         Parallax(1.0),
+        Starfield,
     ));
 }
 
@@ -65,7 +69,7 @@ impl Material2d for BackgroundMaterial {
 pub(crate) fn update_background_position(
     state: Res<State<GameState>>,
     mut backgrounds: ResMut<Assets<BackgroundMaterial>>,
-    mesh: Query<&Transform, (With<Mesh2dHandle>, With<Parallax>)>,
+    mesh: Query<&Transform, With<Starfield>>,
 ) {
     if state.get() != &GameState::Paused {
         for (_, background) in backgrounds.iter_mut() {

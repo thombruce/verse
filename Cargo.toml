@@ -6,7 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bevy = "0.12.0"
+bevy = "0.12.1"
 bevy-inspector-egui = "0.21.0"
 bevy-ui-navigation = "0.33.1"
 bevy_asset_loader = { version = "0.18.0", features = ["2d"] }
@@ -17,17 +17,16 @@ bevy_rapier2d = "0.23.0"
 bevy_spatial = "0.7.0"
 fluent_content = "0.0.5"
 image = "0.24.7"
-leafwing-input-manager = "0.11.1"
+leafwing-input-manager = "0.11.2"
 rand = "0.8.5"
 regex = "1.10.2"
 ron = "0.8.1"
-serde = "1.0.192"
+serde = "1.0.193"
 unic-langid = { version = "0.9.1", features = ["macros"] }
 winit = "0.28.7"
 
 # Override dependencies to patched versions
-[patch.crates-io]
-bevy_fluent = { git = "https://github.com/kgv/bevy_fluent.git", rev = "8c621124b0c648a79b135091cf8e140d00addae3" }
+# [patch.crates-io]
 
 # Enable a small amount of optimization in debug mode
 [profile.dev]
