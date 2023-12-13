@@ -17,7 +17,7 @@ use crate::{
         camera, damage, hud,
         menus::{credits, game_over, pause, start_menu},
     },
-    world::astronomy::{self, planetary_system, starfield},
+    world::astronomy::{self, background, planetary_system, starfield},
 };
 
 use self::{
@@ -60,7 +60,7 @@ impl Plugin for SystemsPlugin {
         // - StartMenu
         app.add_systems(
             OnEnter(GameState::StartMenu),
-            (starfield::spawn_starfield, start_menu::spawn_start_menu),
+            (start_menu::spawn_start_menu, background::spawn_background),
         );
 
         // - Credits
@@ -217,6 +217,7 @@ impl Plugin for SystemsPlugin {
                 player::player_flight_system.in_set(MovementSet),
                 camera::follow_player.after(MovementSet),
                 starfield::parallax_effect.after(camera::follow_player),
+                background::update_background_position.after(starfield::parallax_effect),
                 player::player_weapons_system.in_set(AttackSet),
             )
                 .run_if(in_state(GameState::Active)),

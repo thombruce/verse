@@ -1,3 +1,4 @@
+pub mod background;
 pub mod orbit;
 pub mod planet;
 pub mod planetary_system;
