@@ -21,7 +21,7 @@ leafwing-input-manager = "0.11.2"
 rand = "0.8.5"
 regex = "1.10.2"
 ron = "0.8.1"
-serde = "1.0.193"
+serde = "1.0.195"
 unic-langid = { version = "0.9.1", features = ["macros"] }
 winit = "0.28.7"
 
