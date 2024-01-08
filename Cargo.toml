@@ -9,7 +9,7 @@ edition = "2021"
 bevy = "0.12.1"
 bevy-inspector-egui = "0.21.0"
 bevy-ui-navigation = "0.33.1"
-bevy_asset_loader = { version = "0.18.0", features = ["2d"] }
+bevy_asset_loader = { version = "0.19.1", features = ["2d"] }
 bevy_common_assets = { version = "0.8.0", features = ["ron"] }
 bevy_fluent = "0.8.0"
 bevy_picking_core = "0.17.0" # Sub-dependency of bevy-ui-navigation; we need to access one of its components
